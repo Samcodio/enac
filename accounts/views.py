@@ -7,6 +7,8 @@ from .forms import *
 from ecommerce.models import UserProfile, Product
 import json
 from cart.cart import Cart
+
+
 # from wishlist.wishlist import Wishlist
 
 # Create your views here.
@@ -17,6 +19,7 @@ def login_page(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
+        next_url = request.GET.get('next')  # [New]
 
         user = authenticate(request, username=username, password=password)
         if user is not None:
@@ -49,6 +52,12 @@ def login_page(request):
             #             wishlist.db_add(product, quantity)
             #         except Product.DoesNotExist:
             #             pass
+
+            # [New]
+            if next_url:
+                messages.success(request, 'Login Successful')
+                return redirect(next_url)
+
             return redirect('ecommerce:home')
         else:
             messages.warning(request, 'Invalid details')

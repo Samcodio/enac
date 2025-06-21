@@ -6,13 +6,12 @@ from django.template.loader import render_to_string
 from django.http import JsonResponse
 import json
 
-# Create your views here.
-
 
 # lising items in the cart page
 def cart_summary(request):
     cart = Cart(request)
     cart_products, total_sum = cart.get_prods()
+
     context = {
         'cart_products': cart_products,
         'total_sum': total_sum,

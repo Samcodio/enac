@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'payment.apps.PaymentConfig',
     'ecommerce',
     'cart',
     'wishlist',
@@ -160,6 +161,9 @@ cloudinary.config(
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 CART_MAX_DISPLAY_ITEMS = 3
+
+PAYSTACK_SECRET_KEY = "sk_test_d64896d291b301095632f4f529af352de7573a60"
+
 
 
 
