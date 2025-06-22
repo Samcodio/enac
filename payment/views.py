@@ -122,6 +122,8 @@ class PaymentVerifier:
         # Add user to products and prevent a single user from been added twice
         products = Product.objects.filter(pk__in=products_id)
         for product in products:
+            product.sale = False
+            product.save()
             if not product.user.filter(id=user.id).exists():
                 product.user.add(user)
 

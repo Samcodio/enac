@@ -6,4 +6,6 @@ from .models import *
 admin.site.register(UserProfile)
 admin.site.register(Product)
 admin.site.register(School)
+admin.site.register(ReqList)
+
 

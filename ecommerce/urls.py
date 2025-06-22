@@ -16,5 +16,7 @@ urlpatterns = [
     path('edit_data/', views.edit_profile, name='edit_profile'),
     path('edit_lessordata/', views.lessor, name='lessor'),
     path('lessordata/', views.lessor_info, name='lessor_info'),
+    path('roommateOptions/', views.roommate_requests, name='roommate_requests'),
+    path('recivedRequests/<int:id>/', views.req_list, name='req_list')
 
 ]

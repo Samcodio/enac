@@ -21,7 +21,7 @@ from django.dispatch import receiver
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='norm_user')
     full_name = models.CharField(max_length=255, null=True, blank=True)
-    profile_img = models.ImageField(upload_to='images/', null=True, blank=True)
+    profile_img = CloudinaryField('image', null=True, blank=True)
     phone_num = models.CharField(max_length=12, null=True, blank=True)
     phone_num2 = models.CharField(max_length=12, null=True, blank=True)
     address = models.TextField(null=True, blank=True)
@@ -69,7 +69,8 @@ class School(models.Model):
 class Product(models.Model):
     school = models.ForeignKey(School, on_delete=models.CASCADE, related_name='school')
     # users that have paid for the contact of the lodge
-    user = models.ManyToManyField(User, null=True, blank=True)
+    user = models.ManyToManyField(User, blank=True, related_name='paidUsers')
+    rm_user = models.ManyToManyField(User, blank=True, related_name='requesters')
     # the user that posted the lodge
     lessor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posted_products', null=True, blank=True)
     lodge_name = models.CharField(max_length=100)
@@ -90,6 +91,7 @@ class Product(models.Model):
     sale = models.BooleanField(default=True)
     # roommate needed?
     roommate = models.BooleanField(default=False)
+    approved = models.ManyToManyField(User, blank=True, related_name='approvedusers')
     def get_absolute_url(self):
         """this is used to get the detail url for order"""
         return reverse('ecommerce:product_detail',
@@ -125,7 +127,7 @@ class Product(models.Model):
 
     @property
     def lodge_pic4(self):
-        if self.lodge_img2:
+        if self.lodge_img4:
             # Use Cloudinary's image transformation to resize the image
             return CloudinaryImage(str(self.lodge_img4)).build_url(width=500, height=500, crop='fill', format='jpg')
         else:
@@ -156,8 +158,20 @@ class Product(models.Model):
         return self.lodge_name
 
 
+class ReqList(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+
+
 @receiver(post_save, sender=User)
 def create_token(sender, instance, created, **kwargs):
     if created:
         UserProfile.objects.create(user=instance)
+        instance.save()
+
+
+@receiver(post_save, sender=Product)
+def create_token(sender, instance, created, **kwargs):
+    if created and instance.lessor:
+        ReqList.objects.create(user=instance.lessor, product=instance)
         instance.save()

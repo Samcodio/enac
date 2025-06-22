@@ -37,6 +37,21 @@
     <!--============================
         SHOP DETAILS START
     =============================-->
+        {% if messages %}
+            <div class="position-fixed top-0 start-50 translate-middle-x mt-5" style="z-index: 1050;">
+                <div>
+                    {% for message in messages %}
+                    <p class="alert-message {% if 'error' in message.tags %}text-danger
+                                              {% elif 'warning' in message.tags %}text-warning
+                                              {% elif 'success' in message.tags %}text-success
+                                              {% else %}text-secondary{% endif %}
+                                              text-center fw-medium">
+                                        {{ message }}
+                    </p>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
     <section class="shop_details mt_100">
         <div class="container">
             <div class="row">
@@ -167,10 +182,34 @@
                                     <div class="details_btn_area">
 <!--                                        So the book now should allow them to make payment for the lodge from here they wouldnt need
                                             to add to the cart to buy, if they want to buy upfront-->
-                                        <a class="common_btn buy_now" href="#">Book Now <i
-                                                class="fas fa-long-arrow-right"></i></a>
-                                        <a class="common_btn add-cart" href="" data-product-id="{{ lodge.id }}">Add to cart <i
-                                                class="fas fa-long-arrow-right"></i></a>
+<!--                                        <a class="common_btn buy_now" href="#">Book Now <i-->
+<!--                                                class="fas fa-long-arrow-right"></i></a>-->
+                                        {% if lodge.roommate %}
+                                            {% if request.user in lodge.approved.all %}
+                                                {% if lodge.sale %}
+                                                <a class="common_btn buy_now add-cart" href="" data-product-id="{{ lodge.id }}">Add to cart <i
+                                                        class="fas fa-long-arrow-right"></i></a>
+                                                {% else %}
+                                                <a class="common_btn">Already Booked<i
+                                                        class="fas fa-long-arrow-right"></i></a>
+                                                {% endif %}
+                                            {% else %}
+                                            <form action="" method="POST">
+                                                {% csrf_token %}
+                                                <button type="submit" class="common_btn">Request to be roommate<i
+                                                        class="fas fa-long-arrow-right"></i></button>
+                                                <input type="hidden" name="request">
+                                            </form>
+                                            {% endif %}
+                                        {% else %}
+                                            {% if lodge.sale %}
+                                            <a class="common_btn buy_now add-cart" href="" data-product-id="{{ lodge.id }}">Add to cart <i
+                                                    class="fas fa-long-arrow-right"></i></a>
+                                            {% else %}
+                                            <a class="common_btn">Already Booked<i
+                                                    class="fas fa-long-arrow-right"></i></a>
+                                            {% endif %}
+                                        {% endif %}
                                     </div>
                                 </div>
 
@@ -179,15 +218,15 @@
 <!--                                        adding the item to the wishlist-->
                                         <a href="#" class="add-wishlist" data-product-id="{{ lodge.id }}"> <i class="fal fa-heart"></i> Add Wishlist </a>
                                     </li>
-                                    <li>
-                                        <a href="#"><i class="fal fa-question-circle"></i> Ask a question</a>
-                                    </li>
+<!--                                    <li>-->
+<!--                                        <a href="#"><i class="fal fa-question-circle"></i> Ask a question</a>-->
+<!--                                    </li>-->
                                 </ul>
 
                                 <ul class="details_tags_sku">
 <!--                                    <li><span>SKU:</span> HRYUSG67EG</li>-->
                                     <li><span>School:</span> {{lodge.school.short_version}}</li>
-                                    <li><span>Stay Period:</span> {{lodge.stay_period}}</li>
+                                    <li><span>Stay Period:</span> {{lodge.stay_period}} months</li>
                                 </ul>
                             </div>
                         </div>

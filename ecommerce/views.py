@@ -13,9 +13,9 @@ from .forms import *
 
 # home page, lists out some lodges and schools, basically an intro page
 def home(request):
-    cheap_list = Product.objects.all().order_by('price')[:10]
+    cheap_list = Product.objects.filter(sale=True, roommate=False).order_by('price')[:10]
     schools = School.objects.all()[:8]
-    costly = Product.objects.all().order_by('-price')[:10]
+    costly = Product.objects.filter(sale=True, roommate=False).order_by('-price')[:10]
     context = {
         'cheap_list': cheap_list,
         'schools': schools,
@@ -39,10 +39,10 @@ def schools(request):
 # lists out all the lodges belonging to a school
 def school_lodges(request, id):
     school = get_object_or_404(School, id=id)
-    lodge_list = Product.objects.filter(school=school)
+    lodge_list = Product.objects.filter(sale=True, roommate=False, school=school)
     school_list = School.objects.all()
     for sch in school_list:
-        sch.lodges = Product.objects.filter(school=sch)
+        sch.lodges = Product.objects.filter(sale=True, roommate=False, school=sch)
         sch.lodges_count = sch.lodges.count()
 
     # sorting capability
@@ -63,7 +63,7 @@ def school_lodges(request, id):
     page_number = request.GET.get('page')
     page_obj =paginator.get_page(page_number)
     # print(f"Total items: {len(lodge_list)}")
-    print("Sort option:", sort_option)
+    # print("Sort option:", sort_option)
 
     context = {
         'school': school,
@@ -78,11 +78,18 @@ def school_lodges(request, id):
 def lodge_data(request, id):
     lodge = get_object_or_404(Product, id=id)
     school = lodge.school
-    lodges = Product.objects.filter(school=school).exclude(id=id)
+    lodges = Product.objects.filter(sale=True, roommate=False, school=school).exclude(id=id)
     cart = Cart(request)
     products, total_sum = cart.get_prods()
     cart_ids = [int(id) for id in cart.get_cart_ids()]
-    print(cart_ids)
+    # print(cart_ids)
+    if request.method == "POST":
+        if not request.user.is_authenticated:
+            return redirect("accounts:login")
+        if "request" in request.POST:
+            lodge.rm_user.add(request.user)
+            messages.success(request, 'Roommate request submitted successfully')
+            return redirect(request.path)
 
     context = {
         'lodge': lodge,
@@ -104,10 +111,10 @@ def profile_dashboard(request):
 # for lodges in need of roommates in a partiular school
 def school_lodges_roommate(request, id):
     school = get_object_or_404(School, id=id)
-    lodge_list = Product.objects.filter(school=school, roommate=True)
+    lodge_list = Product.objects.filter(school=school, roommate=True, sale=True)
     school_list = School.objects.all()
     for sch in school_list:
-        sch.lodges = Product.objects.filter(school=sch)
+        sch.lodges = Product.objects.filter(school=sch, roommate=True, sale=True)
         sch.lodges_count = sch.lodges.count()
 
     sort_option = request.GET.get('sort', '')
@@ -127,7 +134,7 @@ def school_lodges_roommate(request, id):
     page_number = request.GET.get('page')
     page_obj =paginator.get_page(page_number)
     # print(f"Total items: {len(lodge_list)}")
-    print("Sort option:", sort_option)
+    # print("Sort option:", sort_option)
 
     context = {
         'school': school,
@@ -159,7 +166,7 @@ def edit_profile(request):
                 messages.success(request, 'Changes saved')
                 return redirect('ecommerce:personal_info')
             else:
-                print(userform.errors)  # Debugging form errors
+                # print(userform.errors)  # Debugging form errors
                 messages.warning(request, 'Invalid details')
         else:
             userform = EditUserInfo(instance=request.user)
@@ -202,7 +209,7 @@ def lessor(request):
                 messages.success(request, 'Changes saved')
                 return redirect('ecommerce:home')
             else:
-                print(profileform.errors)  # Debugging form errors
+                # print(profileform.errors)  # Debugging form errors
                 messages.warning(request, 'Invalid details')
         else:
             profileform = EditProfileInfo(instance=request.user.norm_user)
@@ -219,6 +226,37 @@ def lessor(request):
 def lessor_info(request):
     context = {}
     return render(request, 'Lessor/lessor_info.html', context)
+
+
+def roommate_requests(request):
+    posted_lodges = Product.objects.filter(lessor=request.user, roommate=True)
+    context = {
+        'posted_lodges': posted_lodges
+    }
+    return render(request, 'Lessor/rrequests.html', context)
+
+def req_list(request, id):
+    lodge = get_object_or_404(Product, id=id)
+    users = lodge.rm_user.all()
+    paginator = Paginator(users, 12)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    if request.method == 'POST':
+        if 'approve' in request.POST:
+            user_id = request.POST.get('user_id')
+            print('user_id', user_id)
+            if user_id:
+                user = get_object_or_404(User, id=user_id)
+                print('User = ', user)
+                lodge.approved.add(user)
+                lodge.rm_user.remove(user)
+                lodge.save()
+                messages.success(request, 'Request Approved')
+    context = {
+        'lodge': lodge,
+        'users': page_obj
+    }
+    return render(request, 'Lessor/reqList.html', context)
 
 
 # cart listing is in the cart app & wishlist in wishlist app
