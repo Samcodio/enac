@@ -1,4 +1,5 @@
 from ecommerce.models import Product, UserProfile
+from django.shortcuts import get_object_or_404
 from decimal import Decimal
 import json
 
@@ -97,7 +98,7 @@ class Wishlist():
         wishlist_keys = list(self.wishlist.keys())
         for product_id in wishlist_keys:
             try:
-                product = Product.objects.get(id=int(product_id))
+                product = Product.objects.filter(sale=True).get(id=int(product_id))
                 quantity = int(self.wishlist[product_id]['quantity']['quantity'])
                 price = Decimal(self.wishlist[product_id]['quantity']['price'])
                 total_price = round(price * quantity, 2)
@@ -126,4 +127,5 @@ class Wishlist():
             self.session.modified = True
             self.total_quantities()
             return True
+
         return False

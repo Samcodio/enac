@@ -161,7 +161,7 @@
                         <div class="col-lg-6 wow fadeInUp">
                             <div class="shop_details_text">
                                 <p class="category">{{lodge.school.school_name}}</p>
-                                <h2 class="details_title">Lodge Name Available After Payment</h2>
+                                <h2 class="details_title">{{lodge.lodge_name}}</h2>
                                 <div class="d-flex flex-wrap align-items-center">
 <!--                                    <p class="stock">In Stock</p>-->
                                     <!-- <p class="out_stock stock">out of Stock</p> -->
@@ -184,40 +184,14 @@
                                             to add to the cart to buy, if they want to buy upfront-->
 <!--                                        <a class="common_btn buy_now" href="#">Book Now <i-->
 <!--                                                class="fas fa-long-arrow-right"></i></a>-->
-                                        {% if lodge.roommate %}
-                                            {% if request.user in lodge.approved.all %}
-                                                {% if lodge.sale %}
-                                                <a class="common_btn buy_now add-cart" href="" data-product-id="{{ lodge.id }}">Add to cart <i
-                                                        class="fas fa-long-arrow-right"></i></a>
-                                                {% else %}
-                                                <a class="common_btn">Already Booked<i
-                                                        class="fas fa-long-arrow-right"></i></a>
-                                                {% endif %}
-                                            {% else %}
-                                            <form action="" method="POST">
-                                                {% csrf_token %}
-                                                <button type="submit" class="common_btn">Request to be roommate<i
-                                                        class="fas fa-long-arrow-right"></i></button>
-                                                <input type="hidden" name="request">
-                                            </form>
-                                            {% endif %}
-                                        {% else %}
-                                            {% if lodge.sale %}
-                                            <a class="common_btn buy_now add-cart" href="" data-product-id="{{ lodge.id }}">Add to cart <i
-                                                    class="fas fa-long-arrow-right"></i></a>
-                                            {% else %}
-                                            <a class="common_btn">Already Booked<i
-                                                    class="fas fa-long-arrow-right"></i></a>
-                                            {% endif %}
-                                        {% endif %}
+
+                                        <a class="common_btn">Contact Sold</a>
+
                                     </div>
                                 </div>
 
                                 <ul class="details_list_btn">
-                                    <li>
-<!--                                        adding the item to the wishlist-->
-                                        <a href="#" class="add-wishlist" data-product-id="{{ lodge.id }}"> <i class="fal fa-heart"></i> Add Wishlist </a>
-                                    </li>
+
 <!--                                    <li>-->
 <!--                                        <a href="#"><i class="fal fa-question-circle"></i> Ask a question</a>-->
 <!--                                    </li>-->
@@ -227,6 +201,9 @@
 <!--                                    <li><span>SKU:</span> HRYUSG67EG</li>-->
                                     <li><span>School:</span> {{lodge.school.short_version}}</li>
                                     <li><span>Stay Period:</span> {{lodge.stay_period}} months</li>
+                                    {% if lodge.roommate %}
+                                    <li><span>In need of roommate</span></li>
+                                    {% endif %}
                                 </ul>
                             </div>
                         </div>
@@ -293,7 +270,7 @@
                                                             d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
                                                     </svg>
                                                     <span>Address:</span>
-                                                    Available after contact sale
+                                                    {{lodge.address}}
                                                 </li>
                                                 <li>
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -304,7 +281,7 @@
                                                     </svg>
 
                                                     <span>Email:</span>
-                                                    Available after contact sale
+                                                    {{lodge.lessor.email}}
                                                 </li>
                                                 <li>
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -315,9 +292,8 @@
                                                     </svg>
 
                                                     <span>Contact Seller:</span>
-                                                    Available after contact sale
+                                                    {{lodge.lessor.norm_user.phone_num}}
                                                 </li>
-
                                                 <li>
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                                       <path stroke-linecap="round" stroke-linejoin="round"
@@ -325,7 +301,7 @@
                                                     </svg>
 
                                                     <span>Whatsapp Number:</span>
-                                                    Available after contact sale
+                                                    {{lodge.lessor.norm_user.phone_num2}}
                                                 </li>
                                                 <li>
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -333,7 +309,7 @@
                                                             d="M14.25 9.75v-4.5m0 4.5h4.5m-4.5 0 6-6m-3 18c-8.284 0-15-6.716-15-15V4.5A2.25 2.25 0 0 1 4.5 2.25h1.372c.516 0 .966.351 1.091.852l1.106 4.423c.11.44-.054.902-.417 1.173l-1.293.97a1.062 1.062 0 0 0-.38 1.21 12.035 12.035 0 0 0 7.143 7.143c.441.162.928-.004 1.21-.38l.97-1.293a1.125 1.125 0 0 1 1.173-.417l4.423 1.106c.5.125.852.575.852 1.091V19.5a2.25 2.25 0 0 1-2.25 2.25h-2.25Z" />
                                                     </svg>
                                                     <span>CareTaker's Number:</span>
-                                                    Available after contact sale
+                                                    {{lodge.caretaker}}
                                                 </li>
                                             </ul>
                                             </div>
@@ -357,60 +333,6 @@
         SHOP DETAILS END
     =============================-->
 
-
-    <!--============================
-        RELATED PRODUCTS START
-    =============================-->
-    <section class="related_products mt_90 mb_70 wow fadeInUp">
-        <div class="container">
-            <div class="row">
-                <div class="col-xl-6">
-                    <div class="section_heading_2 section_heading">
-                        <h3><span> Lodges</span> Within {{lodge.school.short_version}}</h3>
-                    </div>
-                </div>
-            </div>
-            <div class="row mt_25 flash_sell_2_slider">
-                {% for ldge in lodges %}
-                <div class="col-xl-1-5">
-                    <div class="product_item_2 product_item">
-                        <div class="product_img">
-                            {% if ldge.lodge_pic %}
-                            <img src="{{ldge.lodge_pic}}" alt="Image" class="img-fluid w-100">
-                            {% endif %}
-                            <ul class="discount_list">
-                            </ul>
-                            <ul class="btn_list">
-                                <li>
-                                </li>
-                                <li>
-                                    <a href="#" class="add-wishlist" data-product-id="{{ ldge.id }}">
-                                        <img src="{% static 'assets/images/love_icon_white.svg' %}" alt="Favourite" class="img-fluid">
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="add-cart" data-product-id="{{ ldge.id }}">
-                                        <img src="{% static 'assets/images/cart_icon_white.svg' %}" alt="Cart" class="img-fluid">
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="product_text">
-                            <a class="title" href="{% url 'ecommerce:lodge_data' ldge.id %}">More details</a>
-                            <p class="price">&#8358 {{ldge.price}}
-<!--                                <del>$48.00</del>-->
-                            </p>
-
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-    </section>
-    <!--============================
-        RELATED PRODUCTS END
-    =============================-->
 {% endblock %}
 </body>
 </html>

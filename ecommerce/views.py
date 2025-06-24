@@ -104,8 +104,12 @@ def lodge_data(request, id):
 def profile_dashboard(request):
     if not request.user.is_authenticated:
         return redirect('accounts:login')
-    context = {}
-    return render(request, 'User/profile_dashboard.html')
+    posted_lodges = Product.objects.filter(lessor=request.user, roommate=True, rm_user__isnull=False).distinct()
+    context = {
+        'posted_lodges': posted_lodges
+
+    }
+    return render(request, 'User/profile_dashboard.html', context)
 
 
 # for lodges in need of roommates in a partiular school
@@ -149,7 +153,11 @@ def school_lodges_roommate(request, id):
 def personal_info(request):
     if not request.user.is_authenticated:
         return redirect('accounts:login')
-    context = {}
+    posted_lodges = Product.objects.filter(lessor=request.user, roommate=True, rm_user__isnull=False).distinct()
+    context = {
+        'posted_lodges': posted_lodges
+
+    }
     return render(request, 'User/personal_info.html', context)
 
 
@@ -170,7 +178,10 @@ def edit_profile(request):
                 messages.warning(request, 'Invalid details')
         else:
             userform = EditUserInfo(instance=request.user)
+        posted_lodges = Product.objects.filter(lessor=request.user, roommate=True, rm_user__isnull=False).distinct()
         context = {
+            'posted_lodges': posted_lodges,
+
             'userform': userform,
             'total_sum': total_sum
          }
@@ -213,7 +224,10 @@ def lessor(request):
                 messages.warning(request, 'Invalid details')
         else:
             profileform = EditProfileInfo(instance=request.user.norm_user)
+        posted_lodges = Product.objects.filter(lessor=request.user, roommate=True, rm_user__isnull=False).distinct()
         context = {
+            'posted_lodges': posted_lodges,
+
             'profileform': profileform,
             'total_sum': total_sum
         }
@@ -224,12 +238,16 @@ def lessor(request):
 
 # lists out the information of the lessor
 def lessor_info(request):
-    context = {}
+    posted_lodges = Product.objects.filter(lessor=request.user, roommate=True, rm_user__isnull=False).distinct()
+    context = {
+        'posted_lodges': posted_lodges
+
+    }
     return render(request, 'Lessor/lessor_info.html', context)
 
 
 def roommate_requests(request):
-    posted_lodges = Product.objects.filter(lessor=request.user, roommate=True)
+    posted_lodges = Product.objects.filter(lessor=request.user, roommate=True, rm_user__isnull=False).distinct()
     context = {
         'posted_lodges': posted_lodges
     }
@@ -258,5 +276,30 @@ def req_list(request, id):
     }
     return render(request, 'Lessor/reqList.html', context)
 
+
+def bookings(request):
+    paid_lodges = Product.objects.filter(user=request.user)
+    posted_lodges = Product.objects.filter(lessor=request.user, roommate=True, rm_user__isnull=False).distinct()
+    context = {
+        'posted_lodges': posted_lodges,
+        'paid_lodges': paid_lodges
+    }
+    return render(request, 'Payment/booked.html', context)
+
+
+def booking_data(request, id):
+    lodge = get_object_or_404(Product, id=id)
+    school = lodge.school
+    cart = Cart(request)
+    products, total_sum = cart.get_prods()
+    cart_ids = [int(id) for id in cart.get_cart_ids()]
+    # print(cart_ids)
+
+    context = {
+        'lodge': lodge,
+        'total_sum': total_sum,
+        'cart_ids': cart_ids,
+    }
+    return render(request, 'Payment/bookedData.html', context)
 
 # cart listing is in the cart app & wishlist in wishlist app

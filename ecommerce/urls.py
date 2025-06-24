@@ -17,6 +17,8 @@ urlpatterns = [
     path('edit_lessordata/', views.lessor, name='lessor'),
     path('lessordata/', views.lessor_info, name='lessor_info'),
     path('roommateOptions/', views.roommate_requests, name='roommate_requests'),
-    path('recivedRequests/<int:id>/', views.req_list, name='req_list')
+    path('recivedRequests/<int:id>/', views.req_list, name='req_list'),
+    path('bookings/', views.bookings, name='bookings'),
+    path('BookingData/<int:id>/', views.booking_data, name='booking_data'),
 
 ]

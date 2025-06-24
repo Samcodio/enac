@@ -110,7 +110,7 @@ class Cart():
         cart_keys = list(self.cart.keys())
         for product_id in cart_keys:
             try:
-                product = Product.objects.get(id=int(product_id))
+                product = Product.objects.filter(sale=True).get(id=int(product_id))
                 quantity = int(self.cart[product_id]['quantity']['quantity'])
                 price = Decimal(self.cart[product_id]['quantity']['price'])
                 total_price = round(price * quantity, 2)

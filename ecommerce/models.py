@@ -71,6 +71,8 @@ class Product(models.Model):
     # users that have paid for the contact of the lodge
     user = models.ManyToManyField(User, blank=True, related_name='paidUsers')
     rm_user = models.ManyToManyField(User, blank=True, related_name='requesters')
+    address = models.CharField(max_length=255, null=True, blank=True)
+    caretaker = models.CharField(max_length=255, null=True, blank=True)
     # the user that posted the lodge
     lessor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posted_products', null=True, blank=True)
     lodge_name = models.CharField(max_length=100)
