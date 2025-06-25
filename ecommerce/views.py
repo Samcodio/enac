@@ -5,8 +5,11 @@ from cart.views import *
 from cart.cart import Cart
 from cloudinary import uploader
 from django.contrib.messages import constants as messages
+from django.db import transaction
+from cloudinary.exceptions import Error as CloudinaryError
 from django.contrib import messages
 from .forms import *
+from cloudinary.uploader import upload as cloudinary_upload
 
 # Create your views here.
 
@@ -301,5 +304,79 @@ def booking_data(request, id):
         'cart_ids': cart_ids,
     }
     return render(request, 'Payment/bookedData.html', context)
+
+
+def create_lodge_product(request):
+    if not request.user.is_authenticated:
+        messages.warning(request, 'Access denied. You must be logged in.')
+        return redirect('ecommerce:home')
+
+    cart = Cart(request)
+    products, total_sum = cart.get_prods()
+    form = ProductForm()
+
+    if request.method == 'POST':
+        form = ProductForm(request.POST, request.FILES)
+        if form.is_valid():
+            try:
+                with transaction.atomic():
+                    product = form.save(commit=False)
+                    product.lessor = request.user
+
+                    for img_field in ['lodge_img', 'lodge_img2', 'lodge_img3', 'lodge_img4', 'lessor_proof']:
+                        file = request.FILES.get(img_field)
+                        if file:
+                            if file.size > 5 * 1024 * 1024:  # 5MB limit
+                                messages.warning(request, f'{img_field} is too large (max 5MB)')
+                                return redirect('ecommerce:create_lodge_product')
+
+                            try:
+                                result = cloudinary_upload(
+                                    file,
+                                    width=500,
+                                    height=500,
+                                    crop='fill',
+                                    format='jpg'
+                                )
+                                setattr(product, img_field, result['secure_url'])
+                            except CloudinaryError as e:
+                                messages.warning(request, f'Error uploading {img_field}')
+                                return redirect('ecommerce:create_lodge_product')
+
+                    # Handle video upload
+                    if 'lodge_video' in request.FILES:
+                        video = request.FILES['lodge_video']
+                        if video.size > 50 * 1024 * 1024:  # 50MB limit
+                            messages.warning(request, 'Video file is too large (max 50MB)')
+                            return redirect('ecommerce:create_lodge_product')
+
+                        try:
+                            result = cloudinary_upload(
+                                video,
+                                resource_type='video',
+                                width=800,
+                                height=600,
+                                crop='fill',
+                                format='mp4'
+                            )
+                            product.lodge_video = result['secure_url']
+                        except CloudinaryError as e:
+                            messages.warning(request, 'Error uploading video')
+                            return redirect('ecommerce:create_lodge_product')
+
+                    product.save()
+                    messages.success(request, 'Lodge Product added successfully.')
+                    return redirect('ecommerce:lodge_data', id=product.id)
+
+            except Exception as e:
+                messages.error(request, 'An error occurred while saving the product.')
+        else:
+            messages.warning(request, 'Form is invalid. Please check your inputs.')
+
+    context = {
+        'form': form,
+        'total_sum': total_sum,
+    }
+    return render(request, 'Lessor/create_lodge.html', context)
 
 # cart listing is in the cart app & wishlist in wishlist app

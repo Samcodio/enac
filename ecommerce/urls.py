@@ -20,5 +20,6 @@ urlpatterns = [
     path('recivedRequests/<int:id>/', views.req_list, name='req_list'),
     path('bookings/', views.bookings, name='bookings'),
     path('BookingData/<int:id>/', views.booking_data, name='booking_data'),
+    path('create-lodge-product/', views.create_lodge_product, name='create_lodge_product')
 
 ]

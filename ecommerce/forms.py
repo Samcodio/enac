@@ -84,3 +84,134 @@ class EditProfileInfo(ModelForm):
                 }
             )
         }
+
+
+class ProductForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['school'].empty_label = "Select School..."
+    class Meta:
+        model = Product
+        fields = [
+            'lodge_name',
+            'school',
+            'lodge_img',
+            'lodge_img2',
+            'lodge_img3',
+            'lodge_img4',
+            'lodge_video',
+            'lessor_proof',
+            'price',
+            'stay_period',
+            'description',
+            'address',
+            'caretaker',
+            'roommate'
+        ]
+        widgets = {
+            'lodge_name': TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'type': 'text',
+                    'required': 'true',
+                    'placeholder': 'Please enter your Lodge Name...'
+                }
+            ),
+            'school': Select(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'true',
+                }
+            ),
+            'lodge_img': FileInput(
+                attrs={
+                    'type': 'file',
+                    'accept': 'image/*',
+                    'required': 'true',
+                }
+            ),
+            'lodge_img2': FileInput(
+                attrs={
+                    'type': 'file',
+                    'accept': 'image/*',
+                    'required': 'true',
+
+                }
+            ),
+            'lodge_img3': FileInput(
+                attrs={
+                    'type': 'file',
+                    'accept': 'image/*',
+                    'required': 'true',
+
+                }
+            ),
+            'lodge_img4': FileInput(
+                attrs={
+                    'type': 'file',
+                    'accept': 'image/*',
+                    'required': 'true',
+
+                }
+            ),
+            'lessor_proof': FileInput(
+                attrs={
+                    'type': 'file',
+                    'accept': 'image/*',
+                    'required': 'true',
+
+                }
+            ),
+            'lodge_video': FileInput(
+                attrs={
+                    'type': 'file',
+                    'accept': 'video/*',
+                }
+            ),
+            'price': TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'type': 'number',
+                    'required': 'true',
+                }
+            ),
+            'stay_period': TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'type': 'number',
+                    'required': 'true',
+                }
+            ),
+            'address': Textarea(
+                attrs={
+                    'class': 'form-control',
+                    'type': 'text',
+                    'required': 'true',
+                    'placeholder': 'Please enter the Address...'
+                }
+            ),
+            'description': Textarea(
+                attrs={
+                    'class': 'form-control',
+                    'type': 'text',
+                    'required': 'true',
+                    'placeholder': 'Please enter a Description...'
+                }
+            ),
+            'caretaker': TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'type': 'number',
+                    'required': 'true',
+                    'placeholder': 'Please enter the CareTaker Number...'
+                }
+            ),
+            'roommate': CheckboxInput(
+                attrs={
+                'class': 'form-check-input',
+                'type': 'checkbox',
+                'id': 'flexCheckDefault'
+                }
+            ),
+
+        }
