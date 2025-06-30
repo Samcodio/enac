@@ -3,6 +3,8 @@ from .models import *
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from cart.views import *
 from cart.cart import Cart
+from wishlist.views import *
+from wishlist.wishlist import Wishlist
 from cloudinary import uploader
 from django.contrib.messages import constants as messages
 from django.db import transaction
@@ -111,9 +113,20 @@ def profile_dashboard(request):
     if not request.user.is_authenticated:
         return redirect('accounts:login')
     posted_lodges = Product.objects.filter(lessor=request.user, roommate=True, rm_user__isnull=False).distinct()
+    booked = Product.objects.filter(user=request.user)
+    cart = Cart(request)
+    products, total_sum = cart.get_prods()
+    cart_ids = [int(id) for id in cart.get_cart_ids()]
+    carts = len(cart_ids)
+    wishlist = Wishlist(request)
+    wishlist_ids = [int(id) for id in wishlist.get_wishlist_ids()]
+    wishlists = len(wishlist_ids)
     context = {
-        'posted_lodges': posted_lodges
-
+        'posted_lodges': posted_lodges,
+        'booked_count': booked.count(),
+        'cart_count': carts,
+        'wishlists': wishlists,
+        'booked': booked[:10]
     }
     return render(request, 'User/profile_dashboard.html', context)
 
