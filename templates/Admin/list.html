@@ -12,16 +12,16 @@
     <!--=========================
         PAGE BANNER START
     ==========================-->
-    <section class="page_banner" style="background: url(assets/images/page_banner_bg.jpg);">
+    <section class="page_banner" style="background: url({% static 'assets/images/page_banner_bg.jpg' %});">
         <div class="page_banner_overlay">
             <div class="container">
                 <div class="row">
                     <div class="col-12">
                         <div class="page_banner_text wow fadeInUp">
-                            <h1>My Account</h1>
+                            <h1>Lessor Data</h1>
                             <ul>
                                 <li><a href="{% url 'ecommerce:home' %}"><i class="fal fa-home-lg"></i> Home</a></li>
-                                <li><a href="{% url 'ecommerce:lessor' %}">Lessor Profile</a></li>
+                                <li><a href="{% url 'ecommerce:checklist' %}">Lodges Listed</a></li>
                             </ul>
                         </div>
                     </div>
@@ -40,7 +40,7 @@
     <section class="dashboard mb_100">
         <div class="container">
             <div class="row">
-                <div class="col-lg-3 wow fadeInUp">
+                <div class="col-xl-3 wow fadeInUp">
                     <div class="dashboard_sidebar">
                         <div class="dashboard_sidebar_area">
                             <div class="dashboard_sidebar_user">
@@ -141,7 +141,7 @@
                                     {% if request.user.is_superuser %}
                                     <li><p>Admin</p></li>
                                     <li>
-                                        <a href="{% url 'ecommerce:checklist' %}">
+                                        <a class="active" href="{% url 'ecommerce:checklist' %}">
                                             <span>
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                     stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -157,7 +157,7 @@
                                         <p>Lessor Profile</p>
                                     </li>
                                     <li>
-                                        <a class="active" href="{% url 'ecommerce:lessor_info' %}">
+                                        <a href="{% url 'ecommerce:lessor' %}">
                                             <span>
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                     stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -203,67 +203,82 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-9 wow fadeInRight">
+                {% if messages %}
+                <div class="position-fixed top-0 start-50 translate-middle-x mt-5" style="z-index: 1050;">
+                    <div>
+                        {% for message in messages %}
+                        <p class="alert-message {% if 'error' in message.tags %}text-danger
+                                                  {% elif 'warning' in message.tags %}text-warning
+                                                  {% elif 'success' in message.tags %}text-success
+                                                  {% else %}text-secondary{% endif %}
+                                                  text-center fw-medium">
+                                            {{ message }}
+                        </p>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+                <div class="col-xl-9 wow fadeInRight">
                     <div class="dashboard_content mt_100">
-                        {% if messages %}
-                        <div>
-                            {% for message in messages %}
-                            <p class="alert-message {% if 'error' in message.tags %}text-danger
-                                                      {% elif 'warning' in message.tags %}text-warning
-                                                      {% elif 'success' in message.tags %}text-success
-                                                      {% else %}text-secondary{% endif %}
-                                                      text-center fw-medium">
-                                                {{ message }}
-                            </p>
-                            {% endfor %}
-                        </div>
-                        {% endif %}
-                        <form action="" method="POST" enctype="multipart/form-data">
-                        <h3 class="dashboard_title">Edit Information
-                            <button type="reset" class="common_btn cancel_edit">cancel</button></h3>
-                        <div class="dashboard_profile_info_edit">
-                            <div class="info_edit_form">
-                                {% csrf_token %}
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="single_input">
-                                            <label>Full Name</label>
-                                            {{profileform.full_name}}
-                                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-xxl-10 col-xl-11">
+                                <div class="cart_table_area">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th class="cart_page_img">Product image </th>
+                                                    <th class="cart_page_details">Product Details</th>
+<!--                                                    <th class="cart_page_price">Contact Price</th>-->
+            <!--                                        <th class="cart_page_quantity">Quantity</th>-->
+            <!--                                        <th class="cart_page_total">Subtotal</th>-->
+                                                    <th class="cart_page_action">Other Data</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="single_input">
-                                            <label>Contact Number</label>
-                                            {{profileform.phone_num}}
-                                        </div>
+                                    {% for item in product %}
+
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="cart_page_img">
+                                                        {% if item.lodge_pic %}
+                                                        <div class="img">
+                                                            <img src="{{item.lodge_pic}}" alt="Image"
+                                                                class="img-fluid w-100">
+                                                        </div>
+                                                        {% endif %}
+                                                    </td>
+                                                    <td class="cart_page_details">
+                                                        <span><b>Lodge Name:</b> {{item.lodge_name}}</span>
+                                                        <span><b>School:</b> {{item.school.short_version}}</span>
+                                                        <span>
+                                                            <b>Price:</b> &#8358 {{item.price}}
+                                                        </span>
+                                                        {% if item.roommate %}
+                                                        <span><b>In search of roommate</b></span>
+                                                        {% endif %}
+
+                                                    </td>
+<!--                                                    <td class="cart_page_total">-->
+<!--            &lt;!&ndash;                                            the price of each contact, doesnt change unless i change it&ndash;&gt;-->
+<!--                                                        <p>&#8358 5,000   </p>-->
+<!--                                                    </td>-->
+                                                    <td class="cart_page_details">
+                                                        <a class="title" href="{% url 'ecommerce:data' item.id %}"><button class="common_btn">View Data</button></a>
+
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="single_input">
-                                            <label>Whatsapp Number</label>
-                                            {{profileform.phone_num2}}
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="single_input">
-                                            <label>Profile Picture</label>
-                                            {{profileform.profile_img}}
-                                            <p><small>Facial Image must be present to prevent termination</small></p>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="single_input">
-                                            <label>Active location</label>
-                                            {{profileform.address}}
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <button type="submit" class="common_btn">Update Profile <i
-                                                class="fas fa-long-arrow-right"></i></button>
-                                    </div>
+                                    {% endfor %}
                                 </div>
                             </div>
                         </div>
-                        </form>
+                </div>
                     </div>
                 </div>
             </div>
@@ -272,6 +287,7 @@
     <!--============================
         DSHBOARD END
     =============================-->
+
 {% endblock %}
 </body>
 </html>

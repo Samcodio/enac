@@ -106,7 +106,11 @@ class ProductForm(ModelForm):
             'description',
             'address',
             'caretaker',
-            'roommate'
+            'roommate',
+            'tiled',
+            'upstairs',
+            'stable_water',
+            'light',
         ]
         widgets = {
             'lodge_name': TextInput(
@@ -213,5 +217,32 @@ class ProductForm(ModelForm):
                 'id': 'flexCheckDefault'
                 }
             ),
-
+            'tiled': CheckboxInput(
+                attrs={
+                    'class': 'form-check-input',
+                    'type': 'checkbox',
+                    'id': 'flexCheckDefault'
+                }
+            ),
+            'stable_water': CheckboxInput(
+                attrs={
+                    'class': 'form-check-input',
+                    'type': 'checkbox',
+                    'id': 'flexCheckDefault'
+                }
+            ),
+            'light': CheckboxInput(
+                attrs={
+                    'class': 'form-check-input',
+                    'type': 'checkbox',
+                    'id': 'flexCheckDefault'
+                }
+            ),
+            'upstairs': CheckboxInput(
+                attrs={
+                    'class': 'form-check-input',
+                    'type': 'checkbox',
+                    'id': 'flexCheckDefault'
+                }
+            ),
         }

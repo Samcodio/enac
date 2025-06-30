@@ -74,7 +74,8 @@ TEMPLATES = [
                 'wishlist.context_processors.wishlist',
                 'wishlist.context_processors.wishlist_items',
                 'ecommerce.context_processors.schools_listed',
-                'ecommerce.context_processors.schools_fulllist'
+                'ecommerce.context_processors.schools_fulllist',
+                'ecommerce.context_processors.all_schools',
             ],
         },
     },

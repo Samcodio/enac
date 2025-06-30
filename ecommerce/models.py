@@ -93,6 +93,10 @@ class Product(models.Model):
     sale = models.BooleanField(default=True)
     # roommate needed?
     roommate = models.BooleanField(default=False)
+    tiled = models.BooleanField(default=False)
+    upstairs = models.BooleanField(default=False)
+    stable_water = models.BooleanField(default=False)
+    light = models.BooleanField(default=False)
     approved = models.ManyToManyField(User, blank=True, related_name='approvedusers')
     def get_absolute_url(self):
         """this is used to get the detail url for order"""

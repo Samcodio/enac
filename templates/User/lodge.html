@@ -227,6 +227,29 @@
 <!--                                    <li><span>SKU:</span> HRYUSG67EG</li>-->
                                     <li><span>School:</span> {{lodge.school.short_version}}</li>
                                     <li><span>Stay Period:</span> {{lodge.stay_period}} months</li>
+                                    {% if lodge.tiled %}
+                                    <li><span>Tiled</span></li>
+                                    {% else %}
+                                    <li><span>Not Tiled</span></li>
+                                    {% endif %}
+                                    {% if lodge.upstairs %}
+                                    <li><span>Floor:</span> Upstairs</li>
+                                    {% else %}
+                                    <li><span>Floor:</span> Downstairs</li>
+                                    {% endif %}
+                                    {% if lodge.stable_water %}
+                                    <li><span>Running Water:</span> ✅ </li>
+                                    {% else %}
+                                    <li><span>Running Water:</span> ❌</li>
+                                    {% endif %}
+                                    {% if lodge.light %}
+                                    <li><span>Light:</span> ✅</li>
+                                    {% else %}
+                                    <li><span>Light:</span> ❌</li>
+                                    {% endif %}
+                                    {% if lodge.roommate %}
+                                    <li><span>In need of roommate</span></li>
+                                    {% endif %}
                                 </ul>
                             </div>
                         </div>

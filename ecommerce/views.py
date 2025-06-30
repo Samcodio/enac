@@ -11,6 +11,9 @@ from django.contrib import messages
 from .forms import *
 from cloudinary.uploader import upload as cloudinary_upload
 
+from django.http import JsonResponse
+from django.views.decorators.http import require_GET
+
 # Create your views here.
 
 
@@ -378,5 +381,43 @@ def create_lodge_product(request):
         'total_sum': total_sum,
     }
     return render(request, 'Lessor/create_lodge.html', context)
+
+
+def faq(request):
+    context = {}
+    return render(request, 'User/faq.html', context)
+
+
+def terms(request):
+    context = {}
+    return render(request, 'User/terms.html', context)
+
+
+def admin_checklist(request):
+    if not request.user.is_superuser:
+        messages.error(request, 'Access Denied')
+        return redirect('ecommerce:home')
+    product = Product.objects.all()
+    context = {
+        'product': product
+    }
+    return render(request, 'Admin/list.html', context)
+
+def data(request, id):
+    if not request.user.is_superuser:
+        messages.error(request, 'Access Denied')
+        return redirect('ecommerce:home')
+    lodge = get_object_or_404(Product, id=id)
+    if request.method == 'POST':
+        if 'delete' in request.POST:
+            lodge_id = request.POST.get('lodge_id')
+            product = get_object_or_404(Product, id=lodge_id)
+            product.delete()
+            messages.success(request, 'Lodge Terminated')
+            return redirect('ecommerce:checklist')
+    context = {
+        'lodge': lodge
+    }
+    return render(request, 'Admin/data.html', context)
 
 # cart listing is in the cart app & wishlist in wishlist app

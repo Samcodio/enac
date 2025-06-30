@@ -45,8 +45,13 @@
 
                             <div class="dashboard_sidebar_user">
                                 <div class="img">
+                                    {% if not request.user.norm_user.profile_pic %}
                                     <img src="{% static 'assets/images/user_icon_black.svg' %}" alt="dashboard"
                                         class="img-fluid w-100">
+                                    {% else %}
+                                    <img src="{{request.user.norm_user.profile_pic}}" alt="dashboard"
+                                        class="img-fluid w-100">
+                                    {% endif %}
                                     <label for="profile_photo"><i class="far fa-camera"></i></label>
                                     <input type="file" id="profile_photo" hidden="">
                                 </div>
@@ -133,6 +138,21 @@
                                             Logout
                                         </a>
                                     </li>
+                                    {% if request.user.is_superuser %}
+                                    <li><p>Admin</p></li>
+                                    <li>
+                                        <a href="{% url 'ecommerce:checklist' %}">
+                                            <span>
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                    stroke-width="1.5" stroke="currentColor" class="size-6">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                                                </svg>
+                                            </span>
+                                            Check Lodges
+                                        </a>
+                                    </li>
+                                    {% endif %}
                                     <li>
                                         <p>Lessor Profile</p>
                                     </li>
