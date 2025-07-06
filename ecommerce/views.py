@@ -8,6 +8,7 @@ from wishlist.wishlist import Wishlist
 from cloudinary import uploader
 from django.contrib.messages import constants as messages
 from django.db import transaction
+from django.contrib.auth.decorators import login_required
 from cloudinary.exceptions import Error as CloudinaryError
 from django.contrib import messages
 from .forms import *
@@ -272,6 +273,7 @@ def roommate_requests(request):
     }
     return render(request, 'Lessor/rrequests.html', context)
 
+@login_required(login_url='accounts:login')
 def req_list(request, id):
     lodge = get_object_or_404(Product, id=id)
     users = lodge.rm_user.all()
@@ -296,6 +298,7 @@ def req_list(request, id):
     return render(request, 'Lessor/reqList.html', context)
 
 
+@login_required(login_url='accounts:login')
 def bookings(request):
     paid_lodges = Product.objects.filter(user=request.user)
     posted_lodges = Product.objects.filter(lessor=request.user, roommate=True, rm_user__isnull=False).distinct()
@@ -306,6 +309,7 @@ def bookings(request):
     return render(request, 'Payment/booked.html', context)
 
 
+@login_required(login_url='accounts:login')
 def booking_data(request, id):
     lodge = get_object_or_404(Product, id=id)
     school = lodge.school

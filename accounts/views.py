@@ -85,7 +85,7 @@ def signUp(request):
     context = {
         'form': form,
     }
-    return render(request, 'Authentications/signUp.html', context)
+    return render(request, 'Authentications/signup.html', context)
 
 
 # changing password when logged in
