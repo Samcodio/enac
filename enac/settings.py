@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
-import os
+import os, dj_database_url
 from pathlib import Path
 import cloudinary
 
@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-8e2_#uqa^+*nd1kx^#fpmk3_0@@u8bw0)k*nyse7ff+loukee+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -49,6 +49,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -87,11 +88,18 @@ WSGI_APPLICATION = 'enac.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+
+database_url = "postgresql://samuel_mnny_user:wqGKBp8RSH95ID4LmP2kD5p2VWpKkeMc@dpg-d1lf17vdiees73fjseng-a.oregon-postgres.render.com/samuel_mnny"
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    "default": dj_database_url.parse(database_url)
 }
 
 

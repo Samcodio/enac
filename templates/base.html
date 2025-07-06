@@ -57,7 +57,6 @@
     display: flex;
     justify-content: left;
     align-items: center;
-    padding: 14px 18px;
     cursor: pointer;
     font-size: 16px;
     color: #333;
@@ -69,6 +68,22 @@
     background-color: #fbbc04; /* Yellow-ish */
     color: #fff;
   }
+
+.search-dropdown li a {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+  color: inherit;
+  padding: 14px 18px; /* match the li padding */
+}
+
+.search-dropdown li:hover a {
+  background-color: #fbbc04;
+  color: white;
+}
+
 
 .search-dropdown li span {
   width: 30px;
@@ -87,6 +102,23 @@
     object-fit: cover;
     margin-left: 10px;
   }
+
+@media (max-width: 768px) {
+  .dropdown-container {
+    width: 100%;
+  }
+
+  .search-dropdown li {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .search-dropdown li img {
+    width: 12px;
+    height: 12px;
+  }
+}
+
 </style>
 <body class="default_home">
 
@@ -117,12 +149,16 @@
                             <!-- Dropdown list -->
                             <ul id="schoolDropdown" class="search-dropdown menu_cat_item">
                                 {% for school in all_schools %}
-                                <li onclick="selectSchool('{{ school.school_name }}')" class="all_category">
-                                    <span>
-                                        <img src="{{school.logo_pic}}" alt="Logo">
-                                    </span>
-                                    <small>{{ school.school_name }}</small>
-                                </li>
+
+                                    <li onclick="selectSchool('{{ school.school_name }}')" class="all_category">
+                                        <a href="{% url 'ecommerce:school_lodges' school.id %}">
+                                            <span>
+                                                <img src="{{school.logo_pic}}" alt="Logo">
+                                            </span>
+                                            <small>{{ school.school_name }}</small>
+                                        </a>
+                                    </li>
+
                                 {% empty %}
                                 <li>No schools found.</li>
                                 {% endfor %}
@@ -130,7 +166,6 @@
                         </div>
                         </div>
                     </form>
-
                 </div>
                 <div class="col-xXl-4 col-xl-5 col-lg-5 d-none d-lg-flex">
                     <div class="header_support_user d-flex flex-wrap">
@@ -365,10 +400,31 @@
                     </li>
                 </ul>
 
-                <form class="mobile_menu_search">
-                    <input type="text" placeholder="Search">
-                    <button type="submit"><i class="far fa-search"></i></button>
+                <form class="mobile_menu_search" action="#">
+                    <div class="dropdown-container">
+                        <div class="input">
+                            <input type="text" id="mobileSchoolSearch" name="q" placeholder="Search School..." autocomplete="off">
+                            <button type="submit"><i class="far fa-search"></i></button>
+
+                            <!-- Mobile Dropdown list -->
+                            <ul id="mobileSchoolDropdown" class="search-dropdown menu_cat_item">
+                                {% for school in all_schools %}
+                                <a href="{% url 'ecommerce:school_lodges' school.id %}">
+                                    <li onclick="selectMobileSchool('{{ school.school_name }}')" class="all_category">
+                                        <span>
+                                            <img src="{{school.logo_pic}}" alt="Logo">
+                                        </span>
+                                        <small>{{ school.school_name }}</small>
+                                    </li>
+                                </a>
+                                {% empty %}
+                                <li>No schools found.</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
                 </form>
+
 
                 <div class="mobile_menu_item_area">
                     <ul class="nav nav-pills" id="pills-tab" role="tablist">
@@ -658,6 +714,47 @@ document.addEventListener("DOMContentLoaded", function() {
   // Only show dropdown if there's something to show
   dropdown.style.display = hasVisible ? "block" : "none";
 });
+
+const mobileInput = document.getElementById("mobileSchoolSearch");
+const mobileDropdown = document.getElementById("mobileSchoolDropdown");
+const mobileListItems = mobileDropdown.querySelectorAll("li");
+
+// Show dropdown on focus
+mobileInput.addEventListener("focus", () => {
+  mobileDropdown.style.display = "block";
+});
+
+// Hide dropdown if clicked outside
+document.addEventListener("click", function (event) {
+  if (!event.target.closest(".mobile_menu_search")) {
+    mobileDropdown.style.display = "none";
+  }
+});
+
+// Set input value on selection
+function selectMobileSchool(name) {
+  mobileInput.value = name;
+  mobileDropdown.style.display = "none";
+}
+
+// Live filter
+mobileInput.addEventListener("input", () => {
+  const query = mobileInput.value.toLowerCase();
+  let hasVisible = false;
+
+  mobileListItems.forEach(item => {
+    const schoolName = item.innerText.toLowerCase();
+    if (schoolName.includes(query)) {
+      item.style.display = "flex";
+      hasVisible = true;
+    } else {
+      item.style.display = "none";
+    }
+  });
+
+  mobileDropdown.style.display = hasVisible ? "block" : "none";
+});
+
 </script>
     <!--jquery library js-->
     <script src="{% static 'assets/js/jquery-3.7.1.min.js' %}"></script>
