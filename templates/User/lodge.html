@@ -65,7 +65,7 @@
                                             {% if lodge.lodge_pic %}
                                             <div class="col-12">
                                                 <div class="details_slider_nav_item">
-                                                    <img src="{{lodge.lodge_pic}}" alt="Product"
+                                                    <img src="{{lodge.lodge_pic}}" alt="Lodge"
                                                         class="img-fluid w-100">
                                                 </div>
                                             </div>
@@ -73,7 +73,7 @@
                                             {% if lodge.lodge_pic2 %}
                                             <div class="col-12">
                                                 <div class="details_slider_nav_item">
-                                                    <img src="{{lodge.lodge_pic2}}" alt="Product"
+                                                    <img src="{{lodge.lodge_pic2}}" alt="Lodge"
                                                         class="img-fluid w-100">
                                                 </div>
                                             </div>
@@ -81,7 +81,7 @@
                                             {% if lodge.lodge_pic3 %}
                                             <div class="col-12">
                                                 <div class="details_slider_nav_item">
-                                                    <img src="{{lodge.lodge_pic3}}" alt="Product"
+                                                    <img src="{{lodge.lodge_pic3}}" alt="Lodge"
                                                         class="img-fluid w-100">
                                                 </div>
                                             </div>
@@ -89,7 +89,7 @@
                                             {% if lodge.lodge_pic4 %}
                                             <div class="col-12">
                                                 <div class="details_slider_nav_item">
-                                                    <img src="{{lodge.lodge_pic4}}" alt="Product"
+                                                    <img src="{{lodge.lodge_pic4}}" alt="Lodge"
                                                         class="img-fluid w-100">
                                                 </div>
                                             </div>
@@ -110,7 +110,7 @@
                                             {% if lodge.lodge_pic %}
                                             <div class="col-12">
                                                 <div class="details_slider_thumb_item">
-                                                    <img src="{{lodge.lodge_pic}}" alt="Dress"
+                                                    <img src="{{lodge.lodge_pic}}" alt="Lodge"
                                                         class="img-fluid w-100">
                                                 </div>
                                             </div>
@@ -118,7 +118,7 @@
                                             {% if lodge.lodge_pic2 %}
                                             <div class="col-12">
                                                 <div class="details_slider_thumb_item">
-                                                    <img src="{{lodge.lodge_pic2}}" alt="Dress"
+                                                    <img src="{{lodge.lodge_pic2}}" alt="Lodge"
                                                         class="img-fluid w-100">
                                                 </div>
                                             </div>
@@ -126,7 +126,7 @@
                                             {% if lodge.lodge_pic3 %}
                                             <div class="col-12">
                                                 <div class="details_slider_thumb_item">
-                                                    <img src="{{lodge.lodge_pic3}}" alt="Dress"
+                                                    <img src="{{lodge.lodge_pic3}}" alt="Lodge"
                                                         class="img-fluid w-100">
                                                 </div>
                                             </div>
@@ -134,7 +134,7 @@
                                             {% if lodge.lodge_pic4 %}
                                             <div class="col-12">
                                                 <div class="details_slider_thumb_item">
-                                                    <img src="{{lodge.lodge_pic4}}" alt="Dress"
+                                                    <img src="{{lodge.lodge_pic4}}" alt="Video"
                                                         class="img-fluid w-100">
                                                 </div>
                                             </div>
@@ -147,7 +147,7 @@
                                                         width="450px"
                                                         height="380px"
                                                         src="{{lodge.lodge_vid}}"
-                                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                        allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                                         allowfullscreen>
                                                     </iframe>
                                                 </div>
@@ -184,7 +184,6 @@
                                             to add to the cart to buy, if they want to buy upfront-->
 <!--                                        <a class="common_btn buy_now" href="#">Book Now <i-->
 <!--                                                class="fas fa-long-arrow-right"></i></a>-->
-                                        {% if lodge.roommate %}
                                             {% if request.user in lodge.approved.all %}
                                                 {% if lodge.sale %}
                                                 <a class="common_btn buy_now add-cart" href="" data-product-id="{{ lodge.id }}">Add to cart <i
@@ -196,20 +195,11 @@
                                             {% else %}
                                             <form action="" method="POST">
                                                 {% csrf_token %}
-                                                <button type="submit" class="common_btn">Request to be roommate<i
+                                                <button type="submit" class="common_btn">Make Request<i
                                                         class="fas fa-long-arrow-right"></i></button>
                                                 <input type="hidden" name="request">
                                             </form>
                                             {% endif %}
-                                        {% else %}
-                                            {% if lodge.sale %}
-                                            <a class="common_btn buy_now add-cart" href="" data-product-id="{{ lodge.id }}">Add to cart <i
-                                                    class="fas fa-long-arrow-right"></i></a>
-                                            {% else %}
-                                            <a class="common_btn">Already Booked<i
-                                                    class="fas fa-long-arrow-right"></i></a>
-                                            {% endif %}
-                                        {% endif %}
                                     </div>
                                 </div>
 

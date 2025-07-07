@@ -25,10 +25,12 @@ def home(request):
     cheap_list = Product.objects.filter(sale=True, roommate=False).order_by('price')[:10]
     schools = School.objects.all()[:8]
     costly = Product.objects.filter(sale=True, roommate=False).order_by('-price')[:10]
+    rm_list = Product.objects.filter(sale=True, roommate=True)[:10]
     context = {
         'cheap_list': cheap_list,
         'schools': schools,
-        'costly': costly
+        'costly': costly,
+        'rm_list': rm_list
     }
     return render(request, 'User/index.html', context)
 
