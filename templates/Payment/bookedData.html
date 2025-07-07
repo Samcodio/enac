@@ -261,17 +261,11 @@
                                         aria-labelledby="description-tab3" tabindex="0">
                                         <div class="shop_details_vendor">
                                             <div class="shop_details_vendor_logo_area">
-                                                {% if not lodge.roommate %}
-                                                <div class="img">
-                                                    <img src="{% static 'assets/images/user_icon_black.svg' %}" alt="Lessor" class="img-fluid">
-                                                </div>
-                                                {% else %}
                                                     {% if lodge.lessor_pic %}
                                                     <div class="img">
                                                         <img src="{{lodge.lessor_pic}}" alt="Lessor" class="img-fluid">
                                                     </div>
                                                     {% endif %}
-                                                {% endif %}
                                                 <h3>
                                                     {% if not lodge.roommate %}
                                                     Available after contact sale
