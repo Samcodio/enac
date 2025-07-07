@@ -65,10 +65,10 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="page_banner_text wow fadeInUp">
-                            <h1>{{school.school_name}}</h1>
+                            <h1>Roommate Listings</h1>
                             <ul>
                                 <li><a href="{% url 'ecommerce:home' %}"><i class="fal fa-home-lg"></i> Home</a></li>
-                                <li><a href="">{{school.short_version}}</a></li>
+                                <li><a href="">Roommate Listings</a></li>
                             </ul>
                         </div>
                     </div>
@@ -89,10 +89,10 @@
             <div class="row">
                 <div class="col-xxl-2 col-lg-4 col-xl-3">
                     <div id="sticky_sidebar">
-                        <div class="shop_filter_btn d-lg-none"> Schools </div>
+                        <div class="shop_filter_btn d-lg-none"> Categories </div>
                         <div class="shop_filter_area">
                             <div class="sidebar_category sidebar_status">
-                                <h3>Other Schools</h3>
+                                <h3>Schools</h3>
                                 <ul>
                                     {% for sch in school_list %}
                                     <li>
@@ -161,12 +161,6 @@
                                                 <li>
                                                     <a href="#" class="add-wishlist" data-product-id="{{ lodge.id }}">
                                                         <img src="{% static 'assets/images/love_icon_white.svg' %}" alt="Love"
-                                                            class="img-fluid">
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#" class="add-cart" data-product-id="{{ lodge.id }}">
-                                                        <img src="{% static 'assets/images/cart_icon_white.svg' %}" alt="Cart"
                                                             class="img-fluid">
                                                     </a>
                                                 </li>

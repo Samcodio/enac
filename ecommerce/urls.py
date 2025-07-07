@@ -24,5 +24,6 @@ urlpatterns = [
     path('faq/', views.faq, name='faq'),
     path('terms_&_conditions/', views.terms, name="terms"),
     path('list/', views.admin_checklist, name='checklist'),
-    path('info/<int:id>/', views.data, name='data')
+    path('info/<int:id>/', views.data, name='data'),
+    path('roommatelistings/', views.school_roommate, name='roommates')
 ]

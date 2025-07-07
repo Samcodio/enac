@@ -443,3 +443,74 @@ def data(request, id):
     return render(request, 'Admin/data.html', context)
 
 # cart listing is in the cart app & wishlist in wishlist app
+
+
+def school_roommate(request):
+    lodge_list = Product.objects.filter( roommate=True, sale=True)
+    school_list = School.objects.all()
+    for sch in school_list:
+        sch.lodges = Product.objects.filter(school=sch, roommate=True, sale=True)
+        sch.lodges_count = sch.lodges.count()
+
+    sort_option = request.GET.get('sort', '')
+    if sort_option == 'price_asc':
+        lodge_list = lodge_list.order_by('price')
+    elif sort_option == 'price_desc':
+        lodge_list = lodge_list.order_by('-price')
+    elif sort_option == 'newest':
+        lodge_list = lodge_list.order_by('-posted_on')
+    elif sort_option == 'oldest':
+        lodge_list = lodge_list.order_by('posted_on')
+    else:
+        # Default sorting if none specified
+        lodge_list = lodge_list.order_by('-posted_on')
+
+    paginator = Paginator(lodge_list, 12)
+    page_number = request.GET.get('page')
+    page_obj =paginator.get_page(page_number)
+    # print(f"Total items: {len(lodge_list)}")
+    # print("Sort option:", sort_option)
+
+    context = {
+        'lodge_list': page_obj,
+        'sort_option': sort_option,
+        'school_list': school_list,
+    }
+    return render(request, 'User/roommates.html', context)
+
+
+def school_lodges_roommate(request, id):
+    school = get_object_or_404(School, id=id)
+    lodge_list = Product.objects.filter(school=school, roommate=True, sale=True)
+    school_list = School.objects.all()
+    for sch in school_list:
+        sch.lodges = Product.objects.filter(school=sch, roommate=True, sale=True)
+        sch.lodges_count = sch.lodges.count()
+
+    sort_option = request.GET.get('sort', '')
+    if sort_option == 'price_asc':
+        lodge_list = lodge_list.order_by('price')
+    elif sort_option == 'price_desc':
+        lodge_list = lodge_list.order_by('-price')
+    elif sort_option == 'newest':
+        lodge_list = lodge_list.order_by('-posted_on')
+    elif sort_option == 'oldest':
+        lodge_list = lodge_list.order_by('posted_on')
+    else:
+        # Default sorting if none specified
+        lodge_list = lodge_list.order_by('-posted_on')
+
+    paginator = Paginator(lodge_list, 12)
+    page_number = request.GET.get('page')
+    page_obj =paginator.get_page(page_number)
+    # print(f"Total items: {len(lodge_list)}")
+    # print("Sort option:", sort_option)
+
+    context = {
+        'school': school,
+        'lodge_list': page_obj,
+        'sort_option': sort_option,
+        'school_list': school_list,
+    }
+    return render(request, 'User/roommateLodges.html', context)
+
