@@ -95,13 +95,15 @@ def lodge_data(request, id):
     cart_ids = [int(id) for id in cart.get_cart_ids()]
     # print(cart_ids)
     if request.method == "POST":
-        if not request.user.is_authenticated:
-            return redirect("accounts:login")
-        if "request" in request.POST:
-            lodge.rm_user.add(request.user)
-            messages.success(request, 'Roommate request submitted successfully')
-            return redirect(request.path)
-
+        if request.user.norm_user.profile_pic:
+            if not request.user.is_authenticated:
+                return redirect("accounts:login")
+            if "request" in request.POST:
+                lodge.rm_user.add(request.user)
+                messages.success(request, 'Roommate request submitted successfully')
+                return redirect(request.path)
+        else:
+            messages.warning(request, "Complete Your Profile")
     context = {
         'lodge': lodge,
         'lodges': lodges,
