@@ -31,45 +31,53 @@
                 <div class="col-xl-3 col-md-6 wow fadeInUp">
                     <div class="features_item purple">
                         <div class="icon">
-                            <img src="{% static 'assets/images/feature-icon_1.svg' %}" alt="feature">
+                            <img src="{% static 'assets/images/cottage.svg' %}" alt="feature">
                         </div>
+                        <a href="{% url 'ecommerce:schools' %}">
                         <div class="text">
-                            <h3>Contact Delivery</h3>
-                            <p>Obtained Upon Payment</p>
+                            <h3>LG Listing</h3>
+                            <p>Checkout lodge listings</p>
                         </div>
+                        </a>
                     </div>
                 </div>
                 <div class="col-xl-3 col-md-6 wow fadeInUp">
                     <div class="features_item green">
                         <div class="icon">
-                            <img src="{% static 'assets/images/feature-icon_3.svg' %}" alt="feature">
+                            <img src="{% static 'assets/images/person_add.svg' %}" alt="feature">
                         </div>
+                        <a href="{% url 'ecommerce:roommates' %}">
                         <div class="text">
-                            <h3>Quality Support</h3>
-                            <p>Always online 24/7</p>
+                            <h3>RM Listing</h3>
+                            <p>Checkout roommate listings</p>
                         </div>
+                        </a>
                     </div>
                 </div>
                 <div class="col-xl-3 col-md-6 wow fadeInUp">
                     <div class="features_item orange">
                         <div class="icon">
-                            <img src="{% static 'assets/images/feature-icon_2.svg' %}" alt="feature">
+                            <img src="{% static 'assets/images/roommate.svg' %}" alt="feature">
                         </div>
-                        <div class="text">
-                            <h3>Secure Payment</h3>
-                            <p>Paystack protection</p>
-                        </div>
+                        <a href="{% url 'ecommerce:create_lodge_product' %}">
+                            <div class="text">
+                                <h3>Roommate </h3>
+                                <p>Apply to list for roommate</p>
+                            </div>
+                        </a>
                     </div>
                 </div>
                 <div class="col-xl-3 col-md-6 wow fadeInUp">
                     <div class="features_item">
                         <div class="icon">
-                            <img src="{% static 'assets/images/feature-icon_4.svg' %}" alt="feature">
+                            <img src="{% static 'assets/images/add_home.svg' %}" alt="feature">
                         </div>
+                        <a href="{% url 'ecommerce:create_lodge_product' %}">
                         <div class="text">
-                            <h3>Free Listings</h3>
+                            <h3>Post Lodges</h3>
                             <p>Post at your discretion</p>
                         </div>
+                        </a>
                     </div>
                 </div>
             </div>

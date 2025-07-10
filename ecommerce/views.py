@@ -330,11 +330,8 @@ def booking_data(request, id):
     return render(request, 'Payment/bookedData.html', context)
 
 
+@login_required(login_url='accounts:login')
 def create_lodge_product(request):
-    if not request.user.is_authenticated:
-        messages.warning(request, 'Access denied. You must be logged in.')
-        return redirect('ecommerce:home')
-
     cart = Cart(request)
     products, total_sum = cart.get_prods()
     form = ProductForm()
