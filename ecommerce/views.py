@@ -100,10 +100,10 @@ def lodge_data(request, id):
                 return redirect("accounts:login")
             if "request" in request.POST:
                 lodge.rm_user.add(request.user)
-                messages.success(request, 'Roommate request submitted successfully')
+                messages.success(request, 'Request submitted successfully')
                 return redirect(request.path)
         else:
-            messages.warning(request, "Complete Your Profile")
+            messages.warning(request, "Please Complete Your Profile")
     context = {
         'lodge': lodge,
         'lodges': lodges,

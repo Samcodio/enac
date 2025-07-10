@@ -143,13 +143,13 @@
                                             {% if lodge.lodge_vid %}
                                             <div class="col-12">
                                                 <div class="details_slider_thumb_item">
-                                                    <iframe
-                                                        width="450px"
-                                                        height="380px"
-                                                        src="{{lodge.lodge_vid}}"
-                                                        allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                                        allowfullscreen>
-                                                    </iframe>
+                                                    <div class="responsive-iframe-container">
+                                                        <iframe
+                                                            src="{{lodge.lodge_vid}}"
+                                                            allow="accelerometer; encrypted-media;"
+                                                            allowfullscreen>
+                                                        </iframe>
+                                                    </div>
                                                 </div>
                                             </div>
                                             {% endif %}
@@ -401,11 +401,11 @@
                                         <img src="{% static 'assets/images/love_icon_white.svg' %}" alt="Favourite" class="img-fluid">
                                     </a>
                                 </li>
-                                <li>
-                                    <a href="#" class="add-cart" data-product-id="{{ ldge.id }}">
-                                        <img src="{% static 'assets/images/cart_icon_white.svg' %}" alt="Cart" class="img-fluid">
-                                    </a>
-                                </li>
+<!--                                <li>-->
+<!--                                    <a href="#" class="add-cart" data-product-id="{{ ldge.id }}">-->
+<!--                                        <img src="{% static 'assets/images/cart_icon_white.svg' %}" alt="Cart" class="img-fluid">-->
+<!--                                    </a>-->
+<!--                                </li>-->
                             </ul>
                         </div>
                         <div class="product_text">

@@ -21,7 +21,7 @@
                             <h1>Lessor Data</h1>
                             <ul>
                                 <li><a href="{% url 'ecommerce:home' %}"><i class="fal fa-home-lg"></i> Home</a></li>
-                                <li><a href="{% url 'ecommerce:lessor_info' %}">Lessor Data</a></li>
+                                <li><a href="{% url 'ecommerce:roommate_requests' %}">Requests</a></li>
                             </ul>
                         </div>
                     </div>
@@ -180,7 +180,6 @@
                                             Add Lodge
                                         </a>
                                     </li>
-                                    {% if posted_lodges %}
                                     <li>
                                         <a href="{% url 'ecommerce:roommate_requests' %}">
                                             <span>
@@ -194,10 +193,9 @@
                                                         d="M19 8v4m0 0v4m0-4h4m-4 0h-4" />
                                                 </svg>
                                             </span>
-                                            Roommate Requests
+                                            Requests
                                         </a>
                                     </li>
-                                    {% endif %}
                                 </ul>
                             </div>
                         </div>
@@ -227,8 +225,8 @@
                                         <table class="table">
                                             <thead>
                                                 <tr>
-                                                    <th class="cart_page_img">Product image </th>
-                                                    <th class="cart_page_details">Product Details</th>
+                                                    <th class="cart_page_img">Lodge image </th>
+                                                    <th class="cart_page_details">Lodge Details</th>
 <!--                                                    <th class="cart_page_price">Contact Price</th>-->
             <!--                                        <th class="cart_page_quantity">Quantity</th>-->
             <!--                                        <th class="cart_page_total">Subtotal</th>-->
@@ -263,7 +261,7 @@
 <!--                                                        <p>&#8358 5,000   </p>-->
 <!--                                                    </td>-->
                                                     <td class="cart_page_details">
-                                                        <button class="common_btn" href="{% url 'ecommerce:req_list' item.id %}">View Requests</button>
+                                                        <a href="{% url 'ecommerce:req_list' item.id %}"><button class="common_btn" >View Requests</button></a>
 
                                                     </td>
                                                 </tr>
