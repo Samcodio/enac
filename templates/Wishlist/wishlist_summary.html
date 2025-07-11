@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load humanize %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -71,7 +72,7 @@
                                         </td>
                                         <td class="cart_page_details">
                                             <a class="title" href="{% url 'ecommerce:lodge_data' item.id %}">Lodge Name Available After Payment</a>
-                                            <p>&#8358 {{item.price}}
+                                            <p>&#8358 {{item.price|intcomma}}
                                             </p>
                                             <span><b>School:</b> {{item.product_obj.school.short_version}}</span>
                                             <span><b>Stay period:</b> {{item.product_obj.stay_period}} months</span>

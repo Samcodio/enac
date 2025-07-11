@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load humanize %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -167,7 +168,7 @@
                                             </ul>
                                         </div>
                                         <div class="product_text">
-                                            <p class="price">&#8358 {{lodge.price}}</p>
+                                            <p class="price">&#8358 {{lodge.price|intcomma}}</p>
                                             <a class="title" href="{% url 'ecommerce:lodge_data' lodge.id %}">More details</a>
                                         </div>
                                     </div>

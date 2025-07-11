@@ -24,9 +24,9 @@
                             <img src="{% static 'assets/images/payment_success_img.png' %}" alt="payment" class="img-fluid w-100">
                         </div>
                         <h3>Your Payment is successfully</h3>
-                        <p>We appreciate your purchase! We can't wait to deliver your things to you. ID of Order
-                            <b>#2547HTF456</b> Officially. Your order is being processed. We'll use real-time tracking
-                            to keep you informed about its progress.
+                        <p>Payment Recieved, your booking ID is
+                            <b>#75HJF{{lodge.id}}.</b> Officially, Your order has been processed. Check <a href="{% url 'ecommerce:bookings' %}">booking page</a> for the contact of the lessor
+                            you requested for
                         </p>
                         <div class="d-flex flex-wrap align-items-center justify-content-center gap-3">
                             <a href="{% url 'ecommerce:home' %}" class="common_btn go_btn">

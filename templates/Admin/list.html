@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load humanize %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -255,7 +256,7 @@
                                                         <span><b>Lodge Name:</b> {{item.lodge_name}}</span>
                                                         <span><b>School:</b> {{item.school.short_version}}</span>
                                                         <span>
-                                                            <b>Price:</b> &#8358 {{item.price}}
+                                                            <b>Price:</b> &#8358 {{item.price|intcomma}}
                                                         </span>
                                                         {% if item.roommate %}
                                                         <span><b>In search of roommate</b></span>

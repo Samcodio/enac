@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load humanize %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -252,7 +253,7 @@
                                                     <td class="cart_page_details">
                                                             <span><b>Lodge Name:</b> {{item.lodge_name}}</span>
                                                         <span><b>School:</b> {{item.school.short_version}}</span>
-                                                        <span><b>&#8358 {{item.price}}
+                                                        <span><b>&#8358 {{item.price|intcomma}}
                                                         </b></span>
 
                                                     </td>

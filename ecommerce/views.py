@@ -271,7 +271,7 @@ def lessor_info(request):
 
 
 def roommate_requests(request):
-    posted_lodges = Product.objects.filter(lessor=request.user, roommate=True, rm_user__isnull=False).distinct()
+    posted_lodges = Product.objects.filter(lessor=request.user, rm_user__isnull=False).distinct()
     context = {
         'posted_lodges': posted_lodges
     }

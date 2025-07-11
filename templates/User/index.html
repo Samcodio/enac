@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load humanize %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -134,7 +135,7 @@
                         </div>
                         <div class="product_text">
                             <a class="title" href="{% url 'ecommerce:school_lodges' cheap.school.id %}">{{cheap.school|truncatechars:18}}</a>
-                            <p class="price">&#8358 {{cheap.price}}
+                            <p class="price">&#8358 {{cheap.price|intcomma}}
 <!--                                <del>$48.00</del>-->
                             </p>
                             <p class="rating">
@@ -227,7 +228,7 @@
                                         </div>
                                         <div class="product_text">
                                             <a class="title" href="{% url 'ecommerce:school_lodges' cost.school.id %}">{{cost.school.short_version}}</a>
-                                            <p class="price">&#8358 {{cost.price}}</p>
+                                            <p class="price">&#8358 {{cost.price|intcomma}}</p>
                                             <a class="title" href="{% url 'ecommerce:lodge_data' cost.id %}">More details</a>
                                             <p class="rating">
                                             </p>
@@ -281,7 +282,7 @@
                                         </div>
                                         <div class="product_text">
                                             <a class="title" href="{% url 'ecommerce:school_lodges' cost.school.id %}">{{cost.school.short_version}}</a>
-                                            <p class="price">&#8358 {{cost.price}}</p>
+                                            <p class="price">&#8358 {{cost.price|intcomma}}</p>
                                             <a class="title" href="{% url 'ecommerce:lodge_data' cost.id %}">More details</a>
                                             <p class="rating">
                                             </p>

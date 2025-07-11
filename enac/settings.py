@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'ecommerce',
     'cart',
     'wishlist',
+    'django.contrib.humanize',
 ]
 
 MIDDLEWARE = [
@@ -88,19 +89,19 @@ WSGI_APPLICATION = 'enac.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
-
-database_url = "postgresql://samuel_mnny_user:wqGKBp8RSH95ID4LmP2kD5p2VWpKkeMc@dpg-d1lf17vdiees73fjseng-a.oregon-postgres.render.com/samuel_mnny"
-
 DATABASES = {
-    "default": dj_database_url.parse(database_url)
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
+
+
+# database_url = "postgresql://samuel_mnny_user:wqGKBp8RSH95ID4LmP2kD5p2VWpKkeMc@dpg-d1lf17vdiees73fjseng-a.oregon-postgres.render.com/samuel_mnny"
+#
+# DATABASES = {
+#     "default": dj_database_url.parse(database_url)
+# }
 
 
 # Password validation

@@ -1,3 +1,4 @@
+{% load humanize %}
 <div class="cart_page_summary">
     <h3>Billing summary</h3>
     <ul>
@@ -17,7 +18,7 @@
         {% endfor %}
     </ul>
 <!--    the total sum is the item youll be in the payment, its sourced from the backend as per usual but sha this is it-->
-    <h4>Total <span>&#8358 {{total_sum}}</span></h4>
+    <h4>Total <span>&#8358 {{total_sum|intcomma}}</span></h4>
 </div>
 <div class="cart_summary_btn">
     <a class="common_btn continue_shopping" href="{% url 'ecommerce:home' %}">Continue Booking</a>

@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load humanize %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -174,7 +175,7 @@
 <!--                                        <span>(93 reviews)</span>-->
 <!--                                    </p>-->
                                 </div>
-                                <h3 class="price">&#8358 {{lodge.price}}</h3>
+                                <h3 class="price">&#8358 {{lodge.price|intcomma}}</h3>
                                 <div class="details_single_variant">
                                 </div>
 
@@ -275,27 +276,28 @@
                                         aria-labelledby="description-tab3" tabindex="0">
                                         <div class="shop_details_vendor">
                                             <div class="shop_details_vendor_logo_area">
-                                                {% if not lodge.roommate %}
-                                                <div class="img">
-                                                    <img src="{% static 'assets/images/user_icon_black.svg' %}" alt="Lessor" class="img-fluid">
-                                                </div>
-                                                {% else %}
+
                                                     {% if lodge.lessor_pic %}
                                                     <div class="img">
                                                         <img src="{{lodge.lessor_pic}}" alt="Lessor" class="img-fluid">
                                                     </div>
                                                     {% endif %}
-                                                {% endif %}
                                                 <h3>
-                                                    {% if not lodge.roommate %}
-                                                    Available after contact sale
-                                                    {% else %}
                                                     {{lodge.lessor.username}}
-                                                    {% endif %}
-
                                                 </h3>
+                                                <p><small>(Person expected to meet on day of inspection)</small></p>
                                             </div>
                                             <ul class="shop_details_vendor_address">
+                                                <li>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                         class="size-6">
+                                                      <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M3 9.75L12 3l9 6.75M4.5 10.5v9.75A1.5 1.5 0 0 0 6 21.75h3.75v-6.75h4.5v6.75H18a1.5 1.5 0 0 0 1.5-1.5V10.5" />
+                                                    </svg>
+
+                                                    <span>Lodge Name:</span> Available after contact sale
+                                                </li>
                                                 <li>
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
@@ -410,7 +412,7 @@
                         </div>
                         <div class="product_text">
                             <a class="title" href="{% url 'ecommerce:lodge_data' ldge.id %}">More details</a>
-                            <p class="price">&#8358 {{ldge.price}}
+                            <p class="price">&#8358 {{ldge.price|intcomma}}
 <!--                                <del>$48.00</del>-->
                             </p>
 
