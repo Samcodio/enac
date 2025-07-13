@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 {% load static %}
-{% load humanize %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,16 +12,16 @@
     <!--=========================
         PAGE BANNER START
     ==========================-->
-    <section class="page_banner" style="background: url({% static 'assets/images/page_banner_bg.jpg' %});">
+    <section class="page_banner" style="background: url(assets/images/page_banner_bg.jpg);">
         <div class="page_banner_overlay">
             <div class="container">
                 <div class="row">
                     <div class="col-12">
                         <div class="page_banner_text wow fadeInUp">
-                            <h1>Lessor Data</h1>
+                            <h1>My Account</h1>
                             <ul>
                                 <li><a href="{% url 'ecommerce:home' %}"><i class="fal fa-home-lg"></i> Home</a></li>
-                                <li><a href="{% url 'ecommerce:roommate_requests' %}">Requests</a></li>
+                                <li><a href="{% url 'ecommerce:create_lodge_product' %}">List Lodge</a></li>
                             </ul>
                         </div>
                     </div>
@@ -41,18 +40,13 @@
     <section class="dashboard mb_100">
         <div class="container">
             <div class="row">
-                <div class="col-xl-3 wow fadeInUp">
+                <div class="col-lg-3 wow fadeInUp">
                     <div class="dashboard_sidebar">
                         <div class="dashboard_sidebar_area">
                             <div class="dashboard_sidebar_user">
                                 <div class="img">
-                                    {% if not request.user.norm_user.profile_pic %}
                                     <img src="{% static 'assets/images/user_icon_black.svg' %}" alt="dashboard"
                                         class="img-fluid w-100">
-                                    {% else %}
-                                    <img src="{{request.user.norm_user.profile_pic}}" alt="dashboard"
-                                        class="img-fluid w-100">
-                                    {% endif %}
                                     <label for="profile_photo"><i class="far fa-camera"></i></label>
                                     <input type="file" id="profile_photo" hidden="">
                                 </div>
@@ -92,7 +86,7 @@
                                         <p>Account settings</p>
                                     </li>
                                     <li>
-                                        <a class="active" href="{% url 'ecommerce:personal_info' %}">
+                                        <a href="{% url 'ecommerce:personal_info' %}">
                                             <span>
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                     stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -158,7 +152,7 @@
                                         <p>Lessor Profile</p>
                                     </li>
                                     <li>
-                                        <a href="{% url 'ecommerce:lessor' %}">
+                                        <a href="{% url 'ecommerce:lessor_info' %}">
                                             <span>
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                     stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -182,7 +176,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="{% url 'ecommerce:create_roommate_product' %}">
+                                        <a class="active" href="{% url 'ecommerce:create_roommate_product' %}">
                                         <span>
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                  stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -209,83 +203,170 @@
                                             Requests
                                         </a>
                                     </li>
+
                                 </ul>
                             </div>
                         </div>
                     </div>
                 </div>
-                {% if messages %}
-                <div class="position-fixed top-0 start-50 translate-middle-x mt-5" style="z-index: 1050;">
-                    <div>
-                        {% for message in messages %}
-                        <p class="alert-message {% if 'error' in message.tags %}text-danger
-                                                  {% elif 'warning' in message.tags %}text-warning
-                                                  {% elif 'success' in message.tags %}text-success
-                                                  {% else %}text-secondary{% endif %}
-                                                  text-center fw-medium">
-                                            {{ message }}
-                        </p>
-                        {% endfor %}
-                    </div>
-                </div>
-                {% endif %}
-                <div class="col-xl-9 wow fadeInRight">
+                <div class="col-lg-9 wow fadeInRight">
                     <div class="dashboard_content mt_100">
-                        <div class="row justify-content-center">
-                            <div class="col-xxl-10 col-xl-11">
-                                <div class="cart_table_area">
-                                    <div class="table-responsive">
-                                        <table class="table">
-                                            <thead>
-                                                <tr>
-                                                    <th class="cart_page_img">Lodge image </th>
-                                                    <th class="cart_page_details">Lodge Details</th>
-<!--                                                    <th class="cart_page_price">Contact Price</th>-->
-            <!--                                        <th class="cart_page_quantity">Quantity</th>-->
-            <!--                                        <th class="cart_page_total">Subtotal</th>-->
-                                                    <th class="cart_page_action">Other Data</th>
-                                                </tr>
-                                            </thead>
-                                        </table>
+                        {% if messages %}
+                        <div>
+                            {% for message in messages %}
+                            <p class="alert-message {% if 'error' in message.tags %}text-danger
+                                                      {% elif 'warning' in message.tags %}text-warning
+                                                      {% elif 'success' in message.tags %}text-success
+                                                      {% else %}text-secondary{% endif %}
+                                                      text-center fw-medium">
+                                                {{ message }}
+                            </p>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                        <form action="" method="POST" enctype="multipart/form-data">
+                        <h3 class="dashboard_title">Roommate Posting
+                            <button type="reset" class="common_btn cancel_edit">cancel</button></h3>
+                        <div class="dashboard_profile_info_edit">
+                            <div class="info_edit_form">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="single_input">
+                                            <label>Lodge Name</label>
+                                            {{form.lodge_name}}
+                                        </div>
                                     </div>
-                                    {% for item in posted_lodges %}
-
-                                    <div class="table-responsive">
-                                        <table class="table">
-                                            <tbody>
-                                                <tr>
-                                                    <td class="cart_page_img">
-                                                        {% if item.lodge_pic %}
-                                                        <div class="img">
-                                                            <img src="{{item.lodge_pic}}" alt="Image"
-                                                                class="img-fluid w-100">
-                                                        </div>
-                                                        {% endif %}
-                                                    </td>
-                                                    <td class="cart_page_details">
-                                                            <span><b>Lodge Name:</b> {{item.lodge_name}}</span>
-                                                        <span><b>School:</b> {{item.school.short_version}}</span>
-                                                        <span><b>&#8358 {{item.price|intcomma}}
-                                                        </b></span>
-
-                                                    </td>
-<!--                                                    <td class="cart_page_total">-->
-<!--            &lt;!&ndash;                                            the price of each contact, doesnt change unless i change it&ndash;&gt;-->
-<!--                                                        <p>&#8358 5,000   </p>-->
-<!--                                                    </td>-->
-                                                    <td class="cart_page_details">
-                                                        <a href="{% url 'ecommerce:req_list' item.id %}"><button class="common_btn" >View Requests</button></a>
-
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                    <div class="col-md-6">
+                                        <div class="single_input">
+                                            <label>School</label>
+                                            {{form.school}}
+                                        </div>
                                     </div>
-                                    {% endfor %}
+                                    <div class="col-md-6">
+                                        <div class="single_input">
+                                            <label>Lodge Price</label>
+                                            {{form.price}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="single_input">
+                                            <label>Lodge Display Image</label>
+                                            {{form.lodge_img}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="single_input">
+                                            <label>Lodge Secondary Image(1)</label>
+                                            {{form.lodge_img2}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="single_input">
+                                            <label>Lodge Secondary Image(2)</label>
+                                            {{form.lodge_img3}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="single_input">
+                                            <label>Lodge Secondary Image(3)</label>
+                                            {{form.lodge_img4}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="single_input">
+                                            <label>Lodge Video</label>
+                                            {{form.lodge_video}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="single_input">
+                                            <label>Lessor Image</label>
+                                            {{form.lessor_proof}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="single_input">
+                                            <label>Stay Period</label>
+                                            {{form.stay_period}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="single_input">
+                                            <label>Care Taker</label>
+                                            {{form.caretaker}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="single_input">
+                                            <label>Lodge Address</label>
+                                            {{form.address}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="single_input">
+                                            <label>Lodge Description</label>
+                                            {{form.description}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="forgot">
+                                            <div class="form-check">
+                                                {{form.light}}
+                                                    <label class="form-check-label">
+                                                       Light?
+                                                </label><br><br>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="forgot">
+                                            <div class="form-check">
+                                                {{form.tiled}}
+                                                    <label class="form-check-label">
+                                                       Tiled?
+                                                </label><br><br>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="forgot">
+                                            <div class="form-check">
+                                                {{form.upstairs}}
+                                                    <label class="form-check-label">
+                                                       Upstairs?
+                                                </label><br><br>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="forgot">
+                                            <div class="form-check">
+                                                {{form.stable_water}}
+                                                    <label class="form-check-label">
+                                                       Running Water?
+                                                </label><br><br>
+                                            </div>
+                                        </div>
+                                    </div>
+<!--                                    <div class="col-md-6">-->
+<!--                                        <div class="forgot">-->
+<!--                                            <div class="form-check">-->
+<!--                                                {{form.roommate}}-->
+<!--                                                    <label class="form-check-label">-->
+<!--                                                       In search of roommate?-->
+<!--                                                </label><br><br>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+                                    <div class="col-md-12">
+                                        <button type="submit" class="common_btn">List For Roommate <i
+                                                class="fas fa-long-arrow-right"></i></button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -294,7 +375,6 @@
     <!--============================
         DSHBOARD END
     =============================-->
-
 {% endblock %}
 </body>
 </html>
