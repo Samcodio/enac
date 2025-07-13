@@ -344,6 +344,7 @@ def create_lodge_product(request):
                     with transaction.atomic():
                         product = form.save(commit=False)
                         product.lessor = request.user
+                        product.roommate = True
 
                         for img_field in ['lodge_img', 'lodge_img2', 'lodge_img3', 'lodge_img4', 'lessor_proof']:
                             file = request.FILES.get(img_field)

@@ -106,7 +106,6 @@ class ProductForm(ModelForm):
             'description',
             'address',
             'caretaker',
-            'roommate',
             'tiled',
             'upstairs',
             'stable_water',
@@ -208,13 +207,6 @@ class ProductForm(ModelForm):
                     'type': 'number',
                     'required': 'true',
                     'placeholder': 'Please enter the CareTaker Number...'
-                }
-            ),
-            'roommate': CheckboxInput(
-                attrs={
-                'class': 'form-check-input',
-                'type': 'checkbox',
-                'id': 'flexCheckDefault'
                 }
             ),
             'tiled': CheckboxInput(
