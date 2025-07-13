@@ -227,6 +227,7 @@
                         <form action="" method="POST" enctype="multipart/form-data">
                         <h3 class="dashboard_title">Roommate Posting
                             <button type="reset" class="common_btn cancel_edit">cancel</button></h3>
+                            <p class="text-info"><small>Create a video of the room in question along with 4 pictures of the compartments of the room</small></p>
                         <div class="dashboard_profile_info_edit">
                             <div class="info_edit_form">
                                 {% csrf_token %}
@@ -285,6 +286,9 @@
                                             {{form.lessor_proof}}
                                         </div>
                                     </div>
+                                    <p class="text-info">
+                                        <small>Picture must match the person in your profile, as this is what will be shown to those to enquire</small></p>
+                                    <br><br>
                                     <div class="col-md-6">
                                         <div class="single_input">
                                             <label>Stay Period</label>
