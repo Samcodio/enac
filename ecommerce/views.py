@@ -13,6 +13,10 @@ from cloudinary.exceptions import Error as CloudinaryError
 from django.contrib import messages
 from .forms import *
 from cloudinary.uploader import upload as cloudinary_upload
+from django.core.mail import EmailMultiAlternatives
+from django.utils.html import strip_tags
+from django.template.loader import render_to_string
+from django.core.mail import send_mail
 
 from django.http import JsonResponse
 from django.views.decorators.http import require_GET
@@ -100,6 +104,21 @@ def lodge_data(request, id):
                 return redirect("accounts:login")
             if "request" in request.POST:
                 lodge.rm_user.add(request.user)
+                # Send email
+                subject = 'Recieved Request'
+                html_content = render_to_string('Lessor/recieved_request.html', {
+                    'user': request.user,
+                })
+                text_content = strip_tags(html_content)  # fallback plain-text version
+
+                email = EmailMultiAlternatives(
+                    subject,
+                    text_content,
+                    'enac-amh7.onrender.com',  # From email (use an actual domain or valid email address)
+                    [request.user.email]
+                )
+                email.attach_alternative(html_content, "text/html")
+                email.send()
                 messages.success(request, 'Request submitted successfully')
                 return redirect(request.path)
         else:
