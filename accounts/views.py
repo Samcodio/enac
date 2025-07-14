@@ -6,6 +6,9 @@ from .forms import *
 # from ecommerce.views import BaseView
 from ecommerce.models import UserProfile, Product
 import json
+from django.core.mail import EmailMultiAlternatives
+from django.utils.html import strip_tags
+
 from cart.cart import Cart
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode
@@ -140,12 +143,21 @@ def forgot_password_view(request):
 
             # Send email
             subject = 'Password Reset'
-            message = render_to_string('Authentications/reset_email.html', {
+            html_content = render_to_string('Authentications/reset_email.html', {
                 'user': user,
                 'reset_link': reset_link,
             })
+            text_content = strip_tags(html_content)  # fallback plain-text version
 
-            send_mail(subject, message, 'enac-amh7.onrender.com', [user.email])
+            email = EmailMultiAlternatives(
+                subject,
+                text_content,
+                'enac-amh7.onrender.com',  # From email (use an actual domain or valid email address)
+                [user.email]
+            )
+            email.attach_alternative(html_content, "text/html")
+            email.send()
+
             messages.success(request, 'Password reset link sent to your email.')
             return redirect('accounts:forgot_password')
     else:
