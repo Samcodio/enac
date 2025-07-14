@@ -3,6 +3,11 @@ from ecommerce.models import User
 from django.contrib.auth.forms import SetPasswordForm
 
 
+class ForgotPasswordForm(forms.Form):
+    email = forms.EmailField(label='Enter your email', max_length=254)
+
+
+
 # sign up form
 class RegistrationForm(forms.ModelForm):
     password = forms.CharField(label='Password',

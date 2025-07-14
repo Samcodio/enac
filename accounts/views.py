@@ -7,6 +7,16 @@ from .forms import *
 from ecommerce.models import UserProfile, Product
 import json
 from cart.cart import Cart
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes
+from django.core.mail import send_mail
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.http import urlsafe_base64_decode
+from django.contrib.auth.models import User
+from django.contrib.auth import login
+from django.shortcuts import render, redirect
+from django.contrib import messages
 
 
 # from wishlist.wishlist import Wishlist
@@ -108,3 +118,61 @@ def update_password(request):
 
     context = {'form': form}
     return render(request, 'Authentications/change_password.html', context)
+
+
+def forgot_password_view(request):
+    if request.method == 'POST':
+        form = ForgotPasswordForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            try:
+                user = User.objects.get(email=email)
+            except User.DoesNotExist:
+                messages.error(request, 'No user with that email found.')
+                return redirect('accounts:forgot_password')
+
+            token = default_token_generator.make_token(user)
+            uid = urlsafe_base64_encode(force_bytes(user.pk))
+
+            reset_link = request.build_absolute_uri(
+                f'/accounts/reset-password-confirm/{uid}/{token}/'
+            )
+
+            # Send email
+            subject = 'Password Reset'
+            message = render_to_string('Authentications/reset_email.html', {
+                'user': user,
+                'reset_link': reset_link,
+            })
+
+            send_mail(subject, message, 'enac-amh7.onrender.com', [user.email])
+            messages.success(request, 'Password reset link sent to your email.')
+            return redirect('accounts:forgot_password')
+    else:
+        form = ForgotPasswordForm()
+    return render(request, 'Authentications/forgot_password.html', {'form': form})
+
+
+def reset_password_confirm(request, uidb64, token):
+    try:
+        uid = urlsafe_base64_decode(uidb64).decode()
+        user = User.objects.get(pk=uid)
+    except (User.DoesNotExist, ValueError):
+        user = None
+
+    if user and default_token_generator.check_token(user, token):
+        if request.method == 'POST':
+            password = request.POST.get('password')
+            confirm_password = request.POST.get('confirm_password')
+            if password == confirm_password:
+                user.set_password(password)
+                user.save()
+                messages.success(request, 'Password reset successful. You can log in now.')
+                return redirect('accounts:login')
+            else:
+                messages.error(request, 'Passwords do not match.')
+        return render(request, 'Authentications/reset_password_confirm.html', {})
+    else:
+        messages.error(request, 'Invalid or expired reset link.')
+        return redirect('accounts:forgot_password')
+
