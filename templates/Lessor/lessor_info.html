@@ -141,6 +141,22 @@
                                     {% if request.user.is_superuser %}
                                     <li><p>Admin</p></li>
                                     <li>
+                                        <a href="{% url 'ecommerce:create_school' %}">
+                                        <span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                            class="size-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M12 2L3 7.5l9 5.5 9-5.5L12 2z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M3 17.25V7.5l9 5.5 9-5.5v9.75M9 22v-4.5a.75.75 0 0 1 .75-.75h4.5a.75.75 0 0 1 .75.75V22m-3-3v3m0-3h-1.5m1.5 0h1.5" />
+                                        </svg>
+                                        </span>
+                                            Add School
+                                            </a>
+
+                                    </li>
+                                    <li>
                                         <a href="{% url 'ecommerce:checklist' %}">
                                             <span>
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"

@@ -67,12 +67,23 @@ class School(models.Model):
 
 # Lodges (named as Product models)
 class Product(models.Model):
+    LEVEL_CHOICES = [
+        ('100', '100 Level'),
+        ('200', '200 Level'),
+        ('300', '300 Level'),
+        ('400', '400 Level'),
+        ('500', '500 Level'),
+        ('600', '600 Level'),
+    ]
+
     school = models.ForeignKey(School, on_delete=models.CASCADE, related_name='school')
     # users that have paid for the contact of the lodge
     user = models.ManyToManyField(User, blank=True, related_name='paidUsers')
     rm_user = models.ManyToManyField(User, blank=True, related_name='requesters')
     address = models.CharField(max_length=255, null=True, blank=True)
     caretaker = models.CharField(max_length=255, null=True, blank=True)
+    department = models.CharField(max_length=255, null=True, blank=True)
+    level = models.CharField(max_length=255, null=True, blank=True, choices=LEVEL_CHOICES)
     # the user that posted the lodge
     lessor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posted_products', null=True, blank=True)
     lodge_name = models.CharField(max_length=100)

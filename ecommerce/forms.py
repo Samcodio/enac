@@ -260,6 +260,8 @@ class ProductRMForm(ModelForm):
             'description',
             'address',
             'caretaker',
+            'department',
+            'level',
             'tiled',
             'upstairs',
             'stable_water',
@@ -363,6 +365,20 @@ class ProductRMForm(ModelForm):
                     'placeholder': 'Please enter the CareTaker Number...'
                 }
             ),
+            'department': TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'type': 'number',
+                    'required': 'true',
+                    'placeholder': 'Please enter your department...'
+                }
+            ),
+            'level': Select(
+                attrs={
+                    'class': 'form-control',
+                    'required': 'true',
+                }
+            ),
             'tiled': CheckboxInput(
                 attrs={
                     'class': 'form-check-input',
@@ -392,3 +408,35 @@ class ProductRMForm(ModelForm):
                 }
             ),
         }
+
+
+class SchoolForm(ModelForm):
+    class Meta:
+        model = School
+        fields = ['school_name', 'school_logo', 'short_version']
+        widgets = {
+            'school_name': TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'type': 'text',
+                    'required': 'true',
+                    'placeholder': 'Please enter School Name...'
+                }
+            ),
+            'short_version': TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'type': 'text',
+                    'required': 'true',
+                    'placeholder': 'Please enter Abbreviation for School...'
+                }
+            ),
+            'school_logo': FileInput(
+                attrs={
+                    'type': 'file',
+                    'accept': 'image/*',
+                    'required': 'true',
+                }
+            ),
+        }
+

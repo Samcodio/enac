@@ -425,6 +425,53 @@ def create_lodge_product(request):
 
 
 @login_required(login_url='accounts:login')
+def create_school(request):
+    if not request.user.is_superuser:
+        messages.error(request, 'Access Denied')
+        return redirect('ecommerce:home')
+    form = SchoolForm()
+
+    if request.method == 'POST':
+        form = SchoolForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            try:
+                with transaction.atomic():
+                    school = form.save(commit=False)
+
+                    school_logo = request.FILES.get('school_logo')
+                    if school_logo:
+                        if school_logo.size > 5 * 1024 * 1024:  # 5MB limit
+                            messages.warning(request, 'School logo is too large (max 5MB)')
+                            return redirect('ecommerce:create_school')
+
+                        try:
+                            result = cloudinary_upload(
+                                school_logo,
+                                width=500,
+                                height=500,
+                                crop='fill',
+                                format='jpg'
+                            )
+                            school.school_logo = result['secure_url']
+                        except CloudinaryError:
+                            messages.warning(request, 'Error uploading school logo')
+                            return redirect('ecommerce:create_school')
+
+                    school.save()
+                    messages.success(request, 'School created successfully.')
+                    return redirect('ecommerce:home')  # or any success page
+
+            except Exception as e:
+                messages.error(request, 'An error occurred while saving school.')
+
+        else:
+            messages.warning(request, 'Form is invalid. Please check your inputs.')
+
+    return render(request, 'Admin/create_school.html', {'form': form})
+
+
+@login_required(login_url='accounts:login')
 def create_roommate_product(request):
     cart = Cart(request)
     products, total_sum = cart.get_prods()
