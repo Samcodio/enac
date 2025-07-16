@@ -89,19 +89,19 @@ WSGI_APPLICATION = 'enac.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
-
-# database_url = "postgresql://samuel_mnny_user:wqGKBp8RSH95ID4LmP2kD5p2VWpKkeMc@dpg-d1lf17vdiees73fjseng-a.oregon-postgres.render.com/samuel_mnny"
-#
 # DATABASES = {
-#     "default": dj_database_url.parse(database_url)
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
 # }
+
+
+database_url = "postgresql://samuel_mnny_user:wqGKBp8RSH95ID4LmP2kD5p2VWpKkeMc@dpg-d1lf17vdiees73fjseng-a.oregon-postgres.render.com/samuel_mnny"
+
+DATABASES = {
+    "default": dj_database_url.parse(database_url)
+}
 
 
 # Password validation
@@ -152,7 +152,7 @@ STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 STATIC_URL = 'static/'
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'staticfiles'),
+    os.path.join(BASE_DIR, 'static'),
 )
 
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
@@ -193,7 +193,8 @@ DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 CART_MAX_DISPLAY_ITEMS = 3
 
-PAYSTACK_SECRET_KEY = "sk_test_d64896d291b301095632f4f529af352de7573a60"
+# PAYSTACK_SECRET_KEY = "sk_test_d64896d291b301095632f4f529af352de7573a60"
+PAYSTACK_SECRET_KEY = "sk_live_633032dee43d6526e7ef637f094abc222cc9ec8a"
 
 
 
