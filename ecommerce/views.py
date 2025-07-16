@@ -90,6 +90,7 @@ def school_lodges(request, id):
 
 
 # lodge information to be showed
+@login_required(login_url='accounts:login')
 def lodge_data(request, id):
     lodge = get_object_or_404(Product, id=id)
     school = lodge.school
