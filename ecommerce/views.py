@@ -133,6 +133,7 @@ def lodge_data(request, id):
     return render(request, 'User/lodge.html', context)
 
 
+@login_required(login_url='accounts:login')
 # overview dashboard
 def profile_dashboard(request):
     if not request.user.is_authenticated:
@@ -193,6 +194,7 @@ def school_lodges_roommate(request, id):
     return render(request, 'User/roommateLodges.html', context)
 
 
+@login_required(login_url='accounts:login')
 # lists out basic information i.e username, first name, last name and email of the logged in user
 def personal_info(request):
     if not request.user.is_authenticated:
@@ -205,6 +207,7 @@ def personal_info(request):
     return render(request, 'User/personal_info.html', context)
 
 
+@login_required(login_url='accounts:login')
 # edits the information of the logged in user
 def edit_profile(request):
     if request.user.is_authenticated:
@@ -237,6 +240,7 @@ def edit_profile(request):
 # def post_lodges(request):
 
 
+@login_required(login_url='accounts:login')
 # edits the lessor profile(the profile of the one that posts the lodge)
 def lessor(request):
     if request.user.is_authenticated:
@@ -280,6 +284,7 @@ def lessor(request):
     return render(request, 'Lessor/lessor.html', context)
 
 
+@login_required(login_url='accounts:login')
 # lists out the information of the lessor
 def lessor_info(request):
     posted_lodges = Product.objects.filter(lessor=request.user, roommate=True, rm_user__isnull=False).distinct()
@@ -557,6 +562,7 @@ def terms(request):
     return render(request, 'User/terms.html', context)
 
 
+@login_required(login_url='accounts:login')
 def admin_checklist(request):
     if not request.user.is_superuser:
         messages.error(request, 'Access Denied')
