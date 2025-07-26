@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'cart',
     'wishlist',
     'django.contrib.humanize',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -137,9 +138,9 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
-AWS_ACCESS_KEY_ID = 'AKIA2UC27BOKBK57GZ6V'
-AWS_SECRET_ACCESS_KEY = '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'
-AWS_STORAGE_BUCKET_NAME = 'noxmart'
+AWS_ACCESS_KEY_ID = 'AKIA2UC27BOKE5FMUL66'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'enacs3'
 AWS_S3_REGION_NAME = 'eu-north-1'
 
 
@@ -147,7 +148,7 @@ AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
 AWS_DEFAULT_ACL = 'public-read'
 
 STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-# STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/static/'
+STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/static/'
 
 STATIC_URL = 'static/'
 

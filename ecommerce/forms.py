@@ -198,7 +198,7 @@ class ProductForm(ModelForm):
                     'class': 'form-control',
                     'type': 'text',
                     'required': 'true',
-                    'placeholder': 'Please enter a Description...'
+                    'placeholder': 'Leave a Notice e.g Ill be leaving latest by 00/00/0000'
                 }
             ),
             'caretaker': TextInput(
@@ -354,7 +354,7 @@ class ProductRMForm(ModelForm):
                     'class': 'form-control',
                     'type': 'text',
                     'required': 'true',
-                    'placeholder': 'Please enter a Description...'
+                    'placeholder': 'Leave a Notice e.g Roommate needed before 00/00/0000'
                 }
             ),
             'caretaker': TextInput(
@@ -368,7 +368,7 @@ class ProductRMForm(ModelForm):
             'department': TextInput(
                 attrs={
                     'class': 'form-control',
-                    'type': 'number',
+                    'type': 'text',
                     'required': 'true',
                     'placeholder': 'Please enter your department...'
                 }
