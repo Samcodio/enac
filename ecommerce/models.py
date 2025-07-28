@@ -83,6 +83,7 @@ class Product(models.Model):
     address = models.CharField(max_length=255, null=True, blank=True)
     caretaker = models.CharField(max_length=255, null=True, blank=True)
     department = models.CharField(max_length=255, null=True, blank=True)
+    room_number = models.CharField(max_length=255, null=True, blank=True)
     level = models.CharField(max_length=255, null=True, blank=True, choices=LEVEL_CHOICES)
     # the user that posted the lodge
     lessor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posted_products', null=True, blank=True)

@@ -109,9 +109,16 @@ class ProductForm(ModelForm):
             'tiled',
             'upstairs',
             'stable_water',
-            'light',
+            'room_number',
         ]
         widgets = {
+            'room_number': TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'type': 'text',
+                    'placeholder': 'Please enter Room Name or Number...'
+                }
+            ),
             'lodge_name': TextInput(
                 attrs={
                     'class': 'form-control',
@@ -266,8 +273,16 @@ class ProductRMForm(ModelForm):
             'upstairs',
             'stable_water',
             'light',
+            'room_number',
         ]
         widgets = {
+            'room_number': TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'type': 'text',
+                    'placeholder': 'Please enter Room Name or Number...'
+                }
+            ),
             'lodge_name': TextInput(
                 attrs={
                     'class': 'form-control',

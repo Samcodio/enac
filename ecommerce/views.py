@@ -404,7 +404,7 @@ def create_lodge_product(request):
                                     resource_type='video',
                                     width=800,
                                     height=600,
-                                    crop='fill',
+                                    crop='fit',
                                     format='mp4'
                                 )
                                 product.lodge_video = result['secure_url']
@@ -506,7 +506,7 @@ def create_roommate_product(request):
                                         file,
                                         width=500,
                                         height=500,
-                                        crop='fill',
+                                        crop='fit',
                                         format='jpg'
                                     )
                                     setattr(product, img_field, result['secure_url'])
