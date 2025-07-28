@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'wishlist',
     'django.contrib.humanize',
     'storages',
+    'pwa',
 ]
 
 MIDDLEWARE = [
@@ -196,6 +197,29 @@ CART_MAX_DISPLAY_ITEMS = 3
 
 PAYSTACK_SECRET_KEY = "sk_test_d64896d291b301095632f4f529af352de7573a60"
 # PAYSTACK_SECRET_KEY = "sk_live_633032dee43d6526e7ef637f094abc222cc9ec8a"
+
+
+PWA_APP_NAME = 'ENAC'
+PWA_APP_DESCRIPTION = "Early Nest Agency Company"
+PWA_APP_THEME_COLOR = '#000000'
+PWA_APP_BACKGROUND_COLOR = '#ffffff'
+PWA_APP_DISPLAY = 'standalone'
+PWA_APP_SCOPE = '/'
+PWA_APP_ORIENTATION = 'portrait'
+PWA_APP_START_URL = '/'
+PWA_APP_ICONS = [
+    {
+        'src': '/static/assets/images/enac_log512.png',
+        'sizes': '512x512'
+    },
+    {
+        'src': '/static/assets/images/enac_log192.png',
+        'sizes': '192x192'
+    }
+]
+PWA_APP_DIR = 'ltr'
+PWA_APP_LANG = 'en-US'
+
 
 
 
