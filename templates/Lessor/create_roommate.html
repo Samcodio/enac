@@ -228,6 +228,18 @@
     <!--============================
         DSHBOARD END
     =============================-->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const form = document.querySelector("form");
+    const submitBtn = document.getElementById("submitBtn");
+
+    form.addEventListener("submit", function () {
+        // Disable the button
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = "Posting... <i class='fas fa-spinner fa-spin'></i>";
+    });
+});
+</script>
 {% endblock %}
 </body>
 </html>
