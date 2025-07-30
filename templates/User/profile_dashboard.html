@@ -233,6 +233,19 @@
                     <div class="dashboard_content mt_100">
                         <div class="row">
                             <div class="col-xl-4 col-md-6 wow fadeInUp">
+                                {% if messages %}
+                                <div>
+                                    {% for message in messages %}
+                                    <p class="alert-message {% if 'error' in message.tags %}text-danger
+                                                              {% elif 'warning' in message.tags %}text-warning
+                                                              {% elif 'success' in message.tags %}text-success
+                                                              {% else %}text-secondary{% endif %}
+                                                              text-center fw-medium">
+                                                        {{ message }}
+                                    </p>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
                                 <div class="dashboard_overview_item">
                                     <div class="icon">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"

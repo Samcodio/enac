@@ -106,6 +106,7 @@ class ProductForm(ModelForm):
             'description',
             'address',
             'caretaker',
+            'light',
             'tiled',
             'upstairs',
             'stable_water',

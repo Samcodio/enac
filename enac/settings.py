@@ -209,11 +209,11 @@ PWA_APP_ORIENTATION = 'portrait'
 PWA_APP_START_URL = '/'
 PWA_APP_ICONS = [
     {
-        'src': '/static/assets/images/enac512x512.png',
+        'src': '/static/assets/images/enac_logo.png',
         'sizes': '512x512'
     },
     {
-        'src': '/static/assets/images/enac192x192.png',
+        'src': '/static/assets/images/enac_logo.png',
         'sizes': '192x192'
     }
 ]

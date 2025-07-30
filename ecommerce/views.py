@@ -295,6 +295,7 @@ def lessor_info(request):
     return render(request, 'Lessor/lessor_info.html', context)
 
 
+@login_required(login_url='accounts:login')
 def roommate_requests(request):
     posted_lodges = Product.objects.filter(lessor=request.user, rm_user__isnull=False).distinct()
     context = {
@@ -369,8 +370,6 @@ def create_lodge_product(request):
                     with transaction.atomic():
                         product = form.save(commit=False)
                         product.lessor = request.user
-                        product.roommate = True
-
                         for img_field in ['lodge_img', 'lodge_img2', 'lodge_img3', 'lodge_img4', 'lessor_proof']:
                             file = request.FILES.get(img_field)
                             if file:
@@ -390,7 +389,6 @@ def create_lodge_product(request):
                                 except CloudinaryError as e:
                                     messages.warning(request, f'Error uploading {img_field}')
                                     return redirect('ecommerce:create_lodge_product')
-
                         # Handle video upload
                         if 'lodge_video' in request.FILES:
                             video = request.FILES['lodge_video']
@@ -411,7 +409,6 @@ def create_lodge_product(request):
                             except CloudinaryError as e:
                                 messages.warning(request, 'Error uploading video')
                                 return redirect('ecommerce:create_lodge_product')
-
                         product.save()
                         messages.success(request, 'Listed successfully.')
                         return redirect('ecommerce:lodge_data', id=product.id)
@@ -492,8 +489,6 @@ def create_roommate_product(request):
                         product = form.save(commit=False)
                         product.lessor = request.user
                         product.roommate = True
-
-
                         for img_field in ['lodge_img', 'lodge_img2', 'lodge_img3', 'lodge_img4', 'lessor_proof']:
                             file = request.FILES.get(img_field)
                             if file:
@@ -513,7 +508,6 @@ def create_roommate_product(request):
                                 except CloudinaryError as e:
                                     messages.warning(request, f'Error uploading {img_field}')
                                     return redirect('ecommerce:create_lodge_product')
-
                         # Handle video upload
                         if 'lodge_video' in request.FILES:
                             video = request.FILES['lodge_video']
@@ -573,6 +567,8 @@ def admin_checklist(request):
     }
     return render(request, 'Admin/list.html', context)
 
+
+@login_required(login_url='accounts:login')
 def data(request, id):
     if not request.user.is_superuser:
         messages.error(request, 'Access Denied')
