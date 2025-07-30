@@ -139,25 +139,26 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
-AWS_ACCESS_KEY_ID = 'AKIA2UC27BOKE5FMUL66'
-AWS_SECRET_ACCESS_KEY = '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'
+AWS_ACCESS_KEY_ID = 'AKIA2UC27BOKK6HXXAM4'
+AWS_SECRET_ACCESS_KEY = '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'
 AWS_STORAGE_BUCKET_NAME = 'enacs3'
 AWS_S3_REGION_NAME = 'eu-north-1'
-
-
-AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com'
 AWS_DEFAULT_ACL = 'public-read'
+AWS_S3_FILE_OVERWRITE = False
 
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
 STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/static/'
 
-STATIC_URL = 'static/'
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+# STATIC_URL = 'static/'
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+# STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
