@@ -501,7 +501,7 @@ def create_roommate_product(request):
                                         file,
                                         width=500,
                                         height=500,
-                                        crop='fit',
+                                        crop='fill',
                                         format='jpg'
                                     )
                                     setattr(product, img_field, result['secure_url'])
