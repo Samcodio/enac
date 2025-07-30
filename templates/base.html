@@ -651,6 +651,18 @@
     ===========================-->
 
 <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const form = document.querySelector("form");
+    const submitBtn = document.getElementById("submitBtn");
+
+    form.addEventListener("submit", function () {
+        // Disable the button
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = "Posting... <i class='fas fa-spinner fa-spin'></i>";
+    });
+});
+
+
   window.addEventListener('load', function () {
     const loader = document.getElementById('loader-wrapper');
     if (loader) loader.style.display = 'none';
