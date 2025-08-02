@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import *
+import concurrent.futures
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from cart.views import *
 from cart.cart import Cart
@@ -362,6 +363,10 @@ def create_lodge_product(request):
     products, total_sum = cart.get_prods()
     form = ProductForm()
 
+    if request.session.get("uploading_lodge", False):
+        messages.warning(request, "An upload is already in progress. Please wait...")
+        return redirect('ecommerce:create_lodge_product')
+
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES)
         if request.user.norm_user.profile_pic:
@@ -370,29 +375,37 @@ def create_lodge_product(request):
                     with transaction.atomic():
                         product = form.save(commit=False)
                         product.lessor = request.user
-                        for img_field in ['lodge_img', 'lodge_img2', 'lodge_img3', 'lodge_img4', 'lessor_proof']:
-                            file = request.FILES.get(img_field)
-                            if file:
-                                if file.size > 5 * 1024 * 1024:  # 5MB limit
-                                    messages.warning(request, f'{img_field} is too large (max 5MB)')
-                                    return redirect('ecommerce:create_lodge_product')
 
-                                try:
-                                    result = cloudinary_upload(
-                                        file,
-                                        width=500,
-                                        height=500,
-                                        crop='fill',
-                                        format='jpg'
-                                    )
-                                    setattr(product, img_field, result['secure_url'])
-                                except CloudinaryError as e:
-                                    messages.warning(request, f'Error uploading {img_field}')
-                                    return redirect('ecommerce:create_lodge_product')
-                        # Handle video upload
+                        # ✅ Collect all images first
+                        image_fields = ['lodge_img', 'lodge_img2', 'lodge_img3', 'lodge_img4', 'lessor_proof']
+                        image_files = {field: request.FILES.get(field) for field in image_fields if request.FILES.get(field)}
+
+                        # ✅ Validate image sizes before uploading
+                        for field, file in image_files.items():
+                            if file.size > 5 * 1024 * 1024:
+                                messages.warning(request, f'{field} is too large (max 5MB)')
+                                return redirect('ecommerce:create_lodge_product')
+
+                        # ✅ Upload images in parallel
+                        def upload_image(field, file):
+                            return field, cloudinary_upload(
+                                file,
+                                width=500,
+                                height=500,
+                                crop='fill',
+                                format='jpg'
+                            )
+
+                        with concurrent.futures.ThreadPoolExecutor() as executor:
+                            futures = {executor.submit(upload_image, field, file): field for field, file in image_files.items()}
+                            for future in concurrent.futures.as_completed(futures):
+                                field, result = future.result()
+                                setattr(product, field, result['secure_url'])
+
+                        # ✅ Handle video upload separately
                         if 'lodge_video' in request.FILES:
                             video = request.FILES['lodge_video']
-                            if video.size > 50 * 1024 * 1024:  # 50MB limit
+                            if video.size > 50 * 1024 * 1024:
                                 messages.warning(request, 'Video file is too large (max 50MB)')
                                 return redirect('ecommerce:create_lodge_product')
 
@@ -406,15 +419,17 @@ def create_lodge_product(request):
                                     format='mp4'
                                 )
                                 product.lodge_video = result['secure_url']
-                            except CloudinaryError as e:
+                            except CloudinaryError:
                                 messages.warning(request, 'Error uploading video')
                                 return redirect('ecommerce:create_lodge_product')
+
+                        # ✅ Save product
                         product.save()
                         messages.success(request, 'Listed successfully.')
                         return redirect('ecommerce:lodge_data', id=product.id)
 
                 except Exception as e:
-                    messages.error(request, 'An error occurred while listing.')
+                    messages.error(request, f'An error occurred while listing: {str(e)}')
             else:
                 messages.warning(request, 'Form is invalid. Please check your inputs.')
         else:
@@ -489,29 +504,37 @@ def create_roommate_product(request):
                         product = form.save(commit=False)
                         product.lessor = request.user
                         product.roommate = True
-                        for img_field in ['lodge_img', 'lodge_img2', 'lodge_img3', 'lodge_img4', 'lessor_proof']:
-                            file = request.FILES.get(img_field)
-                            if file:
-                                if file.size > 5 * 1024 * 1024:  # 5MB limit
-                                    messages.warning(request, f'{img_field} is too large (max 5MB)')
-                                    return redirect('ecommerce:create_lodge_product')
 
-                                try:
-                                    result = cloudinary_upload(
-                                        file,
-                                        width=500,
-                                        height=500,
-                                        crop='fill',
-                                        format='jpg'
-                                    )
-                                    setattr(product, img_field, result['secure_url'])
-                                except CloudinaryError as e:
-                                    messages.warning(request, f'Error uploading {img_field}')
-                                    return redirect('ecommerce:create_lodge_product')
-                        # Handle video upload
+                        # ✅ Collect all images
+                        image_fields = ['lodge_img', 'lodge_img2', 'lodge_img3', 'lodge_img4', 'lessor_proof']
+                        image_files = {field: request.FILES.get(field) for field in image_fields if request.FILES.get(field)}
+
+                        # ✅ Validate image sizes
+                        for field, file in image_files.items():
+                            if file.size > 5 * 1024 * 1024:
+                                messages.warning(request, f'{field} is too large (max 5MB)')
+                                return redirect('ecommerce:create_lodge_product')
+
+                        # ✅ Upload images in parallel
+                        def upload_image(field, file):
+                            return field, cloudinary_upload(
+                                file,
+                                width=500,
+                                height=500,
+                                crop='fill',
+                                format='jpg'
+                            )
+
+                        with concurrent.futures.ThreadPoolExecutor() as executor:
+                            futures = {executor.submit(upload_image, field, file): field for field, file in image_files.items()}
+                            for future in concurrent.futures.as_completed(futures):
+                                field, result = future.result()
+                                setattr(product, field, result['secure_url'])
+
+                        # ✅ Handle video upload separately
                         if 'lodge_video' in request.FILES:
                             video = request.FILES['lodge_video']
-                            if video.size > 50 * 1024 * 1024:  # 50MB limit
+                            if video.size > 50 * 1024 * 1024:
                                 messages.warning(request, 'Video file is too large (max 50MB)')
                                 return redirect('ecommerce:create_lodge_product')
 
@@ -521,19 +544,21 @@ def create_roommate_product(request):
                                     resource_type='video',
                                     width=800,
                                     height=600,
-                                    crop='fill',
+                                    crop='fit',
                                     format='mp4'
                                 )
                                 product.lodge_video = result['secure_url']
-                            except CloudinaryError as e:
+                            except CloudinaryError:
                                 messages.warning(request, 'Error uploading video')
                                 return redirect('ecommerce:create_lodge_product')
+
+                        # ✅ Save product
                         product.save()
                         messages.success(request, 'Listed successfully.')
                         return redirect('ecommerce:lodge_data', id=product.id)
 
                 except Exception as e:
-                    messages.error(request, 'An error occurred while listing.')
+                    messages.error(request, f'An error occurred while listing: {str(e)}')
             else:
                 messages.warning(request, 'Form is invalid. Please check your inputs.')
         else:

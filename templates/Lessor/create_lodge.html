@@ -55,7 +55,8 @@
                             {% endfor %}
                         </div>
                         {% endif %}
-                        <form action="" method="POST" enctype="multipart/form-data">
+                        <form action="{% url 'ecommerce:create_lodge_product' %}" method="POST" enctype="multipart/form-data"
+                        novalidate>
                         <h3 class="dashboard_title">Lodge Posting
                             <button type="reset" class="common_btn cancel_edit">cancel</button></h3>
                             <p class="text-info"><small>Create a video of the room in question along with 4 pictures of the compartments of the room</small></p>
@@ -205,17 +206,69 @@
         DSHBOARD END
     =============================-->
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function() {
     const form = document.querySelector("form");
     const submitBtn = document.getElementById("submitBtn");
+    let isSubmitting = false;
 
-    form.addEventListener("submit", function () {
-        // Disable the button
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = "Posting... <i class='fas fa-spinner fa-spin'></i>";
+    // Immediate click handler for instant feedback
+    submitBtn.addEventListener("click", function() {
+        if (!isSubmitting && form.checkValidity()) {
+            isSubmitting = true;
+            submitBtn.classList.add("disabled"); // Visual only
+            submitBtn.innerHTML = "Uploading... <i class='fas fa-spinner fa-spin'></i>";
+        }
+    });
+
+    // Form submission handler
+    form.addEventListener("submit", async function(e) {
+        e.preventDefault();
+
+        if (isSubmitting) return;
+
+        if (!form.checkValidity()) {
+            form.reportValidity();
+            return;
+        }
+
+        try {
+            const formData = new FormData(form);
+            const response = await fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                }
+            });
+
+            if (response.redirected) {
+                window.location.href = response.url;
+            } else {
+                const result = await response.text();
+                document.open();
+                document.write(result);
+                document.close();
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            isSubmitting = false;
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = "Post Lodge <i class='fas fa-long-arrow-right'></i>";
+        }
+    });
+
+    // Extra protection
+    window.addEventListener('beforeunload', function() {
+        if (isSubmitting) {
+            submitBtn.disabled = true;
+        }
     });
 });
 </script>
+
+
+
+
 {% endblock %}
 </body>
 </html>
