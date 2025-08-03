@@ -187,7 +187,7 @@
 <!--                                                class="fas fa-long-arrow-right"></i></a>-->
                                             {% if request.user in lodge.approved.all %}
                                                 {% if lodge.sale %}
-                                                <a class="common_btn buy_now add-cart" href="" data-product-id="{{ lodge.id }}">Add to cart <i
+                                                <a class="common_btn buy_now add-wishlist" href="" data-product-id="{{ lodge.id }}">Add to wishlist <i
                                                         class="fas fa-long-arrow-right"></i></a>
                                                 {% else %}
                                                 <a class="common_btn">Already Booked<i
@@ -220,7 +220,7 @@
                                     <li><span>Stay Period:</span> {{lodge.stay_period}} months</li>
                                     {% if lodge.roommate %}
                                     <li><span>Department:</span> {{lodge.department}}</li>
-                                    <li><span>Level:</span> {{lodge.level}} months</li>
+                                    <li><span>Level:</span> {{lodge.level}} level</li>
                                     {% endif %}
                                     {% if lodge.tiled %}
                                     <li><span>Tiled</span></li>
@@ -402,11 +402,11 @@
                             <ul class="btn_list">
                                 <li>
                                 </li>
-                                <li>
-                                    <a href="#" class="add-wishlist" data-product-id="{{ ldge.id }}">
-                                        <img src="{% static 'assets/images/love_icon_white.svg' %}" alt="Favourite" class="img-fluid">
-                                    </a>
-                                </li>
+<!--                                <li>-->
+<!--                                    <a href="#" class="add-wishlist" data-product-id="{{ ldge.id }}">-->
+<!--                                        <img src="{% static 'assets/images/love_icon_white.svg' %}" alt="Favourite" class="img-fluid">-->
+<!--                                    </a>-->
+<!--                                </li>-->
 <!--                                <li>-->
 <!--                                    <a href="#" class="add-cart" data-product-id="{{ ldge.id }}">-->
 <!--                                        <img src="{% static 'assets/images/cart_icon_white.svg' %}" alt="Cart" class="img-fluid">-->
