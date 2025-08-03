@@ -90,7 +90,7 @@
 <!--                                            </div>-->
 <!--                                        </td>-->
                                         <td class="cart_page_action">
-                                            <a href="#" class="common_btn add-cart" data-product-id="{{ item.id }}">add to cart </a>
+                                            <a href="#" class="common_btn .add-cart" data-product-id="{{ item.id }}">add to cart </a>
                                         </td>
                                         <td class="cart_page_action">
                                             <a href="#" class="common_btn remove delete-product" data-product-id="{{ item.id }}">remove </a>
@@ -109,6 +109,114 @@
         WISHLIST END
     =============================-->
 <script>
+$(document).ready(function() {
+    // Add to cart functionality
+    $(document).on('click', '.add-cart', function(e) {
+        e.preventDefault();
+        var $addToCartButton = $(this);
+        var productId = $addToCartButton.data('product-id');
+        console.log("Attempting to add product ID to cart:", productId);
+
+        $.ajax({
+            type: 'POST',
+            url: '{% url "cart:cart_add" %}',  // Make sure this matches your add-to-cart URL
+            data: {
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: 'post',
+                product_id: productId,
+            },
+            beforeSend: function() {
+                // Show loading indicator
+                $addToCartButton.html('<i class="fas fa-spinner fa-spin"></i>');
+            },
+            success: function(response) {
+                if(response.success) {
+                    // Show success notification
+                    showCartNotification('Added to Cart');
+
+                    // Reset button text
+                    $addToCartButton.text('add to cart');
+
+                    // Update cart count in header (if you have one)
+                    if(response.total_quantity) {
+                        $('.cart_quantity').text(response.total_quantity);
+                    }
+                }
+            },
+            error: function(xhr, errmsg, err) {
+                console.log(xhr.status + ": " + xhr.responseText);
+                showCartNotification('Error adding to cart', 'error');
+                $addToCartButton.text('add to cart');
+            }
+        });
+    });
+
+    // Notification function for cart actions
+    function showCartNotification(message, type = 'success') {
+        // Create message container if it doesn't exist
+        let $messageContainer = $('.position-fixed.top-0.start-50.translate-middle-x');
+        if ($messageContainer.length === 0) {
+            $messageContainer = $('<div class="position-fixed top-0 start-50 translate-middle-x mt-5" style="z-index: 1050;"></div>');
+            $('body').append($messageContainer);
+        }
+
+        // Create message element
+        const messageClass = type === 'success' ? 'text-success' : 'text-danger';
+        const $messageDiv = $(`<div><p class="alert-message ${messageClass} text-center fw-medium">${message}</p></div>`);
+
+        $messageContainer.append($messageDiv);
+
+        // Auto-remove after 5 seconds
+        setTimeout(() => {
+            $messageDiv.fadeOut(300, function() {
+                $(this).remove();
+                // Remove container if empty
+                if ($messageContainer.children().length === 0) {
+                    $messageContainer.remove();
+                }
+            });
+        }, 5000);
+    }
+
+    // Delete product from wishlist (your existing code)
+    $(document).on('click', '.delete-product', function(e) {
+        e.preventDefault();
+        var $deleteButton = $(this);
+        var productId = $deleteButton.data('product-id');
+        console.log("Attempting to delete product ID:", productId);
+        var $wishlistRow = $deleteButton.closest('tr');
+
+        $.ajax({
+            type: 'POST',
+            url: '{% url "wishlist:wishlist_delete" %}',
+            data: {
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: 'post',
+                product_id: productId,
+            },
+            beforeSend: function() {
+                $deleteButton.html('<i class="fas fa-spinner fa-spin"></i>');
+            },
+            success: function(response) {
+                if(response.success) {
+                    $wishlistRow.fadeOut(300, function() {
+                        $(this).remove();
+                        if($('.wishlist_table_area tbody tr').length === 0) {
+                            $('.wishlist_table_area').html('<div class="alert alert-info">Your wishlist is empty</div>');
+                        }
+                    });
+                    $('.wishlist_quantity').text(response.total_quantity);
+                }
+            },
+            error: function(xhr, errmsg, err) {
+                console.log(xhr.status + ": " + xhr.responseText);
+                showCartNotification('Error removing item', 'error');
+                $deleteButton.html('<i class="fal fa-times"></i> remove');
+            }
+        });
+    });
+});
+
 $(document).ready(function() {
     // Delete product from wishlist
     $(document).on('click', '.delete-product', function(e) {
