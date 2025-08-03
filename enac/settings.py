@@ -99,7 +99,7 @@ WSGI_APPLICATION = 'enac.wsgi.application'
 # }
 
 
-database_url = "postgresql://samuel_mnny_user:wqGKBp8RSH95ID4LmP2kD5p2VWpKkeMc@dpg-d1lf17vdiees73fjseng-a.oregon-postgres.render.com/samuel_mnny"
+database_url = "postgresql://enac_db_user:aHbALPOyPsvH7Iilzj1lOzIYPH4DUCxo@dpg-d27njgh5pdvs73fqfscg-a.oregon-postgres.render.com/enac_db"
 
 DATABASES = {
     "default": dj_database_url.parse(database_url)
