@@ -29,6 +29,8 @@ from django.contrib import messages
 
 # logging in and re-adding products to cart and wishlist after logging in
 def login_page(request):
+    if request.user.is_authenticated:
+        return redirect("ecommerce:home")
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -86,6 +88,9 @@ def logout_button(request):
 
 # Signing up
 def signUp(request):
+    if request.user.is_authenticated:
+        messages.warning(request, 'Please logout first')
+        return redirect("ecommerce:home")
     form = RegistrationForm()
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
