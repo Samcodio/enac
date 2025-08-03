@@ -683,6 +683,33 @@ $(document).on('click', '.add-cart', function(e) {
     });
 });
 
+
+$(document).on('click', '.add-wishlist2', function() {
+    console.log("Add to wishlist clicked!");
+    var productId = $(this).data('product-id');
+    var quantity = 1;
+
+    console.log("Sending AJAX request for product:", productId);
+
+    $.ajax({
+        type: 'POST',
+        url: "{% url 'wishlist:wishlist_add' %}",
+        data: {
+            product_id: productId,
+            quantity: quantity,
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            action: 'post'
+        },
+        success: function(json) {
+            console.log("AJAX success!", json);
+            $('.wishlist_quantity').text(json.qty)
+        },
+        error: function(xhr, errmsg, err) {
+            console.log("AJAX error:", errmsg);
+        }
+    });
+});
+
 $(document).on('click', '.add-wishlist', function(e) {
     e.preventDefault();
     console.log("Add to wishlist clicked!");
