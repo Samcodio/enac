@@ -187,7 +187,7 @@
 <!--                                                class="fas fa-long-arrow-right"></i></a>-->
                                             {% if request.user in lodge.approved.all %}
                                                 {% if lodge.sale %}
-                                                <a class="common_btn buy_now add-wishlist" href="" data-product-id="{{ lodge.id }}"  id="wishlistBtn">Add to wishlist <i
+                                                <a class="common_btn buy_now add-cart" href="" data-product-id="{{ lodge.id }}" >Add to cart <i
                                                         class="fas fa-long-arrow-right"></i></a>
                                                 {% else %}
                                                 <a class="common_btn">Already Booked<i
@@ -196,7 +196,7 @@
                                             {% else %}
                                             <form action="" method="POST">
                                                 {% csrf_token %}
-                                                <button type="submit" class="common_btn">Make Request<i
+                                                <button type="submit" class="common_btn add-wishlist" data-product-id="{{ lodge.id }}">Make Request<i
                                                         class="fas fa-long-arrow-right"></i></button>
                                                 <input type="hidden" name="request">
                                             </form>
@@ -402,11 +402,11 @@
                             <ul class="btn_list">
                                 <li>
                                 </li>
-<!--                                <li>-->
-<!--                                    <a href="#" class="add-wishlist" data-product-id="{{ ldge.id }}">-->
-<!--                                        <img src="{% static 'assets/images/love_icon_white.svg' %}" alt="Favourite" class="img-fluid">-->
-<!--                                    </a>-->
-<!--                                </li>-->
+                                <li>
+                                    <a href="#" class="add-wishlist" data-product-id="{{ ldge.id }}">
+                                        <img src="{% static 'assets/images/love_icon_white.svg' %}" alt="Favourite" class="img-fluid">
+                                    </a>
+                                </li>
 <!--                                <li>-->
 <!--                                    <a href="#" class="add-cart" data-product-id="{{ ldge.id }}">-->
 <!--                                        <img src="{% static 'assets/images/cart_icon_white.svg' %}" alt="Cart" class="img-fluid">-->
@@ -430,65 +430,6 @@
     <!--============================
         RELATED PRODUCTS END
     =============================-->
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const wishlistBtn = document.getElementById('wishlistBtn');
-
-    if (wishlistBtn) {
-        wishlistBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-
-            // Call your existing wishlist function here
-            // For example: addToWishlist(this.dataset.lodgeId);
-            // Or however your current JS function is called
-
-            // Then show the notification:
-            showWishlistNotification('Added to Wishlist');
-        });
-    }
-
-    function showWishlistNotification(message) {
-        // Create message container if it doesn't exist
-        let messageContainer = document.querySelector('.position-fixed.top-0.start-50.translate-middle-x');
-        if (!messageContainer) {
-            messageContainer = document.createElement('div');
-            messageContainer.className = 'position-fixed top-0 start-50 translate-middle-x mt-5';
-            messageContainer.style.zIndex = '1050';
-            document.body.appendChild(messageContainer);
-        }
-
-        // Create message div
-        const messageDiv = document.createElement('div');
-
-        // Create message paragraph
-        const messageP = document.createElement('p');
-        messageP.className = 'alert-message text-success text-center fw-medium';
-        messageP.textContent = message;
-
-        messageDiv.appendChild(messageP);
-        messageContainer.appendChild(messageDiv);
-
-        // Remove message after 5 seconds
-        setTimeout(() => {
-            messageDiv.remove();
-            // Remove container if it's empty
-            if (messageContainer.children.length === 0) {
-                messageContainer.remove();
-            }
-        }, 5000);
-    }
-
-    // Auto-hide existing Django messages after 5 seconds
-    const messages = document.querySelectorAll('.alert-message');
-    if (messages) {
-        messages.forEach(message => {
-            setTimeout(() => {
-                message.style.display = 'none';
-            }, 5000);
-        });
-    }
-});
-</script>
 {% endblock %}
 </body>
 </html>

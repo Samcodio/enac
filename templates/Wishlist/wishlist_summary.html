@@ -51,7 +51,7 @@
                                         <th class="cart_page_details">Lodge Details</th>
                                         <th class="cart_page_price">Contact Price</th>
 <!--                                        <th class="cart_page_quantity">Quantity</th>-->
-                                        <th class="cart_page_action">add to cart</th>
+<!--                                        <th class="cart_page_action">add to cart</th>-->
                                         <th class="cart_page_action">remove</th>
                                     </tr>
                                 </thead>
@@ -89,9 +89,9 @@
 <!--                                                        aria-hidden="true"></i></button>-->
 <!--                                            </div>-->
 <!--                                        </td>-->
-                                        <td class="cart_page_action">
-                                            <a href="#" class="common_btn add-cart" data-product-id="{{ item.id }}" id="addBtn">add to cart </a>
-                                        </td>
+<!--                                        <td class="cart_page_action">-->
+<!--                                            <a href="#" class="common_btn add-cart" data-product-id="{{ item.id }}" id="addBtn">add to cart </a>-->
+<!--                                        </td>-->
                                         <td class="cart_page_action">
                                             <a href="#" class="common_btn remove delete-product" data-product-id="{{ item.id }}">remove </a>
                                         </td>
@@ -108,59 +108,6 @@
     <!--============================
         WISHLIST END
     =============================-->
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Get all add-to-cart buttons
-    const addToCartButtons = document.querySelectorAll('.add-cart');
-
-    // Add click handler to each button
-    addToCartButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
-            e.preventDefault();
-
-            // Show notification immediately
-            showCartNotification('Added to Cart');
-
-            // Your existing cart functionality will handle the actual addition
-            // The notification will show regardless of the cart operation result
-        });
-    });
-
-    // Notification function for cart
-    function showCartNotification(message) {
-        // Create message container if it doesn't exist
-        let messageContainer = document.querySelector('.position-fixed.top-0.start-50.translate-middle-x');
-        if (!messageContainer) {
-            messageContainer = document.createElement('div');
-            messageContainer.className = 'position-fixed top-0 start-50 translate-middle-x mt-5';
-            messageContainer.style.zIndex = '1050';
-            document.body.appendChild(messageContainer);
-        }
-
-        // Create message element
-        const messageDiv = document.createElement('div');
-        const messageP = document.createElement('p');
-        messageP.className = 'alert-message text-success text-center fw-medium';
-        messageP.textContent = message;
-        messageDiv.appendChild(messageP);
-        messageContainer.appendChild(messageDiv);
-
-        // Auto-remove after 5 seconds
-        setTimeout(() => {
-            messageDiv.remove();
-            if (messageContainer.children.length === 0) {
-                messageContainer.remove();
-            }
-        }, 5000);
-    }
-
-    // Auto-hide existing Django messages
-    const messages = document.querySelectorAll('.alert-message');
-    messages.forEach(message => {
-        setTimeout(() => message.style.display = 'none', 5000);
-    });
-});
-</script>
 {% endblock %}
 </body>
 </html>

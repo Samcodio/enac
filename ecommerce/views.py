@@ -121,7 +121,7 @@ def lodge_data(request, id):
                 )
                 email.attach_alternative(html_content, "text/html")
                 email.send()
-                messages.success(request, 'Request submitted successfully')
+                messages.success(request, 'Added to wishlist')
                 return redirect(request.path)
         else:
             messages.warning(request, "Please Complete Your Profile")
