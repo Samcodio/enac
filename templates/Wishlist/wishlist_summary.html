@@ -108,6 +108,66 @@
     <!--============================
         WISHLIST END
     =============================-->
+<script>
+$(document).ready(function() {
+    // Delete product from wishlist
+    $(document).on('click', '.delete-product', function(e) {
+        e.preventDefault();
+        var $deleteButton = $(this);
+        var productId = $deleteButton.data('product-id');
+        var $wishlistRow = $deleteButton.closest('tr');
+
+        $.ajax({
+            type: 'POST',
+            url: '{% url "wishlist:wishlist_delete" %}',
+            data: {
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: 'post',
+                product_id: productId,
+            },
+            beforeSend: function() {
+                // Show loading indicator (optional)
+                $deleteButton.html('<i class="fas fa-spinner fa-spin"></i>');
+            },
+            success: function(response) {
+                if(response.success) {
+                    // Remove the product row from wishlist table
+                    $wishlistRow.fadeOut(300, function() {
+                        $(this).remove();
+
+                        // Check if wishlist is now empty - matches your HTML structure
+                        if($('.cart_table_area tbody tr').length === 0) {
+                            $('.cart_table_area').html(`
+                                <div class="text-center py-5">
+                                    <h4>Your wishlist is empty</h4>
+                                    <a href="{% url 'ecommerce:home' %}" class="common_btn mt-3">Continue Shopping</a>
+                                </div>
+                            `);
+                        }
+                    });
+
+                    // Update wishlist count in header if you have one
+                    // Note: Your HTML doesn't show a wishlist count element
+                    // If you add one later, uncomment this:
+                    // $('.wishlist-count').text(response.total_quantity);
+
+                    // Show success message
+                    alert('Item removed from wishlist'); // Simple alert since your HTML doesn't show toast container
+                }
+            },
+            error: function(xhr, errmsg, err) {
+                console.log(xhr.status + ": " + xhr.responseText);
+                alert('Error removing item from wishlist');
+                $deleteButton.html('remove');
+            },
+            complete: function() {
+                // Reset button text
+                $deleteButton.html('remove');
+            }
+        });
+    });
+});
+</script>
 {% endblock %}
 </body>
 </html>
