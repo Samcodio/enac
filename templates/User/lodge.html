@@ -218,6 +218,10 @@
 <!--                                    <li><span>SKU:</span> HRYUSG67EG</li>-->
                                     <li><span>School:</span> {{lodge.school.short_version}}</li>
                                     <li><span>Stay Period:</span> {{lodge.stay_period}} months</li>
+                                    {% if lodge.roommate %}
+                                    <li><span>Department:</span> {{lodge.department}}</li>
+                                    <li><span>Level:</span> {{lodge.level}} months</li>
+                                    {% endif %}
                                     {% if lodge.tiled %}
                                     <li><span>Tiled</span></li>
                                     {% else %}
@@ -288,30 +292,6 @@
                                                 <p><small>(Person expected to meet on day of inspection)</small></p>
                                             </div>
                                             <ul class="shop_details_vendor_address">
-                                                {% if lodge.roommate %}
-                                                <li>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                        class="size-6">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            d="M3 21h18M9 21V9m6 12V3m3 18V9m-6 0V3M6 21V15" />
-                                                    </svg>
-                                                    <span>Department: </span>
-                                                    {{lodge.department}}
-                                                </li>
-                                                <li>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                        class="size-6">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            d="M12 14.25c4.97 0 9-1.567 9-3.5S16.97 7.25 12 7.25 3 8.817 3 10.75s4.03 3.5 9 3.5Z" />
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            d="M12 14.25v6.25m0 0c-4.97 0-9-1.567-9-3.5V10.75m9 10v-6.25" />
-                                                    </svg>
-                                                    <span>Level: </span>
-                                                    {{lodge.level}}
-                                                </li>
-                                                {% endif %}
                                                 <li>
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                          viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"

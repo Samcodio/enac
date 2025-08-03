@@ -213,7 +213,6 @@ class ProductForm(ModelForm):
                 attrs={
                     'class': 'form-control',
                     'type': 'number',
-                    'required': 'true',
                     'placeholder': 'Please enter the CareTaker Number...'
                 }
             ),
@@ -377,7 +376,6 @@ class ProductRMForm(ModelForm):
                 attrs={
                     'class': 'form-control',
                     'type': 'number',
-                    'required': 'true',
                     'placeholder': 'Please enter the CareTaker Number...'
                 }
             ),

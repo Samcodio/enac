@@ -140,9 +140,20 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
+AWS_ACCESS_KEY_ID = 'AKIA2UC27BOKK6HXXAM4'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'enacs3'
+AWS_S3_REGION_NAME = 'eu-north-1'
+AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com'
+AWS_DEFAULT_ACL = 'public-read'
+AWS_S3_FILE_OVERWRITE = False
+
+
+STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/static/'
+
 # STATIC_URL = "https://vercel-static-hrgfww1d7-samcodios-projects.vercel.app/static/"
 
-STATIC_URL = 'static/'
+# STATIC_URL = 'static/'
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),

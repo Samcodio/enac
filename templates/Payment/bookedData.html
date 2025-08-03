@@ -21,8 +21,8 @@
                             <h1>Lodge Details</h1>
                             <ul>
                                 <li><a href="{% url 'ecommerce:home' %}"><i class="fal fa-home-lg"></i> Home</a></li>
-                                <li><a href="{% url 'ecommerce:school_lodges' lodge.school.id %}">{{lodge.school.short_version}}</a></li>
-                                <li><a href="{% url 'ecommerce:lodge_data' lodge.id %}">Lodge Details</a></li>
+                                <li><a href="{% url 'ecommerce:bookings' %}">Bookings</a></li>
+                                <li><a href="{% url 'ecommerce:booking_data' lodge.id %}">Lodge Details</a></li>
                             </ul>
                         </div>
                     </div>
@@ -202,8 +202,10 @@
 <!--                                    <li><span>SKU:</span> HRYUSG67EG</li>-->
                                     <li><span>School:</span> {{lodge.school.short_version}}</li>
                                     <li><span>Stay Period:</span> {{lodge.stay_period}} months</li>
-                                    <li><span>School:</span> {{lodge.school.short_version}}</li>
-                                    <li><span>Stay Period:</span> {{lodge.stay_period}} months</li>
+                                    {% if lodge.roommate %}
+                                    <li><span>Department:</span> {{lodge.department}}</li>
+                                    <li><span>Level:</span> {{lodge.level}} months</li>
+                                    {% endif %}
                                     {% if lodge.tiled %}
                                     <li><span>Tiled</span></li>
                                     {% else %}
@@ -281,8 +283,22 @@
                                                             d="M3 9.75L12 3l9 6.75M4.5 10.5v9.75A1.5 1.5 0 0 0 6 21.75h3.75v-6.75h4.5v6.75H18a1.5 1.5 0 0 0 1.5-1.5V10.5" />
                                                     </svg>
 
-                                                    <span>Lodge Name:</span> {{lodge.lodge_name}}{% if lodge.room_number %};<span> Room:</span> {{lodge.room_number}}{% endif %}
+                                                    <span>Lodge Name:</span> {{lodge.lodge_name}}
                                                 </li>
+                                                {% if lodge.room_number %}
+                                                <li>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                        class="size-6">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M12 14.25c4.97 0 9-1.567 9-3.5S16.97 7.25 12 7.25 3 8.817 3 10.75s4.03 3.5 9 3.5Z" />
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M12 14.25v6.25m0 0c-4.97 0-9-1.567-9-3.5V10.75m9 10v-6.25" />
+                                                    </svg>
+                                                    <span>Room: </span>
+                                                    {{lodge.room_number}}
+                                                </li>
+                                                {% endif %}
                                                 <li>
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
