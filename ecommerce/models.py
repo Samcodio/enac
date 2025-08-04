@@ -183,9 +183,16 @@ class ReqList(models.Model):
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
+    """
+    Signal to create a UserProfile whenever a new User is created.
+    Also ensures existing users have a profile.
+    """
     if created:
         UserProfile.objects.get_or_create(user=instance)
-    instance.norm_user.get_or_create()  # This ensures the profile exists even if signal failed earlier
+    else:
+        # For existing users, ensure they have a profile
+        if not hasattr(instance, 'norm_user'):
+            UserProfile.objects.get_or_create(user=instance)  # This ensures the profile exists even if signal failed earlier
 
 
 @receiver(post_save, sender=Product)
