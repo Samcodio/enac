@@ -109,7 +109,7 @@ def lodge_data(request, id):
                 # Send email
                 subject = 'Recieved Request'
                 html_content = render_to_string('Lessor/recieved_request.html', {
-                    'user': request.user,
+                    'user': lodge.lessor,
                 })
                 text_content = strip_tags(html_content)  # fallback plain-text version
 
@@ -117,7 +117,7 @@ def lodge_data(request, id):
                     subject,
                     text_content,
                     'enac-amh7.onrender.com',  # From email (use an actual domain or valid email address)
-                    [request.user.email]
+                    [lodge.lessor.email]
                 )
                 email.attach_alternative(html_content, "text/html")
                 email.send()
