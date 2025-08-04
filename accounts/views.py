@@ -39,6 +39,7 @@ def login_page(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
+            UserProfile.objects.get_or_create(user=user)
             #  shopping cart stuff
             current_user = UserProfile.objects.get(user__id=request.user.id)
             saved_cart = current_user.old_cart

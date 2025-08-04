@@ -29,7 +29,7 @@ class UserProfile(models.Model):
     old_cart = models.CharField(max_length=1000, null=True, blank=True)
     # for adding to wishlist after logging out and logging back in
     old_wishlist = models.CharField(max_length=1000, null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=timezone.now())
+    created_at = models.DateTimeField(auto_now_add=True)
     mute = models.BooleanField(default=False)
 
     @property
@@ -182,10 +182,10 @@ class ReqList(models.Model):
 
 
 @receiver(post_save, sender=User)
-def create_token(sender, instance, created, **kwargs):
+def create_user_profile(sender, instance, created, **kwargs):
     if created:
-        UserProfile.objects.create(user=instance)
-        instance.save()
+        UserProfile.objects.get_or_create(user=instance)
+    instance.norm_user.get_or_create()  # This ensures the profile exists even if signal failed earlier
 
 
 @receiver(post_save, sender=Product)
