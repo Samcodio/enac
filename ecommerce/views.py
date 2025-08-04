@@ -7,6 +7,7 @@ from cart.cart import Cart
 from wishlist.views import *
 from wishlist.wishlist import Wishlist
 from cloudinary import uploader
+from django.conf import settings
 from django.contrib.messages import constants as messages
 from django.db import transaction
 from django.contrib.auth.decorators import login_required
@@ -116,7 +117,7 @@ def lodge_data(request, id):
                 email = EmailMultiAlternatives(
                     subject,
                     text_content,
-                    'enac-amh7.onrender.com',  # From email (use an actual domain or valid email address)
+                    settings.EMAIL_HOST_USER,  # From email (use an actual domain or valid email address)
                     [lodge.lessor.email]
                 )
                 email.attach_alternative(html_content, "text/html")
@@ -332,7 +333,7 @@ def req_list(request, id):
                 email = EmailMultiAlternatives(
                     subject,
                     text_content,
-                    'enac-amh7.onrender.com',  # From email (use an actual domain or valid email address)
+                    settings.EMAIL_HOST_USER,  # From email (use an actual domain or valid email address)
                     [user.email]
                 )
                 email.attach_alternative(html_content, "text/html")
