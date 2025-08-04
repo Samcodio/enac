@@ -91,19 +91,19 @@ WSGI_APPLICATION = 'enac.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
-
-database_url = "postgresql://enac_db_user:aHbALPOyPsvH7Iilzj1lOzIYPH4DUCxo@dpg-d27njgh5pdvs73fqfscg-a.oregon-postgres.render.com/enac_db"
-
 DATABASES = {
-    "default": dj_database_url.parse(database_url)
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
+
+
+# database_url = "postgresql://enac_db_user:aHbALPOyPsvH7Iilzj1lOzIYPH4DUCxo@dpg-d27njgh5pdvs73fqfscg-a.oregon-postgres.render.com/enac_db"
+#
+# DATABASES = {
+#     "default": dj_database_url.parse(database_url)
+# }
 
 
 # Password validation

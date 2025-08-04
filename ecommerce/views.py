@@ -321,6 +321,22 @@ def req_list(request, id):
                 lodge.approved.add(user)
                 lodge.rm_user.remove(user)
                 lodge.save()
+
+                # Send email
+                subject = 'Approved Request'
+                html_content = render_to_string('Lessor/approved_request.html', {
+                    'user': user.username,
+                })
+                text_content = strip_tags(html_content)  # fallback plain-text version
+
+                email = EmailMultiAlternatives(
+                    subject,
+                    text_content,
+                    'enac-amh7.onrender.com',  # From email (use an actual domain or valid email address)
+                    [user.email]
+                )
+                email.attach_alternative(html_content, "text/html")
+                email.send()
                 messages.success(request, 'Request Approved')
     context = {
         'lodge': lodge,
