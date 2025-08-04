@@ -170,21 +170,23 @@
     align-items: center;
     z-index: 9999;
     overflow: hidden;
+    cursor: zoom-out;
 }
 
 .fullscreen-img img {
+    max-width: 95vw;
+    max-height: 95vh;
     width: auto;
     height: auto;
-    max-width: 100%;
-    max-height: 100%;
     cursor: zoom-out;
     display: block;
-    object-fit: contain; /* keeps aspect ratio */
+    object-fit: contain; /* maintains aspect ratio */
+    transition: transform 0.3s ease;
 }
+
 .fullscreen-img.hidden {
     display: none;
 }
-
 </style>
 <body class="default_home">
 
