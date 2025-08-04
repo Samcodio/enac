@@ -16,11 +16,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from . import errors
+
+
+handler404 = errors.error_404_view
+handler500 = errors.error_500_view
+handler403 = errors.error_403_view
+handler400 = errors.error_400_view
 
 urlpatterns = [
     path('', include('pwa.urls')),
     path('accounts/', include('accounts.urls', namespace='accounts')),
-    path('admin/', admin.site.urls),
+    path('administer/', admin.site.urls),
     path('', include('ecommerce.urls', namespace='ecommerce')),
     path('auth/', include('django.contrib.auth.urls')),
     path('cart/', include('cart.urls', namespace='cart')),
