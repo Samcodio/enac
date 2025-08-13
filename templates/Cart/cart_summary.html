@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% block content %}
+    <!--=========================
+        PAGE BANNER START
+    ==========================-->
+    <section class="page_banner" style="background: url({% static 'assets/images/page_banner_bg.jpg' %});">
+        <div class="page_banner_overlay">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page_banner_text wow fadeInUp">
+                            <h1>Cart View</h1>
+                            <ul>
+                                <li><a href="{% url 'ecommerce:home' %}"><i class="fal fa-home-lg"></i> Home</a></li>
+                                <li><a href="{% url 'cart:cart_summary' %}">Cart</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--=========================
+        PAGE BANNER START
+    ==========================-->
+
+
+    <!--============================
+        CART PAGE START
+    =============================-->
+    <section class="cart_page mt_100 mb_100">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 wow fadeInUp">
+                    <div class="cart_table_area">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="cart_page_img">Lodge image </th>
+                                        <th class="cart_page_details">Lodge Details</th>
+                                        <th class="cart_page_price">Contact Price</th>
+<!--                                        <th class="cart_page_quantity">Quantity</th>-->
+<!--                                        <th class="cart_page_total">Subtotal</th>-->
+                                        <th class="cart_page_action">action</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        {% for item in cart_products %}
+
+                        <div class="table-responsive">
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <td class="cart_page_img">
+                                            <div class="img">
+                                                <img src="{{item.product_img}}" alt="Image"
+                                                    class="img-fluid w-100">
+                                            </div>
+                                        </td>
+                                        <td class="cart_page_details">
+                                            <a class="title" href="{% url 'ecommerce:lodge_data' item.id %}">Available After Payment</a>
+                                            <p>&#8358 {{item.price|intcomma}}
+<!--                                                <del>$65.00</del>-->
+                                            </p>
+                                            <span><b>Stay Period:</b> {{item.product_obj.stay_period}} months</span>
+                                            <span><b>School:</b> {{item.product_obj.school.short_version}}</span>
+                                        </td>
+                                        <td class="cart_page_total">
+<!--                                            the price of each contact, doesnt change unless i change it-->
+                                            <p>&#8358 3,000   </p>
+                                        </td>
+                                        <td class="cart_page_action">
+<!--                                            removing items from cart-->
+                                            <a href="#" class="delete-product" data-product-id="{{ item.id }}"> <i class="fal fa-times"></i> Remove</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-9 wow fadeInRight">
+                    <div id="sticky_sidebar">
+<!--                        summary for items in cart-->
+                        {% include 'includes/cart_summary.html' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--============================
+        CART PAGE END
+    =============================-->
+
+<script>
+$(document).ready(function() {
+    // Delete product from cart
+    $(document).on('click', '.delete-product', function(e) {
+        e.preventDefault();
+        var $deleteButton = $(this);
+        var productId = $deleteButton.data('product-id');
+        console.log("Attempting to delete product ID:", productId); // Add this line
+        var $cartRow = $deleteButton.closest('tr');
+        var $cartSummary = $('#sticky_sidebar');
+
+        $.ajax({
+            type: 'POST',
+            url: '{% url "cart:cart_delete" %}',
+            data: {
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: 'post',
+                product_id: productId,
+            },
+            beforeSend: function() {
+                // Show loading indicator
+                $deleteButton.html('<i class="fas fa-spinner fa-spin"></i>');
+            },
+            success: function(response) {
+                if(response.success) {
+                    // Remove the product row from cart table
+                    $cartRow.fadeOut(300, function() {
+                        $(this).remove();
+
+                        // Check if cart is now empty
+                        if($('.cart_table_area tbody tr').length === 0) {
+                            $('.cart_table_area').html('<div class="alert alert-info">Your cart is empty</div>');
+                        }
+                    });
+
+                    // Update the cart summary section
+                    $cartSummary.html(response.cart_summary_html);
+
+                    // Update cart count in header (if you have one)
+                    $('.cart_quantity').text(response.total_quantity);
+
+                }
+            },
+            error: function(xhr, errmsg, err) {
+                console.log(xhr.status + ": " + xhr.responseText);
+                showToast('Error removing item', 'error');
+                $deleteButton.html('<i class="fal fa-times"></i> Remove');
+            }
+        });
+    });
+
+    // Helper function to show toast messages
+    function showToast(message, type) {
+        // Implement your toast notification here or use a library
+        alert(message); // Simple alert for now
+    }
+});
+</script>
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,281 @@
+{% extends 'base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% block content %}
+
+    <!--=========================
+        PAGE BANNER START
+    ==========================-->
+    <section class="page_banner" style="background: url(assets/images/page_banner_bg.jpg);">
+        <div class="page_banner_overlay">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page_banner_text wow fadeInUp">
+                            <h1>My Account</h1>
+                            <ul>
+                                <li><a href="{% url 'ecommerce:home' %}"><i class="fal fa-home-lg"></i> Home</a></li>
+                                <li><a href="{% url 'ecommerce:create_lodge_product' %}">List Lodge</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--=========================
+        PAGE BANNER START
+    ==========================-->
+
+
+    <!--============================
+        DSHBOARD START
+    =============================-->
+    <section class="dashboard mb_100">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-9 wow fadeInRight">
+                    <div class="dashboard_content mt_100">
+                        {% if messages %}
+                        <div>
+                            {% for message in messages %}
+                            <p class="alert-message {% if 'error' in message.tags %}text-danger
+                                                      {% elif 'warning' in message.tags %}text-warning
+                                                      {% elif 'success' in message.tags %}text-success
+                                                      {% else %}text-secondary{% endif %}
+                                                      text-center fw-medium">
+                                                {{ message }}
+                            </p>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                        <form action="{% url 'ecommerce:create_lodge_product' %}" method="POST" enctype="multipart/form-data"
+                        novalidate>
+                        <h3 class="dashboard_title">Lodge Posting
+                            <button type="reset" class="common_btn cancel_edit">cancel</button></h3>
+                            <p class="text-info"><small>Create a video of the room in question along with 4 pictures of the compartments of the room</small></p>
+                        <div class="dashboard_profile_info_edit">
+                            <div class="info_edit_form">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="single_input">
+                                            <label>School</label>
+                                            {{form.school}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="single_input">
+                                            <label>Lodge Name</label>
+                                            {{form.lodge_name}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="single_input">
+                                            <label>Lodge Price</label>
+                                            {{form.price}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="single_input">
+                                            <label>Lodge Display Image</label>
+                                            {{form.lodge_img}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="single_input">
+                                            <label>Lodge Secondary Image(1)</label>
+                                            {{form.lodge_img2}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="single_input">
+                                            <label>Lodge Secondary Image(2)</label>
+                                            {{form.lodge_img3}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="single_input">
+                                            <label>Lodge Secondary Image(3)</label>
+                                            {{form.lodge_img4}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="single_input">
+                                            <label>Lodge Video</label>
+                                            {{form.lodge_video}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="single_input">
+                                            <label>Lessor Image</label>
+                                            {{form.lessor_proof}}
+                                        </div>
+                                    </div>
+                                    <p class="text-info">
+                                        <small>Take a selfie picture of yourself. This is the image that will be displayed prior to requests</small></p>
+                                    <div class="col-md-6">
+                                        <div class="single_input">
+                                            <label>Stay Period</label>
+                                            {{form.stay_period}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="single_input">
+                                            <label>Deadline <small>*optional</small></label>
+                                            {{form.d_date}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="single_input">
+                                            <label>Care Taker <small>*optional</small></label>
+                                            {{form.caretaker}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="single_input">
+                                            <label>Room Name/Number <small>*optional</small></label>
+                                            {{form.room_number}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="single_input">
+                                            <label>Lodge Address</label>
+                                            {{form.address}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="single_input">
+                                            <label>Notice <small>*optional</small></label>
+                                            {{form.description}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="forgot">
+                                            <div class="form-check">
+                                                {{form.light}}
+                                                    <label class="form-check-label">
+                                                       Light?
+                                                </label><br><br>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="forgot">
+                                            <div class="form-check">
+                                                {{form.tiled}}
+                                                    <label class="form-check-label">
+                                                       Tiled?
+                                                </label><br><br>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="forgot">
+                                            <div class="form-check">
+                                                {{form.upstairs}}
+                                                    <label class="form-check-label">
+                                                       Upstairs?
+                                                </label><br><br>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="forgot">
+                                            <div class="form-check">
+                                                {{form.stable_water}}
+                                                    <label class="form-check-label">
+                                                       Running Water?
+                                                </label><br><br>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <button type="submit" class="common_btn" id="submitBtn">Post Lodge <i
+                                                class="fas fa-long-arrow-right"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--============================
+        DSHBOARD END
+    =============================-->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const form = document.querySelector("form");
+    const submitBtn = document.getElementById("submitBtn");
+    let isSubmitting = false;
+
+    // Immediate click handler for instant feedback
+    submitBtn.addEventListener("click", function() {
+        if (!isSubmitting && form.checkValidity()) {
+            isSubmitting = true;
+            submitBtn.classList.add("disabled"); // Visual only
+            submitBtn.innerHTML = "Uploading... <i class='fas fa-spinner fa-spin'></i>";
+        }
+    });
+
+    // Form submission handler
+    form.addEventListener("submit", async function(e) {
+        e.preventDefault();
+
+        if (isSubmitting) return;
+
+        if (!form.checkValidity()) {
+            form.reportValidity();
+            return;
+        }
+
+        try {
+            const formData = new FormData(form);
+            const response = await fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                }
+            });
+
+            if (response.redirected) {
+                window.location.href = response.url;
+            } else {
+                const result = await response.text();
+                document.open();
+                document.write(result);
+                document.close();
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            isSubmitting = false;
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = "Post Lodge <i class='fas fa-long-arrow-right'></i>";
+        }
+    });
+
+    // Extra protection
+    window.addEventListener('beforeunload', function() {
+        if (isSubmitting) {
+            submitBtn.disabled = true;
+        }
+    });
+});
+</script>
+
+
+
+
+{% endblock %}
+</body>
+</html>

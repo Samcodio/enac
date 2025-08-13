@@ -1,0 +1,308 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% block content %}
+<style>
+    .customatic {
+    /* Basic styling */
+    padding: 8px 12px;
+    font-size: 14px;
+    color: #333;
+    background-color: #fff;
+
+    /* Border styling */
+    border: 1px solid #ccc;  /* Thin grey border */
+    border-radius: 4px;      /* Slightly rounded edges */
+
+    /* Modern appearance */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+
+    /* Add dropdown arrow */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 12px;
+    padding-right: 30px;
+
+    /* Smooth transition */
+    transition: border-color 0.3s ease;
+}
+
+/* Focus state */
+.customatic:focus {
+    outline: none;
+    border-color: #888;  /* Slightly darker grey when focused */
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.05);
+}
+
+/* Disabled state */
+.customatic:disabled {
+    background-color: #f5f5f5;
+    color: #999;
+}
+
+/* For Firefox */
+@-moz-document url-prefix() {
+    .customatic {
+        padding-right: 25px;
+    }
+}
+</style>
+    <!--=========================
+        PAGE BANNER START
+    ==========================-->
+    <section class="page_banner" style="background: url({% static 'assets/images/page_banner_bg.jpg' %});">
+        <div class="page_banner_overlay">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page_banner_text wow fadeInUp">
+                            <h1>{{school.school_name}}</h1>
+                            <ul>
+                                <li><a href="{% url 'ecommerce:home' %}"><i class="fal fa-home-lg"></i> Home</a></li>
+                                <li><a href="{% url 'ecommerce:school_lodges' school.id %}">{{school.short_version}}</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--=========================
+        PAGE BANNER START
+    ==========================-->
+
+
+    <!--============================
+        SHOP PAGE START
+    =============================-->
+    <section class="shop_page mt_100 mb_100">
+        <div class="container">
+            <div class="row">
+                <div class="col-xxl-2 col-lg-4 col-xl-3">
+                    <div id="sticky_sidebar">
+                        <div class="shop_filter_btn d-lg-none"> Other Schools </div>
+                        <div class="shop_filter_area">
+                            <div class="sidebar_category sidebar_status">
+                                <h3>Other Schools</h3>
+                                <ul>
+                                    {% for sch in school_list %}
+                                    <li>
+                                        <a href="{% url 'ecommerce:school_lodges' sch.id %}">
+                                            {{sch.short_version}}
+                                            <span>{{sch.lodges_count}}</span>
+                                        </a>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xxl-10 col-lg-8 col-xl-9">
+                    <div class="product_page_top">
+                        <div class="row">
+                            <div class="col-4 col-xl-6 col-md-6">
+                                <div class="product_page_top_button">
+                                    <nav>
+                                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                            <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab"
+                                                data-bs-target="#nav-home" type="button" role="tab"
+                                                aria-controls="nav-home" aria-selected="true">
+                                                <i class="fas fa-th"></i>
+                                            </button>
+<!--                                            <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab"-->
+<!--                                                data-bs-target="#nav-profile" type="button" role="tab"-->
+<!--                                                aria-controls="nav-profile" aria-selected="false">-->
+<!--                                                <i class="fas fa-list-ul"></i>-->
+<!--                                            </button>-->
+                                        </div>
+                                    </nav>
+                                    <p>Showing lodges in {{school.short_version}}</p>
+                                </div>
+                            </div>
+                            <div class="col-8 col-xl-6 col-md-6">
+                                <ul class="product_page_sorting">
+                                    <li>
+                                        <select class="customatic">
+                                            <option value="">Default Sorting</option>
+                                            <option value="price_asc">Low to High</option>
+                                            <option value="price_desc">High to Low</option>
+                                            <option value="newest">Newest</option>
+                                            <option value="oldest">Oldest</option>
+                                        </select>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-content" id="nav-tabContent">
+                        <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
+                            aria-labelledby="nav-home-tab" tabindex="0">
+                            <div class="row">
+                                {% for lodge in lodge_list %}
+                                <div class="col-xxl-3 col-6 col-md-4 col-lg-6 col-xl-4 wow fadeInUp">
+                                    <div class="product_item_2 product_item">
+                                        <div class="product_img">
+                                            {% if lodge.lodge_pic %}
+                                            <img src="{{lodge.lodge_pic}}" alt="Image"
+                                                class="img-fluid w-100">
+                                            {% endif %}
+                                            <ul class="btn_list">
+                                                <li>
+                                                    <a href="#" class="add-wishlist" data-product-id="{{ lodge.id }}">
+                                                        <img src="{% static 'assets/images/love_icon_white.svg' %}" alt="Love"
+                                                            class="img-fluid">
+                                                    </a>
+                                                </li>
+<!--                                                <li>-->
+<!--                                                    <a href="#" class="add-cart" data-product-id="{{ lodge.id }}">-->
+<!--                                                        <img src="{% static 'assets/images/cart_icon_white.svg' %}" alt="Cart"-->
+<!--                                                            class="img-fluid">-->
+<!--                                                    </a>-->
+<!--                                                </li>-->
+                                            </ul>
+                                        </div>
+                                        <div class="product_text">
+                                            <p class="price">&#8358 {{lodge.price|intcomma}}</p>
+                                            <a class="title" href="{% url 'ecommerce:lodge_data' lodge.id %}">More details</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <div class="row">
+                                <div class="pagination_area">
+                                    <nav aria-label="...">
+                                        <ul class="pagination justify-content-start mt_50">
+                                            {% if lodge_list.has_previous %}
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?page=1{% if sort_option %}&sort={{ sort_option }}{% endif %}" title="First Page">
+                                                        <i class="fas fa-angle-double-left"></i>
+                                                    </a>
+                                                </li>
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?page={{ lodge_list.previous_page_number }}{% if sort_option %}&sort={{ sort_option }}{% endif %}" title="Previous">
+                                                        <i class="fas fa-angle-left"></i>
+                                                    </a>
+                                                </li>
+                                            {% else %}
+                                                <li class="page-item disabled">
+                                                    <span class="page-link"><i class="fas fa-angle-double-left"></i></span>
+                                                </li>
+                                                <li class="page-item disabled">
+                                                    <span class="page-link"><i class="fas fa-angle-left"></i></span>
+                                                </li>
+                                            {% endif %}
+
+                                            {% for num in lodge_list.paginator.page_range %}
+                                                {% if num == lodge_list.number %}
+                                                    {# Current page (hidden but shows active dot) #}
+                                                    <li class="page-item active">
+                                                        <span class="page-link">•</span>
+                                                    </li>
+                                                {% elif num >= lodge_list.number|add:'-2' and num <= lodge_list.number|add:'2' %}
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="?page={{ num }}{% if sort_option %}&sort={{ sort_option }}{% endif %}">{{ num }}</a>
+                                                    </li>
+                                                {% endif %}
+                                            {% endfor %}
+
+                                            {% if lodge_list.has_next %}
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?page={{ lodge_list.next_page_number }}{% if sort_option %}&sort={{ sort_option }}{% endif %}" title="Next">
+                                                        <i class="fas fa-angle-right"></i>
+                                                    </a>
+                                                </li>
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?page={{ lodge_list.paginator.num_pages }}{% if sort_option %}&sort={{ sort_option }}{% endif %}" title="Last Page">
+                                                        <i class="fas fa-angle-double-right"></i>
+                                                    </a>
+                                                </li>
+                                            {% else %}
+                                                <li class="page-item disabled">
+                                                    <span class="page-link"><i class="fas fa-angle-right"></i></span>
+                                                </li>
+                                                <li class="page-item disabled">
+                                                    <span class="page-link"><i class="fas fa-angle-double-right"></i></span>
+                                                </li>
+                                            {% endif %}
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--============================
+        SHOP PAGE END
+    =============================-->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. Verify element exists
+    const selectElement = document.querySelector('.customatic');
+    console.log("Select element:", selectElement);
+
+    if (!selectElement) {
+        console.error("Error: Could not find .select_js element. Check your HTML.");
+        return;
+    }
+
+    // 2. Verify options
+    console.log("Select options:",
+        Array.from(selectElement.options).map(opt => ({
+            value: opt.value,
+            text: opt.text
+        }))
+    );
+
+    // 3. Check initial value
+    const urlParams = new URLSearchParams(window.location.search);
+    const sortParam = urlParams.get('sort');
+    console.log("Current sort param from URL:", sortParam);
+
+    if (sortParam) {
+        selectElement.value = sortParam;
+        console.log("Set initial select value to:", selectElement.value);
+    }
+
+    // 4. Enhanced event listener
+    selectElement.addEventListener('change', function() {
+        console.group("Select Change Event");
+        console.log("New value:", this.value);
+        console.log("Current href:", window.location.href);
+
+        const url = new URL(window.location.href);
+        url.searchParams.delete('page');
+
+        if (this.value) {
+            url.searchParams.set('sort', this.value);
+        } else {
+            url.searchParams.delete('sort');
+        }
+
+        console.log("Navigating to:", url.toString());
+        console.groupEnd();
+
+        window.location.href = url.toString();
+    });
+
+    // 5. Manually trigger change to test
+});
+</script>
+{% endblock %}
+</body>
+</html>

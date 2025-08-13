@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% block content %}
+    <!--=========================
+        PAGE BANNER START
+    ==========================-->
+    <section class="page_banner" style="background: url({% static 'assets/images/page_banner_bg.jpg' %});">
+        <div class="page_banner_overlay">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page_banner_text wow fadeInUp">
+                            <h1>Schools</h1>
+                            <ul>
+                                <li><a href="{% url 'ecommerce:home' %}"><i class="fal fa-home-lg"></i> Home</a></li>
+                                <li><a href="{% url 'ecommerce:schools' %}">Schools</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--=========================
+        PAGE BANNER START
+    ==========================-->
+
+
+    <!--============================
+        VENDOR PAGE START
+    =============================-->
+    <section class="vendor_page mt_75 mb_100">
+        <div class="container">
+            <div class="row">
+              {% for school in school_list %}
+                <div class="col-xxl-3 col-md-6 col-lg-4  wow fadeInUp">
+                    <div class="single_vendor">
+                        <div class="img">
+                            <img src="{{school.logo_pic}}" alt="{{school.short_version}}" class="img-fluid w-100">
+                        </div>
+                        <div class="text">
+                            <a class="title" href="{% url 'ecommerce:school_lodges' school.id %}">{{school.school_name}}</a>
+                            <a class="common_btn" href="{% url 'ecommerce:school_lodges' school.id %}">Check Available Lodges</a>
+                        </div>
+                    </div>
+                </div>
+              {% endfor %}
+            </div>
+            <div class="row">
+                <div class="pagination_area">
+                    <nav aria-label="...">
+                        <ul class="pagination justify-content-center mt_50">
+                          {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page=1">
+                                    <i class="far fa-arrow-left"></i>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link active" href="?page={{page_obj.previous_page_number}}">Previous</a>
+                            </li>
+                          {% endif %}
+                          {% for num in page_obj.paginator.page_range %}
+                            {% if page_obj.number == num %}
+                              <li class="page-item">
+                                  <a class="page-link" href="?page={{num}}">{{num}}</a>
+                              </li>
+                            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                              <li class="page-item">
+                                  <a class="page-link" href="?page={{num}}">{{num}}</a>
+                              </li>
+                            {% endif %}
+                          {% endfor %}
+                          {% if page_obj.has_next %}
+                             <li class="page-item">
+                                <a class="page-link" href="?page={{page_obj.next_page_number}}">Next</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link active" href="?page={{page_obj.paginator.num_pages}}">Previous</a>
+                                <i class="far fa-arrow-right"></i>
+
+                            </li>
+                          {% endif %}
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--============================
+        VENDOR PAGE END
+    =============================-->
+{% endblock %}
+</body>
+</html>

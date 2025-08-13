@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% block content %}
+
+    <!--=========================
+        PAGE BANNER START
+    ==========================-->
+    <section class="page_banner" style="background: url({% static 'assets/images/page_banner_bg.jpg' %});">
+        <div class="page_banner_overlay">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page_banner_text wow fadeInUp">
+                            <h1>My Account</h1>
+                            <ul>
+                                <li><a href="{% url 'ecommerce:home' %}"><i class="fal fa-home-lg"></i> Home</a></li>
+                                <li><a href="{% url 'ecommerce:personal_info' %}">Profile Information</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--=========================
+        PAGE BANNER START
+    ==========================-->
+
+
+    <!--============================
+        DSHBOARD START
+    =============================-->
+    <section class="dashboard mb_100">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-9 wow fadeInRight">
+                    <div class="dashboard_content mt_100">
+                        <div>
+                            {% for message in messages %}
+                            <p class="alert-message {% if 'error' in message.tags %}text-danger
+                                                      {% elif 'warning' in message.tags %}text-warning
+                                                      {% elif 'success' in message.tags %}text-success
+                                                      {% else %}text-secondary{% endif %}
+                                                      text-center fw-medium">
+                                                {{ message }}
+                            </p>
+                            {% endfor %}
+                        </div>
+                        <h3 class="dashboard_title">Profile Information <a class="common_btn"
+                                href="{% url 'ecommerce:edit_profile' %}">Edit</a></h3>
+                        <div class="dashboard_profile_info_list">
+                            <ul>
+                                <li><span>Name:</span> {{request.user.username}} </li>
+                                <li><span>First Name:</span> {{request.user.first_name}}</li>
+                                <li><span>Last Name:</span> {{request.user.last_name}}</li>
+                                <li><span>Email:</span> {{request.user.email}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--============================
+        DSHBOARD END
+    =============================-->
+
+{% endblock %}
+</body>
+</html>

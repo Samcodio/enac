@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% block content %}
+    <!--=========================
+        PAGE BANNER START
+    ==========================-->
+    <section class="page_banner" style="background: url({% static 'assets/images/page_banner_bg.jpg' %});">
+        <div class="page_banner_overlay">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page_banner_text wow fadeInUp">
+                            <h1>Roommate Requests</h1>
+                            <ul>
+                                <li><a href="{% url 'ecommerce:home' %}"><i class="fal fa-home-lg"></i> Home</a></li>
+                                <li><a href="{% url 'ecommerce:roommate_requests' %}">Requests</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--=========================
+        PAGE BANNER START
+    ==========================-->
+
+
+    <!--============================
+        VENDOR PAGE START
+    =============================-->
+            {% if messages %}
+            <div class="position-fixed top-0 start-50 translate-middle-x mt-5" style="z-index: 1050;">
+                <div>
+                    {% for message in messages %}
+                    <p class="alert-message {% if 'error' in message.tags %}text-danger
+                                              {% elif 'warning' in message.tags %}text-warning
+                                              {% elif 'success' in message.tags %}text-success
+                                              {% else %}text-secondary{% endif %}
+                                              text-center fw-medium">
+                                        {{ message }}
+                    </p>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+    <section class="vendor_page mt_75 mb_100">
+        <div class="container">
+            <form action="" method="POST">
+                {% csrf_token %}
+            <div class="row">
+              {% for item in users %}
+                <div class="col-xxl-3 col-md-6 col-lg-4  wow fadeInUp">
+                    <div class="single_vendor">
+                        {% if item.norm_user.profile_pic %}
+                        <div class="img">
+                            <img src="{{item.norm_user.profile_pic}}" alt="{{item.username}}" class="img-fluid w-100">
+                        </div>
+                        {% else %}
+                        <div class="img">
+                            <img src="{% static 'assets/images/user_icon_black.svg' %}" alt="{{item.username}}" class="img-fluid w-100">
+                        </div>
+                        {% endif %}
+                        <div class="text">
+                            <a class="title">{{item.username}}</a>
+                            <input type="hidden" name="user_id" value="{{ item.id }}">
+                            <button type="submit" name="approve" class="common_btn go_btn">Approve Request</button>
+                            <button type="submit" name="reject" value="{{ item.id }}" class="common_btn remove">Reject Request</button>
+                        </div>
+                    </div>
+                </div>
+              {% endfor %}
+            </div>
+                </form>
+            <div class="row">
+                <div class="pagination_area">
+                    <nav aria-label="...">
+                        <ul class="pagination justify-content-start mt_50">
+                            {% if users.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page=1" title="First Page">
+                                    <i class="fas fa-angle-double-left"></i>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ users.previous_page_number }}" title="Previous">
+                                    <i class="fas fa-angle-left"></i>
+                                </a>
+                            </li>
+                            {% else %}
+                            <li class="page-item disabled">
+                                <span class="page-link"><i class="fas fa-angle-double-left"></i></span>
+                            </li>
+                            <li class="page-item disabled">
+                                <span class="page-link"><i class="fas fa-angle-left"></i></span>
+                            </li>
+                            {% endif %}
+
+                            {% for num in users.paginator.page_range %}
+                            {% if num == users.number %}
+                            {# Current page (hidden but shows active dot) #}
+                            <li class="page-item active">
+                                <span class="page-link">•</span>
+                            </li>
+                            {% elif num >= users.number|add:'-2' and num <= users.number|add:'2' %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+
+                            {% if users.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ users.next_page_number }}" title="Next">
+                                    <i class="fas fa-angle-right"></i>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ users.paginator.num_pages }}" title="Last Page">
+                                    <i class="fas fa-angle-double-right"></i>
+                                </a>
+                            </li>
+                            {% else %}
+                            <li class="page-item disabled">
+                                <span class="page-link"><i class="fas fa-angle-right"></i></span>
+                            </li>
+                            <li class="page-item disabled">
+                                <span class="page-link"><i class="fas fa-angle-double-right"></i></span>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--============================
+        VENDOR PAGE END
+    =============================-->
+{% endblock %}
+</body>
+</html>

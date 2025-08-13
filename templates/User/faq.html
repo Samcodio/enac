@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% block content %}
+    <!--=========================
+        PAGE BANNER START
+    ==========================-->
+    <section class="page_banner" style="background: url({% static 'assets/images/page_banner_bg.jpg' %});">
+        <div class="page_banner_overlay">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page_banner_text wow fadeInUp">
+                            <h1> About ENAC</h1>
+                            <ul>
+                                <li><a href="{% url 'ecommerce:home' %}"><i class="fal fa-home-lg"></i> Home</a></li>
+                                <li><a href="{% url 'ecommerce:faq' %}">About</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--=========================
+        PAGE BANNER START
+    ==========================-->
+
+
+    <!--=========================
+        FAQ PAGE START
+    ==========================-->
+    <section class="faq_page mt_50 mb_100">
+        <div class="container">
+            <div class="accordion" id="accordionExample">
+                <div class="row align-items-center">
+                    <div class="col-xxl-5 col-lg-6 col-md-10 mt_50 wow fadeInLeft">
+                        <div class="faq_img pr_50">
+                            <img src="{% static 'assets/images/faq_img_1.png' %}" alt="FAQ's" class="img-fluid w-100">
+                        </div>
+                    </div>
+                    <div class="col-xxl-7 col-lg-6 mt_50 wow fadeInRight">
+                        <h6 class="faq_sub_title"></h6>
+                        <h3 class="faq_title">About ENAC?</h3>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    What is ENAC ?
+                                </button>
+                            </h2>
+                            <div id="collapseOne" class="accordion-collapse collapse show"
+                                data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <p>ENAC is an agency that connects students or aspiring students to owners of vacant lodges or
+                                        to other students in need of roommates.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    How does ENAC work ?
+                                </button>
+                            </h2>
+                            <div id="collapseTwo" class="accordion-collapse collapse"
+                                data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <p>ENAC works by granting access to anyone looking to lease out their lodges,
+                                        granted they submit the required the information which is then reviewed by our workers.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    How is payment made?
+                                </button>
+                            </h2>
+                            <div id="collapseThree" class="accordion-collapse collapse"
+                                data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <p>Payment is made through paystack, a government certified fintech agency.
+                                        Paymment is protected and all methods of payments are permitted.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseThree01" aria-expanded="false"
+                                    aria-controls="collapseThree01">
+                                    Who is the founder of ENAC?
+                                </button>
+                            </h2>
+                            <div id="collapseThree01" class="accordion-collapse collapse"
+                                data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <p>Enac was founded by <strong>Oguegbu David Izuchukwu</strong>. Studied at
+                                    Chukwuemeka Odumegwu Ojukwu University, Uli. ENAC is in it's prime and is expected to rise to greater heights</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--=========================
+        FAQ PAGE END
+    ==========================-->
+{% endblock %}
+</body>
+</html>

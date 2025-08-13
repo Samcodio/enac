@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% block content %}
+    <!--=========================
+        PAGE BANNER START
+    ==========================-->
+    <section class="page_banner" style="background: url(assets/images/page_banner_bg.jpg);">
+        <div class="page_banner_overlay">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page_banner_text wow fadeInUp">
+                            <h1>My Account</h1>
+                            <ul>
+                                <li><a href="{% url 'ecommerce:home' %}"><i class="fal fa-home-lg"></i> Home</a></li>
+                                <li><a href="{% url 'ecommerce:edit_profile' %}">Edit Profile</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--=========================
+        PAGE BANNER START
+    ==========================-->
+
+
+    <!--============================
+        DSHBOARD START
+    =============================-->
+    <section class="dashboard mb_100">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-9 wow fadeInRight">
+                    <div class="dashboard_content mt_100">
+                        <div>
+                            {% for message in messages %}
+                            <p class="alert-message {% if 'error' in message.tags %}text-danger
+                                                      {% elif 'warning' in message.tags %}text-warning
+                                                      {% elif 'success' in message.tags %}text-success
+                                                      {% else %}text-secondary{% endif %}
+                                                      text-center fw-medium">
+                                                {{ message }}
+                            </p>
+                            {% endfor %}
+                        </div>
+                        <h3 class="dashboard_title">Edit Information
+                            <button type="reset" class="common_btn cancel_edit">cancel</button></h3>
+                        <div class="dashboard_profile_info_edit">
+                            <form action="" method="POST" class="info_edit_form">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="single_input">
+                                            <label>Username</label>
+                                            {{userform.username}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="single_input">
+                                            <label>First Name</label>
+                                            {{userform.first_name}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="single_input">
+                                            <label>Last Name</label>
+                                            {{userform.last_name}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="single_input">
+                                            <label>email</label>
+                                            {{userform.email}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <button type="submit" class="common_btn">Update Profile <i
+                                                class="fas fa-long-arrow-right"></i></button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--============================
+        DSHBOARD END
+    =============================-->
+
+{% endblock %}
+</body>
+</html>

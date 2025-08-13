@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% block content %}
+    <!--=========================
+        PAGE BANNER START
+    ==========================-->
+    <section class="page_banner" style="background: url(assets/images/page_banner_bg.jpg);">
+        <div class="page_banner_overlay">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page_banner_text wow fadeInUp">
+                            <h1>Terms and condition</h1>
+                            <ul>
+                                <li><a href="{% url 'ecommerce:home' %}"><i class="fal fa-home-lg"></i> Home</a></li>
+                                <li><a href="{% url 'ecommerce:terms' %}">Terms and condition</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--=========================
+        PAGE BANNER START
+    ==========================-->
+
+
+    <!--=============================
+        TERMS AND CONDITION START
+    ==============================-->
+    <section class="terms_condition mt_55 mb_100">
+    <div class="container">
+        <div class="row wow fadeInUp">
+            <div class="col-12">
+                <div class="privacy_policy_text">
+                    <h3>Who We Are</h3>
+                    <p>Early Nest Agency Company ("ENAC") is a platform that connects individuals who wish to post available lodges for rent, lease, or shared accommodation with individuals who are seeking such lodges. ENAC’s role is limited to providing this connection. We do not own, manage, or operate any lodges listed on our platform, nor do we personally know any posters or seekers. Once payment is made to access the details of a lodge owner, ENAC’s involvement ends.</p>
+
+                    <h3>Service Disclaimer</h3>
+                    <p>ENAC does not verify the accuracy, safety, legality, or quality of any listing. All dealings after connection are solely between the poster and the seeker. We are not responsible for fraud, misrepresentation, or any losses resulting from user interactions. Users are advised to conduct their own due diligence before entering into any lodging agreement.</p>
+
+                    <ul>
+                        <li>ENAC does not own or control any property listed on the platform.</li>
+                        <li>ENAC does not guarantee the availability or condition of any lodge.</li>
+                        <li>Users are solely responsible for any agreements they enter into after being connected.</li>
+                    </ul>
+
+                    <h3>Payments and Refunds</h3>
+                    <p>Payments made to ENAC grant you access to the contact details of the lodge owner. All payments are final and non-refundable, regardless of whether the lodge is taken, the owner is unresponsive, or you change your mind.</p>
+
+                    <h3>User Responsibilities</h3>
+                    <p>Users agree to provide accurate and truthful information when posting a listing or making an inquiry. Any disputes, damages, or claims arising from transactions between users are the sole responsibility of the parties involved.</p>
+
+                    <h3>Limitation of Liability</h3>
+                    <p>To the fullest extent permitted by law, ENAC shall not be liable for any direct, indirect, incidental, or consequential damages resulting from the use of our platform or services.</p>
+
+                    <h3>Changes to Terms</h3>
+                    <p>ENAC reserves the right to update these Terms & Conditions at any time without prior notice. Continued use of our platform after changes means you accept the revised terms.</p>
+
+                    <h3>Governing Law</h3>
+                    <p>These Terms & Conditions are governed by the laws of the Federal Republic of Nigeria. Any disputes shall be resolved exclusively in Nigerian courts.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!--=============================
+        TERMS AND CONDITION END
+    ==============================-->
+
+{% endblock %}
+</body>
+</html>

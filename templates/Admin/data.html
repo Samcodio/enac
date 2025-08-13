@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% block content %}
+
+    <!--=========================
+        PAGE BANNER START
+    ==========================-->
+    <section class="page_banner" style="background: url({% static 'assets/images/page_banner_bg.jpg' %});">
+        <div class="page_banner_overlay">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page_banner_text wow fadeInUp">
+                            <h1>Review Lodge</h1>
+                            <ul>
+                                <li><a href="{% url 'ecommerce:home' %}"><i class="fal fa-home-lg"></i> Home</a></li>
+                                <li><a href="">Review Lodge</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--=========================
+        PAGE BANNER START
+    ==========================-->
+
+
+    <!--============================
+        COMPARE PAGE START
+    =============================-->
+    <section class="compare_page mt_100 mb_100">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="compare_list_area wow fadeInUp">
+                        <div class="table-responsive">
+                            {% if messages %}
+                        <div>
+                            {% for message in messages %}
+                            <p class="alert-message {% if 'error' in message.tags %}text-danger
+                                                      {% elif 'warning' in message.tags %}text-warning
+                                                      {% elif 'success' in message.tags %}text-success
+                                                      {% else %}text-secondary{% endif %}
+                                                      text-center fw-medium">
+                                                {{ message }}
+                            </p>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                            <form action="" method="POST">
+                                {% csrf_token %}
+                                <table class="table">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <p><b>Posted Image/Profile Image</b></p>
+                                            </td>
+                                            <td>
+                                                <img src="{{lodge.lessor_pic}}" alt="product"
+                                                    class="img-fluid w-100">
+
+                                            </td>
+                                            <td>
+                                                <img src="{{lodge.lessor.norm_user.profile_pic}}" alt="product"
+                                                    class="img-fluid w-100">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p><b>Lodge Name/Full Name</b></p>
+                                            </td>
+                                            <td>
+                                                <p><a class="title">{{lodge.lodge_name}}</a></p>
+                                            </td>
+                                            <td>
+                                                <p><a class="title">{{lodge.lessor.norm_user.full_name}}</a></p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p><b>Lodge Address/Lessor Address</b></p>
+                                            </td>
+                                            <td>
+                                                <p>{{lodge.address}}</p>
+                                            </td>
+                                            <td>
+                                                <p>{{lodge.lessor.norm_user.address}}</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p><b>Contacts</b></p>
+                                            </td>
+                                            <td>
+                                                <p><b>CareTaker's No:</b> {{lodge.caretaker}}</p>
+                                            </td>
+                                            <td>
+                                                <p><b>Phone No:</b> {{lodge.lessor.norm_user.phone_num}}</p>
+                                                <p><b>Whatsapp No:</b> {{lodge.lessor.norm_user.phone_num2}}</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p><b>Action</b> </p>
+                                            </td>
+                                            <td>
+                                                <a href="{% url 'ecommerce:lodge_data' lodge.id %}" class="common_btn">View Lodge Post</a>
+                                            </td>
+                                            <td>
+                                                <input type="hidden" name="lodge_id" value="{{lodge.id}}">
+                                                <button type="submit" name="delete" class="common_btn remove"><i class="fal fa-trash"></i></button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--============================
+        COMPARE PAGE END
+    =============================-->
+
+
+{% endblock %}
+</body>
+</html>

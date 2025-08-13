@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% block content %}
+ <!--=========================
+        SIGN IN PAGE START
+    ==========================-->
+    <section class="sign_in mt_100 mb_100">
+        <div class="container">
+
+            {% if messages %}
+            <div class="position-fixed top-0 start-50 translate-middle-x mt-5" style="z-index: 1050;">
+                <div>
+                    {% for message in messages %}
+                    <p class="alert-message {% if 'error' in message.tags %}text-danger
+                                              {% elif 'warning' in message.tags %}text-warning
+                                              {% elif 'success' in message.tags %}text-success
+                                              {% else %}text-secondary{% endif %}
+                                              text-center fw-medium">
+                                        {{ message }}
+                    </p>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+            <div class="row justify-content-center">
+                <div class="col-xxl-3 col-lg-4 col-xl-4 d-none d-lg-block wow fadeInLeft">
+                    <div class="sign_in_img">
+                        <img src="{% static 'assets/images/sign_in_img.jpg' %}" alt="Sign In" class="img-fluid w-100">
+                    </div>
+                </div>
+                <div class="col-xxl-4 col-lg-7 col-xl-6 col-md-10 wow fadeInRight">
+                    <div class="sign_in_form">
+                        <h3>Sign In to Continue 👋</h3>
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    <div class="single_input">
+                                        <label>Username</label>
+                                        <input type="text" name="username" placeholder="JohnDoe">
+                                    </div>
+                                </div>
+                                <div class="col-xl-12">
+                                    <div class="single_input">
+                                        <label>Password</label>
+                                        <input type="password" name="password" placeholder="********">
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="forgot">
+
+                                        <a href="{% url 'accounts:forgot_password' %}">Forgot Password ?</a>
+                                    </div>
+                                </div>
+                                <div class="col-xl-12">
+                                    <button type="submit" class="common_btn">Sign In <i
+                                            class="fas fa-long-arrow-right"></i></button>
+                                </div>
+                            </div>
+                        </form>
+
+                        <p class="dont_account">Already have an account? <a href="{% url 'accounts:signUp' %}">Sign Up</a></p>
+<!--                        <p class="or">or</p>-->
+<!--                        <ul>-->
+<!--                            <li>-->
+<!--                                <a href="#">-->
+<!--                                    <span>-->
+<!--                                        <img src="assets/images/google_logo.png" alt="google" class="img-fluid w-100">-->
+<!--                                    </span>-->
+<!--                                    Google-->
+<!--                                </a>-->
+<!--                            </li>-->
+<!--                            <li>-->
+<!--                                <a href="#">-->
+<!--                                    <span>-->
+<!--                                        <img src="assets/images/fb_logo.png" alt="google" class="img-fluid w-100">-->
+<!--                                    </span>-->
+<!--                                    Facebook-->
+<!--                                </a>-->
+<!--                            </li>-->
+<!--                            <li>-->
+<!--                                <a href="#">-->
+<!--                                    <span>-->
+<!--                                        <img src="assets/images/twitter_logo.png" alt="google" class="img-fluid w-100">-->
+<!--                                    </span>-->
+<!--                                    Twitter-->
+<!--                                </a>-->
+<!--                            </li>-->
+<!--                        </ul>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--=========================
+        SIGN IN PAGE END
+    ==========================-->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    setTimeout(function() {
+        let messages = document.querySelectorAll('.alert-message');
+        messages.forEach(function(message) {
+            message.style.transition = "opacity 0.5s";
+            message.style.opacity = "0";
+            setTimeout(() => message.remove(), 500);
+        });
+    }, 5000); // Hide after 5 seconds
+});
+</script>
+{% endblock %}
+</body>
+</html>

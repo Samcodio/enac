@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+    <section class="payment_success mt_100 mb_100">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-6 col-md-10 col-lg-8 col-xxl-5 wow fadeInUp">
+                    <div class="payment_success_text">
+                        {% if messages %}
+                        <div>
+                            {% for message in messages %}
+                            <p class="alert-message {% if 'error' in message.tags %}text-danger
+                                                      {% elif 'warning' in message.tags %}text-warning
+                                                      {% elif 'success' in message.tags %}text-success
+                                                      {% else %}text-secondary{% endif %}
+                                                      text-center fw-medium">
+                                                {{ message }}
+                            </p>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                        <div class="img">
+                            <img src="{% static 'assets/images/payment_success_img.png' %}" alt="payment" class="img-fluid w-100">
+                        </div>
+                        <h3>Your Payment is successfully</h3>
+                        <p>Payment Recieved, your booking ID is
+                            <b>#75HJF{{lodge.id}}.</b> Officially, Your order has been processed. Check <a href="{% url 'ecommerce:bookings' %}">booking page</a> for the contact of the lessor
+                            you requested for
+                        </p>
+                        <div class="d-flex flex-wrap align-items-center justify-content-center gap-3">
+                            <a href="{% url 'ecommerce:home' %}" class="common_btn go_btn">
+                                go to home
+                            </a>
+<!--                            <a href="track_order.html" class="common_btn">-->
+<!--                                Track Order-->
+<!--                                <i class="fas fa-long-arrow-right"></i>-->
+<!--                            </a>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endblock %}

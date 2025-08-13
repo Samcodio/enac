@@ -1,0 +1,171 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% block content %}
+    <!--=========================
+        PAGE BANNER START
+    ==========================-->
+    <section class="page_banner" style="background: url({% static 'assets/images/page_banner_bg.jpg' %});">
+        <div class="page_banner_overlay">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page_banner_text wow fadeInUp">
+                            <h1>Wishlist</h1>
+                            <ul>
+                                <li><a href="{% url 'ecommerce:home' %}"><i class="fal fa-home-lg"></i> Home</a></li>
+                                <li><a href="{% url 'wishlist:wishlist_summary' %}">Wishlist</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--=========================
+        PAGE BANNER START
+    ==========================-->
+
+
+
+    <!--============================
+        WISHLIST START
+    =============================-->
+    <section class="wishlist_page cart_page mt_100 mb_100">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xxl-10 col-xl-11">
+                    <div class="cart_table_area wow fadeInUp">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="cart_page_img">Lodge image </th>
+                                        <th class="cart_page_details">Lodge Details</th>
+                                        <th class="cart_page_price">Contact Price</th>
+<!--                                        <th class="cart_page_quantity">Quantity</th>-->
+<!--                                        <th class="cart_page_action">add to cart</th>-->
+                                        <th class="cart_page_action">remove</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <tbody>
+                                {% for item in wishlist_products %}
+                                    <tr>
+                                        <td class="cart_page_img">
+                                            <div class="img">
+                                                {% if item.product_img %}
+                                                <img src="{{item.product_img}}" alt="Image"
+                                                    class="img-fluid w-100">
+                                                {% endif %}
+                                            </div>
+                                        </td>
+                                        <td class="cart_page_details">
+                                            <a class="title" href="{% url 'ecommerce:lodge_data' item.id %}">Lodge Name Available After Payment</a>
+                                            <p>&#8358 {{item.price|intcomma}}
+                                            </p>
+                                            <span><b>School:</b> {{item.product_obj.school.short_version}}</span>
+                                            <span><b>Stay period:</b> {{item.product_obj.stay_period}} months</span>
+                                        </td>
+                                        <td class="cart_page_price">
+                                            <h3>&#8358 3,000.00</h3>
+                                        </td>
+<!--                                        <td class="cart_page_quantity">-->
+<!--                                            <div class="details_qty_input">-->
+<!--                                                <button class="minus"><i class="fal fa-minus"-->
+<!--                                                        aria-hidden="true"></i></button>-->
+<!--                                                <input type="text" placeholder="01">-->
+<!--                                                <button class="plus"><i class="fal fa-plus"-->
+<!--                                                        aria-hidden="true"></i></button>-->
+<!--                                            </div>-->
+<!--                                        </td>-->
+<!--                                        <td class="cart_page_action">-->
+<!--                                            <a href="#" class="common_btn add-cart" data-product-id="{{ item.id }}" id="addBtn">add to cart </a>-->
+<!--                                        </td>-->
+                                        <td class="cart_page_action">
+                                            <a href="#" class="common_btn remove delete-product" data-product-id="{{ item.id }}">remove </a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--============================
+        WISHLIST END
+    =============================-->
+<script>
+$(document).ready(function() {
+    // Delete product from wishlist
+    $(document).on('click', '.delete-product', function(e) {
+        e.preventDefault();
+        var $deleteButton = $(this);
+        var productId = $deleteButton.data('product-id');
+        var $wishlistRow = $deleteButton.closest('tr');
+
+        $.ajax({
+            type: 'POST',
+            url: '{% url "wishlist:wishlist_delete" %}',
+            data: {
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: 'post',
+                product_id: productId,
+            },
+            beforeSend: function() {
+                // Show loading indicator (optional)
+                $deleteButton.html('<i class="fas fa-spinner fa-spin"></i>');
+            },
+            success: function(response) {
+                if(response.success) {
+                    // Remove the product row from wishlist table
+                    $wishlistRow.fadeOut(300, function() {
+                        $(this).remove();
+
+                        // Check if wishlist is now empty - matches your HTML structure
+                        if($('.cart_table_area tbody tr').length === 0) {
+                            $('.cart_table_area').html(`
+                                <div class="text-center py-5">
+                                    <h4>Your wishlist is empty</h4>
+                                    <a href="{% url 'ecommerce:home' %}" class="common_btn mt-3">Back to home page</a>
+                                </div>
+                            `);
+                        }
+                    });
+
+                    // Update wishlist count in header if you have one
+                    // Note: Your HTML doesn't show a wishlist count element
+                    // If you add one later, uncomment this:
+                    // $('.wishlist_quantity').text(response.total_quantity);
+
+                }
+            },
+            error: function(xhr, errmsg, err) {
+                console.log(xhr.status + ": " + xhr.responseText);
+                alert('Error removing item from wishlist');
+                $deleteButton.html('remove');
+            },
+            complete: function() {
+                // Reset button text
+                $deleteButton.html('remove');
+            }
+        });
+    });
+});
+</script>
+{% endblock %}
+</body>
+</html>

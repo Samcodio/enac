@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rejected Request - ENAC</title>
+    <style>
+        /* Reset styles for email clients */
+        body, table, td, p, a, li, blockquote {
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+        }
+        table, td {
+            mso-table-lspace: 0pt;
+            mso-table-rspace: 0pt;
+        }
+        img {
+            -ms-interpolation-mode: bicubic;
+            border: 0;
+            height: auto;
+            line-height: 100%;
+            outline: none;
+            text-decoration: none;
+        }
+
+        /* Main styles */
+        body {
+            margin: 0 !important;
+            padding: 0 !important;
+            background-color: #f5f5f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333333;
+        }
+
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #ff6b35 0%, #ff8c42 100%);
+            padding: 30px 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            color: #ffffff;
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .header p {
+            margin: 8px 0 0 0;
+            color: #ffffff;
+            font-size: 14px;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .greeting {
+            font-size: 18px;
+            color: #333333;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .notification-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff6b35 0%, #ff8c42 100%);
+            color: #ffffff;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 25px;
+        }
+
+        .main-message {
+            font-size: 24px;
+            color: #333333;
+            margin-bottom: 20px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .message {
+            font-size: 16px;
+            color: #555555;
+            margin-bottom: 30px;
+            line-height: 1.7;
+            text-align: center;
+        }
+
+        .action-button {
+            text-align: center;
+            margin: 35px 0;
+        }
+
+        .action-button a {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff6b35 0%, #ff8c42 100%);
+            color: #ffffff !important;
+            text-decoration: none;
+            padding: 18px 36px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .action-button a:hover {
+            box-shadow: 0 6px 16px rgba(255, 107, 53, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .request-details {
+            background-color: #fef7f4;
+            border: 1px solid #ff6b35;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 25px 0;
+            text-align: center;
+        }
+
+        .request-details h3 {
+            margin: 0 0 15px 0;
+            color: #ff6b35;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .request-details p {
+            margin: 0;
+            font-size: 14px;
+            color: #666666;
+            line-height: 1.5;
+        }
+
+        .info-notice {
+            background-color: #fff8f0;
+            border-left: 4px solid #ff6b35;
+            padding: 20px;
+            margin: 25px 0;
+        }
+
+        .info-notice p {
+            margin: 0;
+            font-size: 14px;
+            color: #8b4513;
+        }
+
+        .info-notice .icon {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background-color: #ff6b35;
+            border-radius: 50%;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        .footer {
+            background-color: #f8f8f8;
+            padding: 30px 40px;
+            text-align: center;
+            border-top: 1px solid #eeeeee;
+        }
+
+        .footer p {
+            margin: 0;
+            font-size: 12px;
+            color: #888888;
+            line-height: 1.5;
+        }
+
+        .footer .company-info {
+            margin-bottom: 15px;
+            font-size: 13px;
+            color: #666666;
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, #ff6b35, transparent);
+            margin: 30px 0;
+        }
+
+        .urgent-indicator {
+            display: inline-block;
+            background-color: #ff4444;
+            color: #ffffff;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-left: 8px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+
+        /* Responsive styles */
+        @media only screen and (max-width: 600px) {
+            .email-container {
+                width: 100% !important;
+                margin: 0 !important;
+            }
+
+            .header, .content, .footer {
+                padding: 20px !important;
+            }
+
+            .header h1 {
+                font-size: 24px !important;
+            }
+
+            .main-message {
+                font-size: 20px !important;
+            }
+
+            .action-button a {
+                padding: 16px 28px !important;
+                font-size: 14px !important;
+            }
+
+            .request-details {
+                padding: 20px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <!-- Header -->
+        <div class="header">
+            <h1>ENAC</h1>
+            <p>Early Nest Agency Company</p>
+        </div>
+
+        <!-- Main Content -->
+        <div class="content">
+            <div class="greeting">
+                Hi {{ user }},
+            </div>
+
+            <div style="text-align: center;">
+                <span class="notification-badge">Request Rejected</span>
+            </div>
+
+            <div class="main-message">
+                Your request has been rejected
+            </div>
+
+            <div class="message">
+                Request refused. Visit ENAC to checkout other listings
+            </div>
+
+            <div class="action-button">
+                <a href="https://enac-amh7.onrender.com/">Visit Site</a>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="request-details">
+                <h3>What's Next?</h3>
+                <p>
+                    Scan thorugh for other lodges that pick your interest and make requests.
+                </p>
+            </div>
+
+            <div class="info-notice">
+                <p>
+                    <span class="icon"></span>
+                    <strong>Notice:</strong> Your request has been terminated by the owner of the lodge. Please feel free to check out other listings.
+                </p>
+            </div>
+
+            <div class="message">
+                Your request has been rejected.
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="company-info">
+                <strong>ENAC - Early Nest Agency Company</strong><br>
+            </div>
+            <p>
+                This is an automated notification, please do not reply to this email.<br>
+                © 2025 ENAC. All rights reserved.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

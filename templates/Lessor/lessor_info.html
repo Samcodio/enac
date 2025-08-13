@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% block content %}
+
+    <!--=========================
+        PAGE BANNER START
+    ==========================-->
+    <section class="page_banner" style="background: url({% static 'assets/images/page_banner_bg.jpg' %});">
+        <div class="page_banner_overlay">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page_banner_text wow fadeInUp">
+                            <h1>Lessor Data</h1>
+                            <ul>
+                                <li><a href="{% url 'ecommerce:home' %}"><i class="fal fa-home-lg"></i> Home</a></li>
+                                <li><a href="{% url 'ecommerce:lessor_info' %}">Lessor Data</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--=========================
+        PAGE BANNER START
+    ==========================-->
+
+
+    <!--============================
+        DSHBOARD START
+    =============================-->
+    <section class="dashboard mb_100">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-xl-9 wow fadeInRight">
+                    <div class="dashboard_content mt_100">
+                        <div>
+                            {% for message in messages %}
+                            <p class="alert-message {% if 'error' in message.tags %}text-danger
+                                                      {% elif 'warning' in message.tags %}text-warning
+                                                      {% elif 'success' in message.tags %}text-success
+                                                      {% else %}text-secondary{% endif %}
+                                                      text-center fw-medium">
+                                                {{ message }}
+                            </p>
+                            {% endfor %}
+                        </div>
+                        <h3 class="dashboard_title">Lessor Information <a class="common_btn"
+                                href="{% url 'ecommerce:lessor' %}">Edit</a></h3>
+                        <div class="dashboard_profile_info_list">
+                            <ul>
+                                <li><span>Full Name:</span> {{request.user.norm_user.full_name}} </li>
+                                <li><span>Phone no:</span> {{request.user.norm_user.phone_num}}</li>
+                                <li><span>Whatsapp:</span> {{request.user.norm_user.phone_num2}}</li>
+                                <li><span>Email:</span> {{request.user.email}}</li>
+                                <li><span>Address:</span> {{request.user.norm_user.address}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--============================
+        DSHBOARD END
+    =============================-->
+
+{% endblock %}
+</body>
+</html>

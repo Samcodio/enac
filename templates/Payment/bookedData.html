@@ -1,0 +1,385 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% block content %}
+    <!--=========================
+        PAGE BANNER START
+    ==========================-->
+    <section class="page_banner" style="background: url({% static 'assets/images/page_banner_bg.jpg' %});">
+        <div class="page_banner_overlay">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page_banner_text wow fadeInUp">
+                            <h1>Lodge Details</h1>
+                            <ul>
+                                <li><a href="{% url 'ecommerce:home' %}"><i class="fal fa-home-lg"></i> Home</a></li>
+                                <li><a href="{% url 'ecommerce:bookings' %}">Bookings</a></li>
+                                <li><a href="{% url 'ecommerce:booking_data' lodge.id %}">Lodge Details</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--=========================
+        PAGE BANNER START
+    ==========================-->
+
+
+    <!--============================
+        SHOP DETAILS START
+    =============================-->
+        {% if messages %}
+            <div class="position-fixed top-0 start-50 translate-middle-x mt-5" style="z-index: 1050;">
+                <div>
+                    {% for message in messages %}
+                    <p class="alert-message {% if 'error' in message.tags %}text-danger
+                                              {% elif 'warning' in message.tags %}text-warning
+                                              {% elif 'success' in message.tags %}text-success
+                                              {% else %}text-secondary{% endif %}
+                                              text-center fw-medium">
+                                        {{ message }}
+                    </p>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+    <section class="shop_details mt_100">
+        <div class="container">
+            <div class="row">
+                <div class="col-xxl-10">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-10 wow fadeInLeft">
+                            <div class="shop_details_slider_area">
+                                <div class="row">
+                                    <div class="col-xl-2 col-lg-3 col-md-3 order-2 order-md-1">
+                                        <div class="row details_slider_nav">
+                                            {% if lodge.lodge_pic %}
+                                            <div class="col-12">
+                                                <div class="details_slider_nav_item">
+                                                    <img src="{{lodge.lodge_pic}}" alt="Lodge"
+                                                        class="img-fluid w-100">
+                                                </div>
+                                            </div>
+                                            {% endif %}
+                                            {% if lodge.lodge_pic2 %}
+                                            <div class="col-12">
+                                                <div class="details_slider_nav_item">
+                                                    <img src="{{lodge.lodge_pic2}}" alt="Lodge"
+                                                        class="img-fluid w-100">
+                                                </div>
+                                            </div>
+                                            {% endif %}
+                                            {% if lodge.lodge_pic3 %}
+                                            <div class="col-12">
+                                                <div class="details_slider_nav_item">
+                                                    <img src="{{lodge.lodge_pic3}}" alt="Lodge"
+                                                        class="img-fluid w-100">
+                                                </div>
+                                            </div>
+                                            {% endif %}
+                                            {% if lodge.lodge_pic4 %}
+                                            <div class="col-12">
+                                                <div class="details_slider_nav_item">
+                                                    <img src="{{lodge.lodge_pic4}}" alt="Lodge"
+                                                        class="img-fluid w-100">
+                                                </div>
+                                            </div>
+                                            {% else %}
+                                            {% endif %}
+                                            {% if lodge.lodge_vid %}
+                                            <div class="col-12">
+                                                <div class="details_slider_nav_item">
+                                                    <img src="{% static 'assets/images/movie_512dp.png' %}" alt="video"
+                                                        class="img-fluid w-100">
+                                                </div>
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-10 col-lg-9 col-md-9  order-md-1">
+                                        <div class="row details_slider_thumb">
+                                            {% if lodge.lodge_pic %}
+                                            <div class="col-12">
+                                                <div class="details_slider_thumb_item">
+                                                    <img src="{{lodge.lodge_pic}}" alt="Lodge"
+                                                        class="img-fluid w-100">
+                                                </div>
+                                            </div>
+                                            {% endif %}
+                                            {% if lodge.lodge_pic2 %}
+                                            <div class="col-12">
+                                                <div class="details_slider_thumb_item">
+                                                    <img src="{{lodge.lodge_pic2}}" alt="Lodge"
+                                                        class="img-fluid w-100">
+                                                </div>
+                                            </div>
+                                            {% endif %}
+                                            {% if lodge.lodge_pic3 %}
+                                            <div class="col-12">
+                                                <div class="details_slider_thumb_item">
+                                                    <img src="{{lodge.lodge_pic3}}" alt="Lodge"
+                                                        class="img-fluid w-100">
+                                                </div>
+                                            </div>
+                                            {% endif %}
+                                            {% if lodge.lodge_pic4 %}
+                                            <div class="col-12">
+                                                <div class="details_slider_thumb_item">
+                                                    <img src="{{lodge.lodge_pic4}}" alt="Lodge"
+                                                        class="img-fluid w-100">
+                                                </div>
+                                            </div>
+                                            {% else %}
+                                            {% endif %}
+                                            {% if lodge.lodge_vid %}
+                                            <div class="col-12">
+                                                <div class="details_slider_thumb_item">
+                                                    <div class="responsive-iframe-container">
+                                                        <iframe
+                                                            src="{{lodge.lodge_vid}}"
+                                                            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                            allowfullscreen>
+                                                        </iframe>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 wow fadeInUp">
+                            <div class="shop_details_text">
+                                <p class="category">{{lodge.school.school_name}}</p>
+                                <h2 class="details_title">{{lodge.lodge_name}}</h2>
+                                <div class="d-flex flex-wrap align-items-center">
+<!--                                    <p class="stock">In Stock</p>-->
+                                    <!-- <p class="out_stock stock">out of Stock</p> -->
+<!--                                    <p class="rating">-->
+<!--                                        <i class="fas fa-star"></i>-->
+<!--                                        <i class="fas fa-star"></i>-->
+<!--                                        <i class="fas fa-star"></i>-->
+<!--                                        <i class="fas fa-star"></i>-->
+<!--                                        <i class="fas fa-star"></i>-->
+<!--                                        <span>(93 reviews)</span>-->
+<!--                                    </p>-->
+                                </div>
+                                <h3 class="price">&#8358 {{lodge.price|intcomma}}</h3>
+                                <div class="details_single_variant">
+                                </div>
+
+                                <div class="d-flex flex-wrap align-items-center">
+                                    <div class="details_btn_area">
+<!--                                        So the book now should allow them to make payment for the lodge from here they wouldnt need
+                                            to add to the cart to buy, if they want to buy upfront-->
+<!--                                        <a class="common_btn buy_now" href="#">Book Now <i-->
+<!--                                                class="fas fa-long-arrow-right"></i></a>-->
+
+                                        <a class="common_btn go_btn">Contact Sold</a>
+
+                                    </div>
+                                </div>
+
+                                <ul class="details_list_btn">
+
+<!--                                    <li>-->
+<!--                                        <a href="#"><i class="fal fa-question-circle"></i> Ask a question</a>-->
+<!--                                    </li>-->
+                                </ul>
+
+                                <ul class="details_tags_sku">
+<!--                                    <li><span>SKU:</span> HRYUSG67EG</li>-->
+                                    <li><span>School:</span> {{lodge.school.short_version}}</li>
+                                    <li><span>Stay Period:</span> {{lodge.stay_period}} months</li>
+                                    {% if lodge.roommate %}
+                                    <li><span>Department:</span> {{lodge.department}}</li>
+                                    <li><span>Level:</span> {{lodge.level}} level</li>
+                                    {% endif %}
+                                    {% if lodge.tiled %}
+                                    <li><span>Tiled</span></li>
+                                    {% else %}
+                                    <li><span>Not Tiled</span></li>
+                                    {% endif %}
+                                    {% if lodge.upstairs %}
+                                    <li><span>Floor:</span> Upstairs</li>
+                                    {% else %}
+                                    <li><span>Floor:</span> Downstairs</li>
+                                    {% endif %}
+                                    {% if lodge.stable_water %}
+                                    <li><span>Running Water:</span> ✅ </li>
+                                    {% else %}
+                                    <li><span>Running Water:</span> ❌</li>
+                                    {% endif %}
+                                    {% if lodge.light %}
+                                    <li><span>Light:</span> ✅ </li>
+                                    {% else %}
+                                    <li><span>Light:</span> ❌</li>
+                                    {% endif %}
+                                    {% if lodge.roommate %}
+                                    <li><span>Roommate needed before: {{lodge.d_date}}</span></li>
+                                    {% else %}
+                                        {% if lodge.d_date %}
+                                        <li><span>Contact before: {{lodge.d_date}}</span></li>
+                                        {% endif %}
+                                    {% endif %}
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt_90 wow fadeInUp">
+                        <div class="col-12">
+                            <div class="shop_details_des_area">
+                                <ul class="nav nav-pills" id="pills-tab2" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" id="description-tab" data-bs-toggle="pill"
+                                            data-bs-target="#description" type="button" role="tab"
+                                            aria-controls="description" aria-selected="false">Notice</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="description-tab3" data-bs-toggle="pill"
+                                            data-bs-target="#description3" type="button" role="tab"
+                                            aria-controls="description3" aria-selected="false">Lessor</button>
+                                    </li>
+                                </ul>
+
+                                <div class="tab-content" id="pills-tabContent2">
+                                    <div class="tab-pane fade show active" id="description" role="tabpanel"
+                                        aria-labelledby="description-tab" tabindex="0">
+                                        <div class="shop_details_description">
+                                            <h3>Notice by Lessor</h3>
+                                            <p>{{lodge.description}}</p>
+
+
+
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="description3" role="tabpanel"
+                                        aria-labelledby="description-tab3" tabindex="0">
+                                        <div class="shop_details_vendor">
+                                            <div class="shop_details_vendor_logo_area">
+                                                    {% if lodge.lessor_pic %}
+                                                    <div class="img">
+                                                        <img src="{{lodge.lessor_pic}}" alt="Lessor" class="img-fluid">
+                                                    </div>
+                                                    {% endif %}
+                                                <h3>
+                                                    {{lodge.lessor.username}}
+                                                </h3>
+                                                 <p><small>(Person expected to meet on day of inspection)</small></p>
+                                            </div>
+                                            <ul class="shop_details_vendor_address">
+                                                <li>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                         class="size-6">
+                                                      <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M3 9.75L12 3l9 6.75M4.5 10.5v9.75A1.5 1.5 0 0 0 6 21.75h3.75v-6.75h4.5v6.75H18a1.5 1.5 0 0 0 1.5-1.5V10.5" />
+                                                    </svg>
+
+                                                    <span>Lodge Name:</span> {{lodge.lodge_name}}
+                                                </li>
+                                                {% if lodge.room_number %}
+                                                <li>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                        class="size-6">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M12 14.25c4.97 0 9-1.567 9-3.5S16.97 7.25 12 7.25 3 8.817 3 10.75s4.03 3.5 9 3.5Z" />
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M12 14.25v6.25m0 0c-4.97 0-9-1.567-9-3.5V10.75m9 10v-6.25" />
+                                                    </svg>
+                                                    <span>Room: </span>
+                                                    {{lodge.room_number}}
+                                                </li>
+                                                {% endif %}
+                                                <li>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                        class="size-6">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                                                    </svg>
+                                                    <span>Address:</span>
+                                                    {{lodge.address}}
+                                                </li>
+                                                <li>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                        class="size-6">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M21.75 9v.906a2.25 2.25 0 0 1-1.183 1.981l-6.478 3.488M2.25 9v.906a2.25 2.25 0 0 0 1.183 1.981l6.478 3.488m8.839 2.51-4.66-2.51m0 0-1.023-.55a2.25 2.25 0 0 0-2.134 0l-1.022.55m0 0-4.661 2.51m16.5 1.615a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V8.844a2.25 2.25 0 0 1 1.183-1.981l7.5-4.039a2.25 2.25 0 0 1 2.134 0l7.5 4.039a2.25 2.25 0 0 1 1.183 1.98V19.5Z" />
+                                                    </svg>
+
+                                                    <span>Email:</span>
+                                                    {{lodge.lessor.email}}
+                                                </li>
+                                                <li>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                        class="size-6">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M15.75 3.75 18 6m0 0 2.25 2.25M18 6l2.25-2.25M18 6l-2.25 2.25m1.5 13.5c-8.284 0-15-6.716-15-15V4.5A2.25 2.25 0 0 1 4.5 2.25h1.372c.516 0 .966.351 1.091.852l1.106 4.423c.11.44-.054.902-.417 1.173l-1.293.97a1.062 1.062 0 0 0-.38 1.21 12.035 12.035 0 0 0 7.143 7.143c.441.162.928-.004 1.21-.38l.97-1.293a1.125 1.125 0 0 1 1.173-.417l4.423 1.106c.5.125.852.575.852 1.091V19.5a2.25 2.25 0 0 1-2.25 2.25h-2.25Z" />
+                                                    </svg>
+
+                                                    <span>Contact Seller:</span>
+                                                    {{lodge.lessor.norm_user.phone_num}}
+                                                </li>
+                                                <li>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                                      <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M8.625 9.75a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 0 1 .778-.332 48.294 48.294 0 0 0 5.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
+                                                    </svg>
+
+                                                    <span>Whatsapp Number:</span>
+                                                    {{lodge.lessor.norm_user.phone_num2}}
+                                                </li>
+                                                <li>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M14.25 9.75v-4.5m0 4.5h4.5m-4.5 0 6-6m-3 18c-8.284 0-15-6.716-15-15V4.5A2.25 2.25 0 0 1 4.5 2.25h1.372c.516 0 .966.351 1.091.852l1.106 4.423c.11.44-.054.902-.417 1.173l-1.293.97a1.062 1.062 0 0 0-.38 1.21 12.035 12.035 0 0 0 7.143 7.143c.441.162.928-.004 1.21-.38l.97-1.293a1.125 1.125 0 0 1 1.173-.417l4.423 1.106c.5.125.852.575.852 1.091V19.5a2.25 2.25 0 0 1-2.25 2.25h-2.25Z" />
+                                                    </svg>
+                                                    <span>CareTaker's Number:</span>
+                                                    {{lodge.caretaker}}
+                                                </li>
+                                                <li><b class="text-danger">Ensure you inspect the lodge in person
+                                                        to confirm<br> its condition
+                                                        before making any rental payments</b></li>
+                                            </ul>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xxl-2 wow fadeInRight">
+                    <div id="sticky_sidebar_2">
+                        <div class="shop_details_sidebar">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--============================
+        SHOP DETAILS END
+    =============================-->
+
+{% endblock %}
+</body>
+</html>

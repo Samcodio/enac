@@ -1,0 +1,333 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% block content %}
+                        {% if messages %}
+                        <div>
+                            {% for message in messages %}
+                            <p class="alert-message {% if 'error' in message.tags %}text-danger
+                                                      {% elif 'warning' in message.tags %}text-warning
+                                                      {% elif 'success' in message.tags %}text-success
+                                                      {% else %}text-secondary{% endif %}
+                                                      text-center fw-medium">
+                                                {{ message }}
+                            </p>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+
+    <!--============================
+        FEATURES START
+    ==============================-->
+    <section class="features mt_20">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-3 col-md-6 wow fadeInUp">
+                    <div class="features_item purple">
+                        <a href="{% url 'ecommerce:schools' %}">
+                            <div class="icon">
+                                <img src="{% static 'assets/images/cottage.svg' %}" alt="feature">
+                            </div>
+
+                            <div class="text">
+                                <h3>LG Listing</h3>
+                                <p>Checkout lodge listings</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6 wow fadeInUp">
+                    <div class="features_item green">
+                        <a href="{% url 'ecommerce:roommates' %}">
+                            <div class="icon">
+                                <img src="{% static 'assets/images/person_add.svg' %}" alt="feature">
+                            </div>
+                            <div class="text">
+                                <h3>RM Listing</h3>
+                                <p>Checkout roommate listings</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6 wow fadeInUp">
+                    <div class="features_item orange">
+                    <a href="{% url 'ecommerce:create_roommate_product' %}">
+                        <div class="icon">
+                            <img src="{% static 'assets/images/roommate.svg' %}" alt="feature">
+                        </div>
+                        <div class="text">
+                            <h3>Roommate </h3>
+                            <p>Apply to list for roommate</p>
+                        </div>
+                    </a>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6 wow fadeInUp">
+                    <div class="features_item">
+                        <a href="{% url 'ecommerce:create_lodge_product' %}">
+                            <div class="icon">
+                                <img src="{% static 'assets/images/add_home.svg' %}" alt="feature">
+                            </div>
+                            <div class="text">
+                                <h3>Post Lodges</h3>
+                                <p>Post at your discretion</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--============================
+        FEATURES END
+    ==============================-->
+
+
+    <!--============================
+        FLASH SELL 2 START
+    ==============================-->
+    <section class="flash_sell_2 flash_sell mt_95">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-xxl-6 col-md-3 col-xl-4">
+                    <div class="section_heading_2 section_heading">
+                        <h3><span>flash</span> listings</h3>
+                    </div>
+                </div>
+                <div class="col-xxl-6 col-md-9 col-xl-8">
+                    <div class="d-flex flex-wrap justify-content-end">
+                        <div class="view_all_btn_area">
+                            <a class="view_all_btn" href="{% url 'ecommerce:schools' %}">View all</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt_25 flash_sell_2_slider">
+                {% for cheap in cheap_list %}
+                <div class="col-xl-1-5 wow fadeInUp">
+                    <div class="product_item_2 product_item">
+                        <div class="product_img">
+                            {% if cheap.lodge_pic %}
+                                <img src="{{ cheap.lodge_pic }}" alt="{{ cheap.lodge_name }}"  class="img-fluid w-100">
+                            {% endif %}
+                            <ul class="discount_list">
+                            </ul>
+                            <ul class="btn_list">
+
+<!--                                <li>-->
+<!--                                    <a href="#" class="add-wishlist" data-product-id="{{ cheap.id }}">-->
+<!--                                        <img src="{% static 'assets/images/love_icon_white.svg' %}" alt="favourite"-->
+<!--                                             class="img-fluid">-->
+<!--                                    </a>-->
+<!--                                </li>-->
+<!--                                <li>-->
+<!--                                    <a href="#" class="add-cart" data-product-id="{{ cheap.id }}">-->
+<!--                                        <img src="{% static 'assets/images/cart_icon_white.svg' %}" alt="cart" class="img-fluid">-->
+<!--                                    </a>-->
+<!--                                </li>-->
+                            </ul>
+                        </div>
+                        <div class="product_text">
+                            <a class="title" href="{% url 'ecommerce:school_lodges' cheap.school.id %}">{{cheap.school|truncatechars:18}}</a>
+                            <p class="price">&#8358 {{cheap.price|intcomma}}
+<!--                                <del>$48.00</del>-->
+                            </p>
+                            <p class="rating">
+                                <a class="title" href="{% url 'ecommerce:lodge_data' cheap.id %}">More details</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+
+            </div>
+        </div>
+    </section>
+    <!--============================
+        FLASH SELL 2 END
+    ==============================-->
+
+
+    <!--============================
+        CATEGORY 2 START
+    ==============================-->
+    <section class="category category_2 mt_55">
+        <div class="container">
+            <div class="row category_2_slider">
+                {% for school in schools %}
+                <div class="col-2 wow fadeInUp">
+                    <a href="{% url 'ecommerce:school_lodges' school.id %}" class="category_item">
+                        <div class="img">
+                            {% if school.logo_pic %}
+                            <img src="{{school.logo_pic}}" alt="{{school.school_name}}" class="img-fluid w-100">
+                            {% endif %}
+                        </div>
+                        <h3>{{school.short_version}}</h3>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    <!--============================
+        CATEGORY 2 END
+    ==============================-->
+
+
+    <!--============================
+        SPECIAL PRODUCT 2 START
+    ==============================-->
+    <!--============================
+        SPECIAL PRODUCT 2 END
+    ==============================-->
+
+
+    <!--============================
+        TRENDING PRODUCT 2 START
+    ==============================-->
+    <section class="trending_product_2 mt_90">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-6">
+                    <div class="section_heading_2 section_heading mb_15">
+                        <h3><span>Highest</span> Prices</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="row wow fadeInUp">
+                <div class="col-12">
+                    <div class="product_tabs">
+                        <div data-pws-tab="tab111" data-pws-tab-name="Across all states">
+                            <div class="row">
+                                {% for cost in costly %}
+                                <div class="col-xl-1-5 col-6 col-md-4 col-xl-3">
+                                    <div class="product_item_2 product_item">
+                                        <div class="product_img">
+                                            <img src="{{cost.lodge_pic}}" alt="Image"
+                                                class="img-fluid w-100">
+                                            <ul class="btn_list">
+<!--                                                <li>-->
+<!--                                                    <a href="#" class="add-wishlist" data-product-id="{{ cost.id }}">-->
+<!--                                                        <img src="{% static 'assets/images/love_icon_white.svg' %}" alt="Favourite"-->
+<!--                                                            class="img-fluid">-->
+<!--                                                    </a>-->
+<!--                                                </li>-->
+<!--                                                <li>-->
+<!--                                                    <a href="#" class="add-cart" data-product-id="{{ cost.id }}">-->
+<!--                                                        <img src="{% static 'assets/images/cart_icon_white.svg' %}" alt="Cart"-->
+<!--                                                            class="img-fluid">-->
+<!--                                                    </a>-->
+<!--                                                </li>-->
+                                            </ul>
+                                        </div>
+                                        <div class="product_text">
+                                            <a class="title" href="{% url 'ecommerce:school_lodges' cost.school.id %}">{{cost.school.short_version}}</a>
+                                            <p class="price">&#8358 {{cost.price|intcomma}}</p>
+                                            <a class="title" href="{% url 'ecommerce:lodge_data' cost.id %}">More details</a>
+                                            <p class="rating">
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--============================
+        TRENDING PRODUCT 2 END
+    ==============================-->
+
+
+    <!--================================
+        BEST SELLING PRODUCT 2 START
+    ==================================-->
+    <section class="trending_product_2 mt_90">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-6">
+                    <div class="section_heading_2 section_heading mb_15">
+                        <h3>Roommate Listings</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="row wow fadeInUp">
+                <div class="col-12">
+                    <div class="product_tabs">
+                        <div data-pws-tab="tab111" data-pws-tab-name="Across All States">
+                            <div class="row">
+                                {% for cost in rm_list %}
+                                <div class="col-xl-1-5 col-6 col-md-4 col-xl-3">
+                                    <div class="product_item_2 product_item">
+                                        <div class="product_img">
+                                            <img src="{{cost.lodge_pic}}" alt="Image"
+                                                class="img-fluid w-100">
+                                            <ul class="btn_list">
+                                                <li>
+                                                    <a href="#" class="add-wishlist" data-product-id="{{ cost.id }}">
+                                                        <img src="{% static 'assets/images/love_icon_white.svg' %}" alt="Favourite"
+                                                            class="img-fluid">
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="product_text">
+                                            <a class="title" href="{% url 'ecommerce:school_lodges' cost.school.id %}">{{cost.school.short_version}}</a>
+                                            <p class="price">&#8358 {{cost.price|intcomma}}</p>
+                                            <a class="title" href="{% url 'ecommerce:lodge_data' cost.id %}">More details</a>
+                                            <p class="rating">
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--================================
+        BEST SELLING PRODUCT 2 END
+    ==================================-->
+
+
+    <!--================================
+        NEW ARRIVAL 2 START
+    ==================================-->
+    <!--================================
+        NEW ARRIVAL 2 END
+    ==================================-->
+
+
+    <!--============================
+        FAVOURITE PRODUCT 2 START
+    ==============================-->
+    <!--============================
+        FAVOURITE PRODUCT 2 END
+    ==============================-->
+
+
+
+    <!--=========================
+        BLOG 2 START
+    ==========================-->
+    <!--=========================
+        BLOG 2 END
+    ==========================-->
+
+{% endblock %}
+</body>
+</html>

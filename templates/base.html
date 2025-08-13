@@ -1,0 +1,929 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- Mirrored from html.narzotech.com/zenis/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 29 May 2025 14:00:03 GMT -->
+<head>
+    {% load pwa %}
+    {% progressive_web_app_meta %}
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, target-densityDpi=device-dpi" />
+    <title>ENAC- Early Nest Agency Company</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="{% static 'assets/images/enac_logo.png' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/mobile_menu.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/nice-select.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/scroll_button.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/slick.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/venobox.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/select2.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/jquery.pwstabs.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/range_slider.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/multiple-image-video.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/custom_spacing.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/responsive.css' %}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</head>
+<div id="loader-wrapper">
+    <div class="load_size">
+        <img src="{% static 'assets/images/enac_log.png' %}" alt="Loading..." id="loader">
+    </div>
+</div>
+
+<style>
+  #loader-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: white;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .load_size {
+    width: 80px;  /* Fixed small size */
+    height: auto;
+  }
+
+  #loader {
+    width: 80px;  /* Fixed small size */
+    height: auto; /* Maintain aspect ratio */
+    animation: pulse 1.5s infinite;
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(1); opacity: 0.6; }
+    50% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); opacity: 0.6; }
+  }
+
+  .dropdown-container {
+    position: relative;
+    width: 700px;
+  }
+
+  .search-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    background: white;
+    width: 100%;
+    max-height: 250px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  }
+
+
+  .search-dropdown li {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .search-dropdown li:hover {
+    background-color: #fbbc04; /* Yellow-ish */
+    color: #fff;
+  }
+
+.search-dropdown li a {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+  color: inherit;
+  padding: 14px 18px; /* match the li padding */
+}
+
+.search-dropdown li:hover a {
+  background-color: #fbbc04;
+  color: white;
+}
+
+
+.search-dropdown li span {
+  width: 30px;
+  display: inline-flex;
+  align-items: right;
+  justify-content: right;
+  padding: 0;
+  margin-right: 10px;
+}
+
+
+    .search-dropdown li img {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-left: 10px;
+  }
+
+@media (max-width: 768px) {
+  .dropdown-container {
+    width: 100%;
+  }
+
+  .search-dropdown li {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .search-dropdown li img {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+.fullscreen-img {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    overflow: hidden;
+    cursor: zoom-out;
+}
+
+.fullscreen-img img {
+    max-width: 95vw;
+    max-height: 95vh;
+    width: auto;
+    height: auto;
+    cursor: zoom-out;
+    display: block;
+    object-fit: contain; /* maintains aspect ratio */
+    transition: transform 0.3s ease;
+}
+
+.fullscreen-img.hidden {
+    display: none;
+}
+</style>
+<body class="default_home">
+
+    <!--=========================
+        HEADER START
+    ==========================-->
+    <header class="header_2">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-2">
+                    <div class="header_logo_area">
+                        <a href="{% url 'ecommerce:home' %}" class="header_logo">
+                            <img src="{% static 'assets/images/enac_head.png' %}" alt="ENAC" class="img-fluid w-100">
+                        </a>
+                        <div class="mobile_menu_icon d-block d-lg-none" data-bs-toggle="offcanvas"
+                            data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">
+                            <span class="mobile_menu_icon"><i class="far fa-stream menu_icon_bar"></i></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xXl-6 col-xl-5 col-lg-5 d-none d-lg-block">
+                    <form action="#">
+                        <div class="dropdown-container ">
+                        <div class="input">
+                            <input type="text" id="schoolSearch" name="q" placeholder="Search School..." autocomplete="off">
+                            <button type="submit"><i class="far fa-search"></i></button>
+
+                            <!-- Dropdown list -->
+                            <ul id="schoolDropdown" class="search-dropdown menu_cat_item">
+                                {% for school in all_schools %}
+
+                                    <li onclick="selectSchool('{{ school.school_name }}')" class="all_category">
+                                        <a href="{% url 'ecommerce:school_lodges' school.id %}">
+                                            <span>
+                                                <img src="{{school.logo_pic}}" alt="Logo">
+                                            </span>
+                                            <small>{{ school.school_name }}</small>
+                                        </a>
+                                    </li>
+
+                                {% empty %}
+                                <li>No schools found.</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-xXl-4 col-xl-5 col-lg-5 d-none d-lg-flex">
+                    <div class="header_support_user d-flex flex-wrap">
+                        <div class="header_support">
+                            <span class="icon">
+                                <i class="far fa-phone-alt"></i>
+                            </span>
+                            <h3>
+                                Hotline:
+                                <a href="tel:09126495143">
+                                    <span>+(234) 912 649 5143</span>
+                                </a>
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!--=========================
+        HEADER END
+    ==========================-->
+
+
+    <!--=========================
+        MENU 2 START
+    ==========================-->
+    <nav class="main_menu_2 main_menu d-none d-lg-block">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 d-flex flex-wrap">
+                    <div class="main_menu_area">
+                        <div class="menu_category_area">
+                            <a href="{% url 'ecommerce:home' %}" class="menu_logo d-none">
+                                <img src="{% static 'assets/images/enac_head.png' %}" alt="Zenis" class="img-fluid w-100">
+                            </a>
+                            <div class="menu_category_bar">
+                                <p>
+                                    <span>
+                                        <img src="{% static 'assets/images/bar_icon_white.svg' %}" alt="category icon">
+                                    </span>
+                                    Browse Schools
+                                </p>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <ul class="menu_cat_item">
+                                {% for school in schools %}
+                                <li>
+                                    <a href="{% url 'ecommerce:school_lodges' school.id %}">
+                                        <span>
+                                            <img src="{{school.logo_pic}}" alt="Logo">
+                                        </span>
+                                        {{school.short_version}}
+                                    </a>
+                                </li>
+                                {% endfor %}
+                                <li class="all_category">
+                                    <a href="{% url 'ecommerce:schools' %}">View All Schools <i class="far fa-arrow-right"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                        <ul class="menu_item">
+                            <li>
+                                <a href="{% url 'ecommerce:home' %}">Home</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'ecommerce:schools' %}">Schools</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'ecommerce:bookings' %}">Bookings</a>
+                            </li>
+                            <li><a href="{% url 'ecommerce:create_lodge_product' %}">Post Lodges</a></li>
+                            <li><a href="{% url 'ecommerce:roommates' %}">Roommate Listings</a></li>
+
+                        </ul>
+                        <ul class="menu_icon">
+                            <li>
+                                <a href="{% url 'wishlist:wishlist_summary' %}">
+                                    <b>
+                                        <img src="{% static 'assets/images/love_black.svg' %}" alt="Wishlist" class="img-fluid">
+                                    </b>
+                                    <span class="wishlist_quantity">{{ wishlist.total_quantities }}</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'cart:cart_summary' %}">
+<!--                                        data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"-->
+<!--                                    aria-controls="offcanvasRight"-->
+                                    <b>
+                                        <img src="{% static 'assets/images/cart_black.svg' %}" alt="cart" class="img-fluid">
+                                    </b>
+                                    <span class="cart_quantity">{{ cart.total_quantities }}</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="user" href="{% url 'ecommerce:profile_dashboard' %}">
+                                    <b>
+                                        <img src="{% static 'assets/images/user_icon_black.svg' %}" alt="cart" class="img-fluid">
+                                    </b>
+                                    {% if request.user.is_authenticated %}
+                                    <h5>{{request.user.username}}</h5>
+                                    {% else %}
+                                    <h5>Guest</h5>
+                                    {% endif %}
+                                </a>
+                                <ul class="user_dropdown">
+                                    <li>
+                                        <a href="{% url 'ecommerce:profile_dashboard' %}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                stroke-width="1.5" stroke="currentColor" class="size-6">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 0 1 0 3.75H5.625a1.875 1.875 0 0 1 0-3.75Z" />
+                                            </svg>
+                                            Dashboard
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'ecommerce:personal_info' %}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                stroke-width="1.5" stroke="currentColor" class="size-6">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                                            </svg>
+                                            my account
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'ecommerce:bookings' %}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                stroke-width="1.5" stroke="currentColor" class="size-6">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+                                            </svg>
+                                            my order
+                                        </a>
+                                    </li>
+                                    <li>
+                                        {% if request.user.is_authenticated %}
+                                        <a href="{% url 'accounts:logout' %}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                stroke-width="1.5" stroke="currentColor" class="size-6">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
+                                            </svg>
+                                            logout
+                                        </a>
+                                        {% else %}
+                                        <a href="{% url 'accounts:login' %}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                stroke-width="1.5" stroke="currentColor" class="size-6">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
+                                            </svg>
+                                            login
+                                        </a>
+                                        {% endif %}
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+<!--    <div class="mini_cart">-->
+<!--        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">-->
+<!--            <div class="offcanvas-header">-->
+<!--                <h5 class="offcanvas-title" id="offcanvasRightLabel"> my cart <span>(05)</span></h5>-->
+<!--                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"><i-->
+<!--                        class="far fa-times"></i></button>-->
+<!--            </div>-->
+<!--            <div class="offcanvas-body">-->
+<!--                <ul>-->
+<!--                    <li>-->
+<!--                        <a href="shop_details.html" class="cart_img">-->
+<!--                            <img src="{% static 'assets/images/product_1.png' %}" alt="product" class="img-fluid w-100">-->
+<!--                        </a>-->
+<!--                        <div class="cart_text">-->
+<!--                            <a class="cart_title" href="shop_details.html">Men's Fashionable Hoodie</a>-->
+<!--                            <p>$140 <del>$150</del></p>-->
+<!--                            <span><b>Color:</b> Red</span>-->
+<!--                            <span><b>Size:</b> XL (Extra Large)</span>-->
+<!--                        </div>-->
+<!--                        <a class="del_icon" href="#"><i class="fal fa-times"></i></a>-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--                <h5>sub total <span>$429.00</span></h5>-->
+<!--                <div class="minicart_btn_area">-->
+<!--                    <a class="common_btn" href="{% url 'cart:cart_summary' %}">view cart</a>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+    <!--=========================
+        MENU 2 END
+    ==========================-->
+
+
+    <!--============================
+        MOBILE MENU START
+    ==============================-->
+    <div class="mobile_menu_area">
+        <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions">
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"><i
+                    class="fal fa-times"></i></button>
+            <div class="offcanvas-body">
+
+
+                <ul class="mobile_menu_header d-flex flex-wrap">
+                    <li>
+                        <a href="{% url 'ecommerce:bookings' %}">
+                            <b> <img src="{% static 'assets/images/confirmation_number.png' %}" alt="Orders" class="img-fluid"> </b>
+<!--                            <span>2</span>-->
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'wishlist:wishlist_summary' %}">
+                            <b> <img src="{% static 'assets/images/love_black.svg' %}" alt="Wishlist" class="img-fluid"></b>
+                            <span class="wishlist_quantity">{{ wishlist.total_quantities }}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'cart:cart_summary' %}">
+                            <b><img src="{% static 'assets/images/cart_black.svg' %}" alt="cart" class="img-fluid"></b>
+                                    <span class="cart_quantity">{{ cart.total_quantities }}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'ecommerce:profile_dashboard' %}">
+                            <b><img src="{% static 'assets/images/user_icon_black.svg' %}" alt="cart" class="img-fluid"></b>
+                        </a>
+                    </li>
+                </ul>
+
+                <form class="mobile_menu_search" action="#">
+                    <div class="dropdown-container">
+                        <div class="input">
+                            <input type="text" id="mobileSchoolSearch" name="q" placeholder="Search School..." autocomplete="off">
+                            <button type="submit"><i class="far fa-search"></i></button>
+
+                            <!-- Mobile Dropdown list -->
+                            <ul id="mobileSchoolDropdown" class="search-dropdown menu_cat_item">
+                                {% for school in all_schools %}
+                                <a href="{% url 'ecommerce:school_lodges' school.id %}">
+                                    <li onclick="selectMobileSchool('{{ school.school_name }}')" class="all_category">
+                                        <span>
+                                            <img src="{{school.logo_pic}}" alt="Logo">
+                                        </span>
+                                        <small>{{ school.school_name }}</small>
+                                    </li>
+                                </a>
+                                {% empty %}
+                                <li>No schools found.</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </form>
+
+
+                <div class="mobile_menu_item_area">
+                    <ul class="nav nav-pills" id="pills-tab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill"
+                                data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home"
+                                aria-selected="true">Schools</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill"
+                                data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile"
+                                aria-selected="false">menu</button>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content" id="pills-tabContent">
+                        <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
+                            aria-labelledby="pills-home-tab" tabindex="0">
+                            <ul class="main_mobile_menu">
+                                {% for school in school_listing %}
+                                <li>
+                                    <a href="{% url 'ecommerce:school_lodges' school.id %}">
+                                        {{school.short_version}}
+                                    </a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="tab-pane fade" id="pills-profile" role="tabpanel"
+                            aria-labelledby="pills-profile-tab" tabindex="0">
+                            <ul class="main_mobile_menu">
+                                <li><a href="{% url 'ecommerce:home' %}">Home</a></li>
+                                <li><a href="{% url 'ecommerce:schools' %}">Schools</a></li>
+                                <li><a href="{% url 'ecommerce:roommate_requests' %}">Requests</a></li>
+                                <li><a href="{% url 'ecommerce:roommates' %}">Roommate Listings</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--============================
+        MOBILE MENU END
+    ==============================-->
+
+
+    <!--=========================
+        BANNER 2 START
+    ==========================-->
+<style>
+.responsive-iframe-container {
+    position: relative;
+    width: 100%;
+    padding-bottom: 100%;
+    height: 0;
+}
+
+.responsive-iframe-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+</style>
+    <br><br>
+{% block content %}
+    {% endblock %}
+
+    <section class="subscription_2 mt_50 xs_mt_60">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xxl-6 col-lg-8 wow fadeInUp">
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--=========================
+        FOOTER 2 START
+    ==========================-->
+    <footer class="footer_2 pt_100" style="background: url({% static 'assets/images/footer_2_bg_2.jpg' %});">
+        <div class="container">
+            <div class="row justify-content-between">
+                <div class="col-xl-3 col-md-6 col-lg-3 wow fadeInUp" data-wow-delay=".7s">
+                    <div class="footer_2_logo_area">
+                        <a class="footer_logo" href="index-2.html">
+                            <img src="{% static 'assets/images/enac_footer.png' %}" alt="ENAC" class="img-fluid w-100">
+                        </a>
+                        <p>Early Nest Agency Company, We exist to connect.</p>
+                        <ul>
+                            <li><span>Follow :</span></li>
+                            <li><a href="https://tiktok.com/@earlynestagencycompany"><i class="fab fa-tiktok"></i></a></li>
+                            <li><a href="https://www.instagram.com/enac.ng?igsh=MWZzNzF4bnFkemMzag=="><i class="fab fa-instagram"></i></a></li>
+                            <li><a href="https://whatsapp.com/channel/0029Vb5tE1TCnA7ndyzcKC0R"><i class="fab fa-whatsapp"></i></a></li>
+                            <li><a href="https://www.facebook.com/share/169GCjCopA"><i class="fab fa-facebook-f"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+<!--                <div class="col-xl-2 col-sm-6 col-md-4 col-lg-2 wow fadeInUp" data-wow-delay="1s">-->
+<!--                    <div class="footer_link">-->
+<!--                        <h3>Company</h3>-->
+<!--                        <ul>-->
+<!--                            <li><a href="#about">About us</a></li>-->
+<!--                            <li><a href="#">Contact Us</a></li>-->
+<!--                            <li><a href="#">Affiliate</a></li>-->
+<!--                            <li><a href="#">Career</a></li>-->
+<!--                            <li><a href="#">Latest News</a></li>-->
+<!--                        </ul>-->
+<!--                    </div>-->
+<!--                </div>-->
+                <div class="col-xl-2 col-sm-6 col-md-4 col-lg-2 wow fadeInUp" data-wow-delay="1.6s">
+                    <div class="footer_link">
+                        <h3>Quick Links</h3>
+                        <ul>
+<!--                            <li><a href="#">Privacy Ploicy</a></li>-->
+                            <li><a href="{% url 'ecommerce:terms' %}">Terms and Condition</a></li>
+<!--                            <li><a href="#">Return Policy</a></li>-->
+                            <li><a href="{% url 'ecommerce:faq' %}">About</a></li>
+                            <li><a href="{% url 'ecommerce:lessor_info' %}">Become a lessor</a></li>
+                            <li><a href="{% url 'ecommerce:tutorial' %}">How to Use</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 col-md-4 col-lg-3 wow fadeInUp" data-wow-delay="1.9s">
+                    <div class="footer_link footer_logo_area">
+                        <h3>Contact Us At</h3>
+<!--                        <p>It is a long established fact that reader distracted looking layout It is a long established-->
+<!--                            fact.</p>-->
+                        <span>
+                            <b><img src="{% static 'assets/images/chat.png' %}" alt="Message" class="img-fluid"></b>
+                            <a href="https://wa.link/wpn1u5">+234 912 649 5143</a> </span>
+                        <span>
+                            <b><img src="{% static 'assets/images/phone_icon_white.png' %}" alt="Call" class="img-fluid"></b>
+                            <a href="tel:09126495143">+234 912 649 5143</a>
+                        </span>
+                        <span>
+                            <b><img src="{% static 'assets/images/mail_icon_white.png' %}" alt="Mail" class="img-fluid"></b>
+                            <a href="mailto:earlynestagencycompany@gmail.com">earlynestagencycompany@gmail.com</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="footer_copyright mt_75">
+                        <p>Copyright @ <b>ENAC</b> 2025. All right reserved.</p>
+                        <ul class="payment">
+                            <li>Payment by :</li>
+                            <li>
+                                <img src="{% static 'assets/images/footer_payment_icon_1.jpg' %}" alt="payment"
+                                    class="img-fluid w-100">
+                            </li>
+                            <li>
+                                <img src="{% static 'assets/images/footer_payment_icon_2.jpg' %}" alt="payment"
+                                    class="img-fluid w-100">
+                            </li>
+                            <li>
+                                <img src="{% static 'assets/images/footer_payment_icon_3.jpg' %}" alt="payment"
+                                    class="img-fluid w-100">
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!--=========================
+        FOOTER 2 END
+    ==========================-->
+
+
+    <!--==========================
+        SCROLL BUTTON START
+    ===========================-->
+    <div class="progress-wrap">
+        <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+            <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" />
+        </svg>
+    </div>
+    <!--==========================
+        SCROLL BUTTON END
+    ===========================-->
+
+<script>
+    window.addEventListener('load', function () {
+      const loader = document.getElementById('loader-wrapper');
+      if (loader) loader.style.display = 'none';
+    });
+
+$(document).on('click', '.add-cart', function(e) {
+    e.preventDefault();
+    console.log("Add to cart clicked!"); // Add this line
+    var productId = $(this).data('product-id');
+    var quantity = 1;
+
+    console.log("Sending AJAX request for product:", productId); // Add this
+
+    $.ajax({
+        type: 'POST',
+        url: "{% url 'cart:cart_add' %}",
+        data: {
+            product_id: productId,
+            quantity: quantity,
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            action: 'post'
+        },
+        success: function(json) {
+            console.log("AJAX success!", json); // Add this
+            $('.cart_quantity').text(json.qty)
+        },
+        error: function(xhr, errmsg, err) {
+            console.log("AJAX error:", errmsg); // Add error handling
+        }
+    });
+});
+
+
+$(document).on('click', '.add-wishlist2', function() {
+    console.log("Add to wishlist clicked!");
+    var productId = $(this).data('product-id');
+    var quantity = 1;
+
+    console.log("Sending AJAX request for product:", productId);
+
+    $.ajax({
+        type: 'POST',
+        url: "{% url 'wishlist:wishlist_add' %}",
+        data: {
+            product_id: productId,
+            quantity: quantity,
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            action: 'post'
+        },
+        success: function(json) {
+            console.log("AJAX success!", json);
+            $('.wishlist_quantity').text(json.qty)
+        },
+        error: function(xhr, errmsg, err) {
+            console.log("AJAX error:", errmsg);
+        }
+    });
+});
+
+$(document).on('click', '.add-wishlist', function(e) {
+    e.preventDefault();
+    console.log("Add to wishlist clicked!");
+    var productId = $(this).data('product-id');
+    var quantity = 1;
+
+    console.log("Sending AJAX request for product:", productId);
+
+    $.ajax({
+        type: 'POST',
+        url: "{% url 'wishlist:wishlist_add' %}",
+        data: {
+            product_id: productId,
+            quantity: quantity,
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            action: 'post'
+        },
+        success: function(json) {
+            console.log("AJAX success!", json);
+            $('.wishlist_quantity').text(json.qty)
+        },
+        error: function(xhr, errmsg, err) {
+            console.log("AJAX error:", errmsg);
+        }
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    setTimeout(function() {
+        let messages = document.querySelectorAll('.alert-message');
+        messages.forEach(function(message) {
+            message.style.transition = "opacity 0.5s";
+            message.style.opacity = "0";
+            setTimeout(() => message.remove(), 500);
+        });
+    }, 5000); // Hide after 5 seconds
+});
+
+
+ const searchInput = document.getElementById("schoolSearch");
+  const dropdown = document.getElementById("schoolDropdown");
+  const listItems = dropdown.querySelectorAll("li");
+
+  // Show dropdown when input is focused
+  searchInput.addEventListener("focus", () => {
+    dropdown.style.display = "block";
+  });
+
+  // Hide dropdown if click happens outside
+  document.addEventListener("click", function(event) {
+    if (!event.target.closest(".dropdown-container")) {
+      dropdown.style.display = "none";
+    }
+  });
+
+  // Fill the input when an option is selected
+  function selectSchool(name) {
+    searchInput.value = name;
+    dropdown.style.display = "none";
+  }
+
+
+   // 🔥 Live filter dropdown as you type
+  searchInput.addEventListener("input", () => {
+    const query = searchInput.value.toLowerCase();
+    let hasVisible = false;
+
+    listItems.forEach(item => {
+      const schoolName = item.innerText.toLowerCase();
+      if (schoolName.includes(query)) {
+        item.style.display = "flex"; // or "block" if not using flex
+        hasVisible = true;
+      } else {
+        item.style.display = "none";
+      }
+    });
+
+
+  // Only show dropdown if there's something to show
+  dropdown.style.display = hasVisible ? "block" : "none";
+});
+
+const mobileInput = document.getElementById("mobileSchoolSearch");
+const mobileDropdown = document.getElementById("mobileSchoolDropdown");
+const mobileListItems = mobileDropdown.querySelectorAll("li");
+
+// Show dropdown on focus
+mobileInput.addEventListener("focus", () => {
+  mobileDropdown.style.display = "block";
+});
+
+// Hide dropdown if clicked outside
+document.addEventListener("click", function (event) {
+  if (!event.target.closest(".mobile_menu_search")) {
+    mobileDropdown.style.display = "none";
+  }
+});
+
+// Set input value on selection
+function selectMobileSchool(name) {
+  mobileInput.value = name;
+  mobileDropdown.style.display = "none";
+}
+
+// Live filter
+mobileInput.addEventListener("input", () => {
+  const query = mobileInput.value.toLowerCase();
+  let hasVisible = false;
+
+  mobileListItems.forEach(item => {
+    const schoolName = item.innerText.toLowerCase();
+    if (schoolName.includes(query)) {
+      item.style.display = "flex";
+      hasVisible = true;
+    } else {
+      item.style.display = "none";
+    }
+  });
+
+  mobileDropdown.style.display = hasVisible ? "block" : "none";
+});
+
+</script>
+    <!--jquery library js-->
+    <script src="{% static 'assets/js/jquery-3.7.1.min.js' %}"></script>
+    <!--bootstrap js-->
+    <script src="{% static 'assets/js/bootstrap.bundle.min.js' %}"></script>
+    <!--font-awesome js-->
+    <script src="{% static 'assets/js/Font-Awesome.js' %}"></script>
+    <!--counter js-->
+    <script src="{% static 'assets/js/jquery.waypoints.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.countup.min.js' %}"></script>
+    <!--nice select js-->
+    <script src="{% static 'assets/js/jquery.nice-select.min.js' %}"></script>
+    <!--select 2 js-->
+    <script src="{% static 'assets/js/select2.min.js' %}"></script>
+    <!--simply countdown js-->
+    <script src="{% static 'assets/js/simplyCountdown.js' %}"></script>
+    <!--slick slider js-->
+    <script src="{% static 'assets/js/slick.min.js' %}"></script>
+    <!--venobox js-->
+    <script src="{% static 'assets/js/venobox.min.js' %}"></script>
+    <!--wow js-->
+    <script src="{% static 'assets/js/wow.min.js' %}"></script>
+    <!--marquee js-->
+    <script src="{% static 'assets/js/jquery.marquee.min.js' %}"></script>
+    <!--pws tabs js-->
+    <script src="{% static 'assets/js/jquery.pwstabs.min.js' %}"></script>
+    <!--scroll button js-->
+    <script src="{% static 'assets/js/scroll_button.js' %}"></script>
+    <!--youtube background js-->
+    <script src="{% static 'assets/js/jquery.youtube-background.min.js' %}"></script>
+    <!--range slider js-->
+    <script src="{% static 'assets/js/range_slider.js' %}"></script>
+    <!--sticky sidebar js-->
+    <script src="{% static 'assets/js/sticky_sidebar.js' %}"></script>
+    <!--multiple image upload js-->
+    <script src="{% static 'assets/js/multiple-image-video.js' %}"></script>
+    <!--main/custom js-->
+    <script src="{% static 'assets/js/custom.js' %}"></script>
+<script>
+    function showFullscreen(src) {
+        const img = document.getElementById("fullscreen-image");
+        img.src = src;
+        document.getElementById("fullscreen-container").classList.remove("hidden");
+        document.body.style.overflow = "hidden"; // prevent page scrolling
+    }
+
+    function closeFullscreen() {
+        document.getElementById("fullscreen-container").classList.add("hidden");
+        document.body.style.overflow = ""; // re-enable scrolling
+    }
+</script>
+
+
+<div id="fullscreen-container" class="fullscreen-img hidden" onclick="closeFullscreen()">
+    <img id="fullscreen-image" src="" alt="Fullscreen Image">
+</div>
+
+
+
+</body>
+
+
+<!-- Mirrored from html.narzotech.com/zenis/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 29 May 2025 14:00:03 GMT -->
+</html>

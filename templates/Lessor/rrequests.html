@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% block content %}
+
+    <!--=========================
+        PAGE BANNER START
+    ==========================-->
+    <section class="page_banner" style="background: url({% static 'assets/images/page_banner_bg.jpg' %});">
+        <div class="page_banner_overlay">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page_banner_text wow fadeInUp">
+                            <h1>Lessor Data</h1>
+                            <ul>
+                                <li><a href="{% url 'ecommerce:home' %}"><i class="fal fa-home-lg"></i> Home</a></li>
+                                <li><a href="{% url 'ecommerce:roommate_requests' %}">Requests</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--=========================
+        PAGE BANNER START
+    ==========================-->
+
+
+    <!--============================
+        DSHBOARD START
+    =============================-->
+    <section class="dashboard mb_100">
+        <div class="container">
+            <div class="row">
+                {% if messages %}
+                <div class="position-fixed top-0 start-50 translate-middle-x mt-5" style="z-index: 1050;">
+                    <div>
+                        {% for message in messages %}
+                        <p class="alert-message {% if 'error' in message.tags %}text-danger
+                                                  {% elif 'warning' in message.tags %}text-warning
+                                                  {% elif 'success' in message.tags %}text-success
+                                                  {% else %}text-secondary{% endif %}
+                                                  text-center fw-medium">
+                                            {{ message }}
+                        </p>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+                <div class="col-xl-9 wow fadeInRight">
+                    <div class="dashboard_content mt_100">
+                        <div class="row justify-content-center">
+                            <div class="col-xxl-10 col-xl-11">
+                                <div class="cart_table_area">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th class="cart_page_img">Lodge image </th>
+                                                    <th class="cart_page_details">Lodge Details</th>
+<!--                                                    <th class="cart_page_price">Contact Price</th>-->
+            <!--                                        <th class="cart_page_quantity">Quantity</th>-->
+            <!--                                        <th class="cart_page_total">Subtotal</th>-->
+                                                    <th class="cart_page_action">Other Data</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                    {% for item in posted_lodges %}
+
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="cart_page_img">
+                                                        {% if item.lodge_pic %}
+                                                        <div class="img">
+                                                            <img src="{{item.lodge_pic}}" alt="Image"
+                                                                class="img-fluid w-100">
+                                                        </div>
+                                                        {% endif %}
+                                                    </td>
+                                                    <td class="cart_page_details">
+                                                            <span><b>Lodge Name:</b> {{item.lodge_name}}</span>
+                                                        <span><b>School:</b> {{item.school.short_version}}</span>
+                                                        <span><b>&#8358 {{item.price|intcomma}}
+                                                        </b></span>
+
+                                                    </td>
+<!--                                                    <td class="cart_page_total">-->
+<!--            &lt;!&ndash;                                            the price of each contact, doesnt change unless i change it&ndash;&gt;-->
+<!--                                                        <p>&#8358 5,000   </p>-->
+<!--                                                    </td>-->
+                                                    <td class="cart_page_details">
+                                                        <a href="{% url 'ecommerce:req_list' item.id %}"><button class="common_btn" >View Requests</button></a>
+
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--============================
+        DSHBOARD END
+    =============================-->
+
+{% endblock %}
+</body>
+</html>

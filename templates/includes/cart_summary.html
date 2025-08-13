@@ -1,0 +1,26 @@
+{% load humanize %}
+<div class="cart_page_summary">
+    <h3>Billing summary</h3>
+    <ul>
+        {% for item in cart_products %}
+        <li>
+            <a class="img" href="{% url 'ecommerce:lodge_data' item.id %}">
+                {% if item.product_img %}
+                <img src="{{item.product_img}}" alt="Products" class="img-fluid w-100">
+                {% endif %}
+            </a>
+            <div class="text">
+                <a class="title" href="{% url 'ecommerce:lodge_data' item.id %}">Lodge name available contact sale</a>
+                <p>Lessor Info price: &#8358 3,000</p>
+                <p>School: {{item.product_obj.school.short_version}}</p>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+<!--    the total sum is the item youll be in the payment, its sourced from the backend as per usual but sha this is it-->
+    <h4>Total <span>&#8358 {{total_sum|intcomma}}</span></h4>
+</div>
+<div class="cart_summary_btn">
+    <a class="common_btn continue_shopping" href="{% url 'ecommerce:home' %}">Continue Booking</a>
+    <a class="common_btn" href="{% url 'payment:initialization' %}">Pay Now <i class="fas fa-long-arrow-right"></i></a>
+</div>
