@@ -212,8 +212,7 @@ class ProductForm(ModelForm):
                 attrs={
                     'class': 'form-control',
                     'type': 'text',
-                    'required': 'true',
-                    'placeholder': 'Leave a Notice e.g Ill be leaving latest by 00/00/0000'
+                    'placeholder': 'Leave a notice if needed'
                 }
             ),
             'caretaker': TextInput(
@@ -384,7 +383,7 @@ class ProductRMForm(ModelForm):
                     'class': 'form-control',
                     'type': 'text',
                     'required': 'true',
-                    'placeholder': 'Leave a Notice e.g Roommate needed before 00/00/0000'
+                    'placeholder': 'Leave a notice if needed'
                 }
             ),
             'caretaker': TextInput(

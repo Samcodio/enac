@@ -405,6 +405,12 @@ def booking_data(request, id):
 
 @login_required(login_url='accounts:login')
 def create_lodge_product(request):
+    if not request.user.norm_user.profile_img:
+        messages.error(request, 'Please Complete Your Profile')
+        return redirect('ecommerce:lessor_info')
+    if not request.user.norm_user.full_name:
+        messages.error(request, 'Please Complete Your Profile')
+        return redirect('ecommerce:lessor_info')
     cart = Cart(request)
     products, total_sum = cart.get_prods()
     form = ProductForm()
@@ -537,6 +543,13 @@ def create_school(request):
 
 @login_required(login_url='accounts:login')
 def create_roommate_product(request):
+    if not request.user.norm_user.profile_img:
+        messages.error(request, 'Please Complete Your Profile')
+        return redirect('ecommerce:lessor_info')
+    if not request.user.norm_user.full_name:
+        messages.error(request, 'Please Complete Your Profile')
+        return redirect('ecommerce:lessor_info')
+
     cart = Cart(request)
     products, total_sum = cart.get_prods()
     form = ProductRMForm()

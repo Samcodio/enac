@@ -53,8 +53,8 @@
                                     <img src="{{request.user.norm_user.profile_pic}}" alt="dashboard"
                                         class="img-fluid w-100">
                                     {% endif %}
-                                    <label for="profile_photo"><i class="far fa-camera"></i></label>
-                                    <input type="file" id="profile_photo" hidden="">
+<!--                                    <label for="profile_photo"><i class="far fa-camera"></i></label>-->
+<!--                                    <input type="file" id="profile_photo" hidden="">-->
                                 </div>
                                 <h3>{{request.user.username}}</h3>
                                 <p>{{request.user.email}}</p>
@@ -269,7 +269,6 @@
 <!--                                                    </td>-->
                                                     <td class="cart_page_details">
                                                         <a class="title" href="{% url 'ecommerce:data' item.id %}"><button class="common_btn">View Data</button></a>
-
                                                     </td>
                                                 </tr>
                                             </tbody>
