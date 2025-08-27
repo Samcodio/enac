@@ -29,5 +29,6 @@ urlpatterns = [
     path('roommatelistings/', views.school_roommate, name='roommates'),
     path('add-school/', views.create_school, name='create_school'),
     path('my-posts/', views.mylodges, name='my_lodges'),
-    path('help/', views.tutorial, name='tutorial')
+    path('help/', views.tutorial, name='tutorial'),
+    # path('limit/', views.offline, name='offline')
 ]

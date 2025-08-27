@@ -764,3 +764,8 @@ def mylodges(request):
 def tutorial(request):
     context = {}
     return render(request, 'User/tutorial.html', context)
+
+
+# def offline(request):
+#     context = {}
+#     return render(request, 'Offline/offline.html', context)

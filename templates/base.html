@@ -902,23 +902,15 @@ mobileInput.addEventListener("input", () => {
     <!--main/custom js-->
     <script src="{% static 'assets/js/custom.js' %}"></script>
 <script>
-    function showFullscreen(src) {
-        const img = document.getElementById("fullscreen-image");
-        img.src = src;
-        document.getElementById("fullscreen-container").classList.remove("hidden");
-        document.body.style.overflow = "hidden"; // prevent page scrolling
-    }
-
-    function closeFullscreen() {
-        document.getElementById("fullscreen-container").classList.add("hidden");
-        document.body.style.overflow = ""; // re-enable scrolling
-    }
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("{% static 'assets/js/service-worker.js' %}")
+      .then(() => console.log("Service Worker registered"))
+      .catch(err => console.error("SW registration failed:", err));
+  }
 </script>
 
 
-<div id="fullscreen-container" class="fullscreen-img hidden" onclick="closeFullscreen()">
-    <img id="fullscreen-image" src="" alt="Fullscreen Image">
-</div>
+
 
 
 
