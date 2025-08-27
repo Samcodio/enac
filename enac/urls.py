@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from . import errors
+from django.views.generic import TemplateView
 
 
 handler404 = errors.error_404_view
@@ -33,5 +34,6 @@ urlpatterns = [
     path('cart/', include('cart.urls', namespace='cart')),
     path('wishlist/', include('wishlist.urls', namespace='wishlist')),
     path('payment/', include('payment.urls', namespace='payment')),
-
+    path("off/", TemplateView.as_view(template_name="offline.html"), name="offline"),
+    path("service-worker.js", TemplateView.as_view(template_name="service-worker.js", content_type="application/javascript"),name="service-worker"),
 ]
