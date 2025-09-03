@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-8e2_#uqa^+*nd1kx^#fpmk3_0@@u8bw0)k*nyse7ff+loukee+'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -102,7 +102,7 @@ WSGI_APPLICATION = 'enac.wsgi.application'
 # }
 
 
-database_url = "postgresql://enac_user:wHfQTZCX9z2nB2oBUhYVDHQ5UJYuhbhf@dpg-d2ci7l8gjchc7385bm30-a.oregon-postgres.render.com/enac"
+database_url = "postgresql://enac_ii8g_user:JSq4avJ8Tb43tKMKkzNcpuA7U2Lg73rm@dpg-d2rnfvje5dus73c05te0-a.oregon-postgres.render.com/enac_ii8g"
 
 DATABASES = {
     "default": dj_database_url.parse(database_url)
