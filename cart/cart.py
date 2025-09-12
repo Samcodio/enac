@@ -124,7 +124,7 @@ class Cart():
                     'price': price,
                     'total_price': total_price,
                 })
-                total_sum = product_count * 3000
+                total_sum = product_count * 1000
             except Product.DoesNotExist:
                 pass
         return products, total_sum
