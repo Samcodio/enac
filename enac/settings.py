@@ -152,7 +152,7 @@ AWS_DEFAULT_ACL = 'public-read'
 AWS_S3_FILE_OVERWRITE = False
 
 
-STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/static/'
+STATIC_URL = 'https://static-zypa.onrender.com/'
 
 # STATIC_URL = "https://vercel-static-hrgfww1d7-samcodios-projects.vercel.app/static/"
 
