@@ -20,6 +20,7 @@ from django.utils.http import urlsafe_base64_decode
 from django.contrib.auth import login
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.conf import settings
 
 
 # from wishlist.wishlist import Wishlist
@@ -165,7 +166,7 @@ def forgot_password_view(request):
             email = EmailMultiAlternatives(
                 subject,
                 text_content,
-                'enac-amh7.onrender.com',  # From email (use an actual domain or valid email address)
+                settings.EMAIL_HOST_USER,  # From email (use an actual domain or valid email address)
                 [user.email]
             )
             email.attach_alternative(html_content, "text/html")

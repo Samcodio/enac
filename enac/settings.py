@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-8e2_#uqa^+*nd1kx^#fpmk3_0@@u8bw0)k*nyse7ff+loukee+'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -188,12 +188,12 @@ cloudinary.config(
 )
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = 'smtp.elasticemail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'earlynestagencycompany@gmail.com'
-EMAIL_HOST_PASSWORD = 'hhxf wtir kodx mwow'
+EMAIL_HOST_USER = 'nosikesamuel1@gmail.com'
+EMAIL_HOST_PASSWORD = 'AE90AAB38801FE9CC6F329B67A439D1D6620'
 EMAIL_USE_TLS = True
-EMAIL_USE_SSL = False
+
 
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
