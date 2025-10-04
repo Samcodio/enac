@@ -17,6 +17,7 @@ from .forms import *
 from cloudinary.uploader import upload as cloudinary_upload
 from django.core.mail import EmailMultiAlternatives
 from django.utils.html import strip_tags
+from django.conf import settings
 from django.template.loader import render_to_string
 from django.core.mail import send_mail
 
@@ -117,7 +118,7 @@ def lodge_data(request, id):
                 email = EmailMultiAlternatives(
                     subject,
                     text_content,
-                    settings.EMAIL_HOST_USER,  # From email (use an actual domain or valid email address)
+                    settings.DEFAULT_FROM_EMAIL,  # From email (use an actual domain or valid email address)
                     [lodge.lessor.email]
                 )
                 email.attach_alternative(html_content, "text/html")
@@ -333,7 +334,7 @@ def req_list(request, id):
                 email = EmailMultiAlternatives(
                     subject,
                     text_content,
-                    settings.EMAIL_HOST_USER,  # From email (use an actual domain or valid email address)
+                    settings.DEFAULT_FROM_EMAIL,  # From email (use an actual domain or valid email address)
                     [user.email]
                 )
                 email.attach_alternative(html_content, "text/html")
@@ -358,7 +359,7 @@ def req_list(request, id):
                 email = EmailMultiAlternatives(
                     subject,
                     text_content,
-                    settings.EMAIL_HOST_USER,  # From email (use an actual domain or valid email address)
+                    settings.DEFAULT_FROM_EMAIL,  # From email (use an actual domain or valid email address)
                     [user.email]
                 )
                 email.attach_alternative(html_content, "text/html")

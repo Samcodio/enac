@@ -166,7 +166,7 @@ def forgot_password_view(request):
             email = EmailMultiAlternatives(
                 subject,
                 text_content,
-                settings.EMAIL_HOST_USER,  # From email (use an actual domain or valid email address)
+                settings.DEFAULT_FROM_EMAIL,  # From email (use an actual domain or valid email address)
                 [user.email]
             )
             email.attach_alternative(html_content, "text/html")
