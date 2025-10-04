@@ -8,7 +8,7 @@ from ecommerce.models import UserProfile, Product, User
 import json
 from django.core.mail import EmailMultiAlternatives
 from django.utils.html import strip_tags
-
+import resend
 from cart.cart import Cart
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode
@@ -155,28 +155,28 @@ def forgot_password_view(request):
                 f'/accounts/reset-password-confirm/{uid}/{token}/'
             )
             try:
-                # Send email
+                # Send email with Resend API
+                resend.api_key = settings.RESEND_API_KEY
+
                 subject = 'Password Reset'
                 html_content = render_to_string('Authentications/reset_email.html', {
                     'user': user,
                     'reset_link': reset_link,
                 })
-                text_content = strip_tags(html_content)  # fallback plain-text version
 
-                email = EmailMultiAlternatives(
-                    subject,
-                    text_content,
-                    settings.DEFAULT_FROM_EMAIL,  # From email (use an actual domain or valid email address)
-                    [user.email]
-                )
-                email.attach_alternative(html_content, "text/html")
-                email.send()
+                resend.Emails.send({
+                    "from": "contact@enac.ng",
+                    "to": user.email,
+                    "subject": subject,
+                    "html": html_content,
+                })
 
                 messages.success(request, 'Password reset link sent to your email.')
             except Exception as e:
                 import traceback
                 print("EMAIL ERROR:", e)
                 traceback.print_exc()
+                messages.error(request, 'There was a problem sending the email.')
             return redirect('accounts:forgot_password')
     else:
         form = ForgotPasswordForm()

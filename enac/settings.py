@@ -195,6 +195,9 @@ EMAIL_HOST_PASSWORD = 're_K2zQ25vg_JbQG6y9SEtzzQj3tUSFpna1h'
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'contact@enac.ng'
 
+RESEND_API_KEY = 're_K2zQ25vg_JbQG6y9SEtzzQj3tUSFpna1h'
+
+
 
 
 
