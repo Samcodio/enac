@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import *
+import resend
 import concurrent.futures
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from cart.views import *
@@ -25,6 +25,8 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_GET
 
 # Create your views here.
+
+resend.api_key = settings.RESEND_API_KEY
 
 
 # home page, lists out some lodges and schools, basically an intro page
@@ -113,17 +115,19 @@ def lodge_data(request, id):
                 html_content = render_to_string('Lessor/recieved_request.html', {
                     'user': lodge.lessor,
                 })
-                text_content = strip_tags(html_content)  # fallback plain-text version
-
-                email = EmailMultiAlternatives(
-                    subject,
-                    text_content,
-                    settings.DEFAULT_FROM_EMAIL,  # From email (use an actual domain or valid email address)
-                    [lodge.lessor.email]
-                )
-                email.attach_alternative(html_content, "text/html")
-                email.send()
-                messages.success(request, 'Added to wishlist')
+                try:
+                    resend.Emails.send({
+                        "from": "contact@enac.ng",
+                        "to": lodge.lessor.email,
+                        "subject": subject,
+                        "html": html_content,
+                    })
+                    messages.success(request, 'Added to wishlist')
+                except Exception as e:
+                    import traceback
+                    print("EMAIL ERROR:", e)
+                    traceback.print_exc()
+                    messages.warning(request, 'Added to wishlist, but email failed to send.')
                 return redirect(request.path)
         else:
             messages.warning(request, "Please Complete Your Profile")
@@ -329,17 +333,20 @@ def req_list(request, id):
                 html_content = render_to_string('Lessor/approved_request.html', {
                     'user': user.username,
                 })
-                text_content = strip_tags(html_content)  # fallback plain-text version
+                try:
+                    resend.Emails.send({
+                        "from": "contact@enac.ng",
+                        "to": user.email,
+                        "subject": subject,
+                        "html": html_content,
+                    })
+                    messages.success(request, 'Request Approved and email sent.')
+                except Exception as e:
+                    import traceback
+                    print("EMAIL ERROR:", e)
+                    traceback.print_exc()
+                    messages.warning(request, 'Request approved, but email failed to send.')
 
-                email = EmailMultiAlternatives(
-                    subject,
-                    text_content,
-                    settings.DEFAULT_FROM_EMAIL,  # From email (use an actual domain or valid email address)
-                    [user.email]
-                )
-                email.attach_alternative(html_content, "text/html")
-                email.send()
-                messages.success(request, 'Request Approved')
             else:
                 pass
         if 'reject' in request.POST:
@@ -354,17 +361,20 @@ def req_list(request, id):
                 html_content = render_to_string('Lessor/reject_request.html', {
                     'user': user.username,
                 })
-                text_content = strip_tags(html_content)  # fallback plain-text version
+                try:
+                    resend.Emails.send({
+                        "from": "contact@enac.ng",
+                        "to": user.email,
+                        "subject": subject,
+                        "html": html_content,
+                    })
+                    messages.success(request, 'Request Rejected and email sent.')
+                except Exception as e:
+                    import traceback
+                    print("EMAIL ERROR:", e)
+                    traceback.print_exc()
+                    messages.warning(request, 'Request rejected, but email failed to send.')
 
-                email = EmailMultiAlternatives(
-                    subject,
-                    text_content,
-                    settings.DEFAULT_FROM_EMAIL,  # From email (use an actual domain or valid email address)
-                    [user.email]
-                )
-                email.attach_alternative(html_content, "text/html")
-                email.send()
-                messages.success(request, 'Request Rejected')
 
             else:
                 pass
