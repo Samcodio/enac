@@ -154,25 +154,29 @@ def forgot_password_view(request):
             reset_link = request.build_absolute_uri(
                 f'/accounts/reset-password-confirm/{uid}/{token}/'
             )
+            try:
+                # Send email
+                subject = 'Password Reset'
+                html_content = render_to_string('Authentications/reset_email.html', {
+                    'user': user,
+                    'reset_link': reset_link,
+                })
+                text_content = strip_tags(html_content)  # fallback plain-text version
 
-            # Send email
-            subject = 'Password Reset'
-            html_content = render_to_string('Authentications/reset_email.html', {
-                'user': user,
-                'reset_link': reset_link,
-            })
-            text_content = strip_tags(html_content)  # fallback plain-text version
+                email = EmailMultiAlternatives(
+                    subject,
+                    text_content,
+                    settings.DEFAULT_FROM_EMAIL,  # From email (use an actual domain or valid email address)
+                    [user.email]
+                )
+                email.attach_alternative(html_content, "text/html")
+                email.send()
 
-            email = EmailMultiAlternatives(
-                subject,
-                text_content,
-                settings.DEFAULT_FROM_EMAIL,  # From email (use an actual domain or valid email address)
-                [user.email]
-            )
-            email.attach_alternative(html_content, "text/html")
-            email.send()
-
-            messages.success(request, 'Password reset link sent to your email.')
+                messages.success(request, 'Password reset link sent to your email.')
+            except Exception as e:
+                import traceback
+                print("EMAIL ERROR:", e)
+                traceback.print_exc()
             return redirect('accounts:forgot_password')
     else:
         form = ForgotPasswordForm()
