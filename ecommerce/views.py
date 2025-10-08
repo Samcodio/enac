@@ -65,7 +65,7 @@ def school_lodges(request, id):
         sch.lodges = Product.objects.filter(sale=True, roommate=False, school=sch)
         sch.lodges_count = sch.lodges.count()
 
-    # sorting capability
+    # sorting capabilityxxcvxcc
     sort_option = request.GET.get('sort', '')
     if sort_option == 'price_asc':
         lodge_list = lodge_list.order_by('price')

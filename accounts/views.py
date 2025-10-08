@@ -57,20 +57,7 @@ def login_page(request):
                         cart.db_add(product, quantity)
                     except Product.DoesNotExist:
                         pass
-            # if saved_wishlist:
-            #     wishlist_ string = saved_wishlist
-            #     wishlist_dict = json.loads(wishlist_string)  # Convert JSON string back to dictionary
-            #     wishlist = Wishlist(request)
-            #     wishlist.remove_non_existent_products()
-            #     for product_id, item in wishlist_dict.items():
-            #         try:
-            #             product = Product.objects.get(id=int(product_id))
-            #             quantity = item['quantity']['quantity']
-            #             wishlist.db_add(product, quantity)
-            #         except Product.DoesNotExist:
-            #             pass
 
-            # [New]
             if next_url:
                 messages.success(request, 'Login Successful')
                 return redirect(next_url)

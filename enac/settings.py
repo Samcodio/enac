@@ -30,6 +30,22 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
+# 403
+
+SECURE_SSL_REDIRECT = True
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://enac.ng",
+    "http://enac.ng",
+    "www.enac.ng",
+]
+
+
+
+
+
 
 # Application definition
 
